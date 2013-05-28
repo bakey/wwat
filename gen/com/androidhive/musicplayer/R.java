@@ -53,51 +53,65 @@ public final class R {
         public static final int img_seekbar_bg=0x7f020027;
         public static final int img_seekbar_progress_blue=0x7f020028;
         public static final int list_selector=0x7f020029;
-        public static final int seek_handler=0x7f02002a;
-        public static final int seekbar_progress=0x7f02002b;
-        public static final int seekbar_progress_bg=0x7f02002c;
-        public static final int track_info_bg=0x7f02002d;
-        public static final int welcome_item_1=0x7f02002e;
-        public static final int welcome_item_2=0x7f02002f;
-        public static final int welcome_item_3=0x7f020030;
-        public static final int welcome_item_5_2_num=0x7f020031;
-        public static final int welcome_item_bg=0x7f020032;
+        public static final int maintab_toolbar_bg=0x7f02002a;
+        public static final int navigation_cate_sel=0x7f02002b;
+        public static final int navigation_index_sel=0x7f02002c;
+        public static final int navigation_playing_num_sel=0x7f02002d;
+        public static final int navigation_pocket_sel=0x7f02002e;
+        public static final int seek_handler=0x7f02002f;
+        public static final int seekbar_progress=0x7f020030;
+        public static final int seekbar_progress_bg=0x7f020031;
+        public static final int track_info_bg=0x7f020032;
+        public static final int welcome_item_1=0x7f020033;
+        public static final int welcome_item_2=0x7f020034;
+        public static final int welcome_item_3=0x7f020035;
+        public static final int welcome_item_5_2_num=0x7f020036;
+        public static final int welcome_item_bg=0x7f020037;
     }
     public static final class id {
-        public static final int btnBackward=0x7f04000b;
-        public static final int btnForward=0x7f04000d;
-        public static final int btnNext=0x7f04000e;
-        public static final int btnPlay=0x7f04000c;
-        public static final int btnPlaylist=0x7f040007;
-        public static final int btnPrevious=0x7f04000a;
-        public static final int btnRepeat=0x7f040013;
-        public static final int btnShuffle=0x7f040014;
+        public static final int btnBackward=0x7f040010;
+        public static final int btnForward=0x7f040012;
+        public static final int btnNext=0x7f040013;
+        public static final int btnPlay=0x7f040011;
+        public static final int btnPlaylist=0x7f04000c;
+        public static final int btnPrevious=0x7f04000f;
+        public static final int btnRepeat=0x7f040018;
+        public static final int btnShuffle=0x7f040019;
         public static final int button_into_app=0x7f040004;
-        public static final int player_footer_bg=0x7f040009;
-        public static final int player_header_bg=0x7f040005;
+        public static final int main_radio=0x7f040005;
+        public static final int player_footer_bg=0x7f04000e;
+        public static final int player_header_bg=0x7f04000a;
+        public static final int radio_button0=0x7f040006;
+        public static final int radio_button1=0x7f040007;
+        public static final int radio_button2=0x7f040008;
+        public static final int radio_button3=0x7f040009;
         /**  Guide Helper IDS 
          */
         public static final int root_layout=0x7f040000;
         public static final int scroll_layout=0x7f040002;
-        public static final int songCurrentDurationLabel=0x7f040011;
-        public static final int songProgressBar=0x7f04000f;
-        public static final int songThumbnail=0x7f040008;
-        public static final int songTitle=0x7f040006;
-        public static final int songTotalDurationLabel=0x7f040012;
-        public static final int timerDisplay=0x7f040010;
+        public static final int songCurrentDurationLabel=0x7f040016;
+        public static final int songProgressBar=0x7f040014;
+        public static final int songThumbnail=0x7f04000d;
+        public static final int songTitle=0x7f04000b;
+        public static final int songTotalDurationLabel=0x7f040017;
+        public static final int timerDisplay=0x7f040015;
         public static final int top_right_btn=0x7f040001;
         public static final int welcome_last_image=0x7f040003;
     }
     public static final class layout {
         public static final int bg_player_footer=0x7f030000;
         public static final int bg_player_header=0x7f030001;
-        public static final int guide_helper=0x7f030002;
-        public static final int guide_last=0x7f030003;
-        public static final int main=0x7f030004;
-        public static final int player=0x7f030005;
-        public static final int playlist=0x7f030006;
-        public static final int playlist_item=0x7f030007;
-        public static final int rounded_corner=0x7f030008;
+        public static final int cate_tab=0x7f030002;
+        public static final int guide_helper=0x7f030003;
+        public static final int guide_last=0x7f030004;
+        public static final int home_tab=0x7f030005;
+        public static final int main=0x7f030006;
+        public static final int player=0x7f030007;
+        public static final int playing_tab=0x7f030008;
+        public static final int playlist=0x7f030009;
+        public static final int playlist_item=0x7f03000a;
+        public static final int pocket_tab=0x7f03000b;
+        public static final int rounded_corner=0x7f03000c;
     }
     public static final class string {
         public static final int app_name=0x7f050001;

@@ -18,9 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".PlayListActivity">
-        </activity>
+        <activity android:name="HomeTabActivity"/>
+        <activity android:name="CateTabActivity"/>
+		<activity android:name="PocketTabActivity"/>		
+		<activity android:name="PlayingTabActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 

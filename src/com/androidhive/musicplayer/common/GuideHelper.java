@@ -74,14 +74,6 @@ public class GuideHelper {
 		for(int resId : guideResIds){
 			scrollLayout.addView(makeGuideView(resId));
 		}
-		View iv = makeGuideView( R.drawable.welcome_item_5_2_num );
-		scrollLayout.addView( iv );
-		/*View iv = (View)this.context.findViewById( R.layout.guide_last );
-		if ( iv != null ) {
-			scrollLayout.addView( iv );
-		}else {
-			Log.d( "GuideHelper" , "find view by id failed ");
-		}*/
 		/*View top_right_btn = rootLayout.findViewById(R.id.top_right_btn);
 		top_right_btn.setOnClickListener(new View.OnClickListener() {
 			@Override
