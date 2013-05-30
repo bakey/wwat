@@ -21,13 +21,15 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.TabActivity;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TabHost.TabSpec;
 
-public class AndroidBuildingMusicPlayerActivity extends TabActivity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener,OnCheckedChangeListener {
+public class AndroidBuildingMusicPlayerActivity extends TabActivity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
 	private ImageButton btnPlay;
 	private ImageButton btnForward;
@@ -263,51 +265,56 @@ public class AndroidBuildingMusicPlayerActivity extends TabActivity implements O
 			}
 		});
 		
-	}
-	private RadioGroup mRadioderGroup; 
+	} 
 	private TabHost    mTabHost;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		  
 		
-		GuideHelper guideHelper = new GuideHelper(this);
-        guideHelper.openGuide();
+		//GuideHelper guideHelper = new GuideHelper(this);
+       // guideHelper.openGuide();
         
         setContentView( R.layout.main );
-        mTabHost = this.getTabHost();
-        //mTabHost = (TabHost) findViewById(android.R.id.tabhost);
-        //mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+        mTabHost = this.getTabHost();   
+        
+        TabSpec homeTabSpec = mTabHost.newTabSpec("Home");
+        homeTabSpec.setIndicator("", getResources().getDrawable(R.drawable.navigation_index_sel));
+        Intent homeTabIntent = new Intent(this, HomeTabActivity.class);
+        homeTabSpec.setContent(homeTabIntent);
+        
+        TabSpec CateSpec = mTabHost.newTabSpec("Cate");
+        CateSpec.setIndicator("", getResources().getDrawable(R.drawable.navigation_cate_sel));
+        Intent CateIntent = new Intent(this, CateTabActivity.class);
+        CateSpec.setContent( CateIntent );
+        
+        TabSpec PocketSpec = mTabHost.newTabSpec( "Pocket" );
+        PocketSpec.setIndicator("" , getResources().getDrawable(R.drawable.navigation_pocket_sel));
+        Intent PocketIntent = new Intent( this , PocketTabActivity.class );
+        PocketSpec.setContent( PocketIntent );
+        
+        TabSpec PlayingSpec = mTabHost.newTabSpec( "Playing" );
+        PlayingSpec.setIndicator("" , getResources().getDrawable(R.drawable.navigation_playing_num_sel));
+        Intent PlayingIntent = new Intent( this , PlayingTabActivity.class );
+        PlayingSpec.setContent( PlayingIntent );
+        
         
         //Ìí¼ÓÑ¡Ïî¿¨  
         if ( mTabHost != null ) {
-        	mTabHost.addTab(mTabHost.newTabSpec("ONE").setIndicator("ONE")  
-                    .setContent(new Intent(this,HomeTabActivity.class)));  
-        	mTabHost.addTab(mTabHost.newTabSpec("TWO").setIndicator("TWO")  
-                .setContent(new Intent(this,CateTabActivity.class)));  
-        	mTabHost.addTab(mTabHost.newTabSpec("THREE").setIndicator("THREE")  
-                .setContent(new Intent(this,PocketTabActivity.class)));  
-        	mTabHost.addTab(mTabHost.newTabSpec("FOUR").setIndicator("FOUR")  
-                .setContent(new Intent(this,PlayingTabActivity.class)));
-        }			
+        	mTabHost.addTab( homeTabSpec );  
+        	mTabHost.addTab( CateSpec );  
+        	mTabHost.addTab( PocketSpec );  
+        	mTabHost.addTab( PlayingSpec );
+        }		
+        mTabHost.setOnTabChangedListener(new OnTabChangeListener() {
+
+        	@Override
+        	public void onTabChanged(String tabId) {
+        		int i = mTabHost.getCurrentTab();
+        	  }
+        	});
+   
 	}	
-	@Override
-	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		switch(checkedId){
-		case R.id.radio_button0:
-			mTabHost.setCurrentTabByTag("ONE");
-			break;
-		case R.id.radio_button1:
-			mTabHost.setCurrentTabByTag("TWO");
-			break;
-		case R.id.radio_button2:
-			mTabHost.setCurrentTabByTag("THREE");
-			break;
-		case R.id.radio_button3:
-			mTabHost.setCurrentTabByTag("FOUR");
-			break;
-		}		
-	}
 	
 	/**
 	 * Receiving song index from playlist view

@@ -36,7 +36,7 @@ public class GuideHelper {
 				R.drawable.welcome_item_2 ,
 				R.drawable.welcome_item_3 ,};
 	private static final String GUIDE_VERSION_NAME = "GUIDEVERSION";
-	private static final int  GUIDE_VERSION_CODE = 4;
+	private static final int  GUIDE_VERSION_CODE = 3;
 	
 	public GuideHelper(Context context){
 		this.context = (Activity)context;
@@ -178,12 +178,13 @@ public class GuideHelper {
 	 * @throws
 	 */
 	private boolean guideCheck(){
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+		return false;
+		/*SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 		int guideVer = sp.getInt(GUIDE_VERSION_NAME, 0);
 		if(GUIDE_VERSION_CODE > 0 && GUIDE_VERSION_CODE > guideVer){
 			return true;
 		} else {
 			return false;
-		}
+		}*/
 	}
 }

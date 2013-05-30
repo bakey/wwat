@@ -3,6 +3,7 @@ package com.androidhive.musicplayer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 public class CateTabActivity extends Activity {
 	@Override
