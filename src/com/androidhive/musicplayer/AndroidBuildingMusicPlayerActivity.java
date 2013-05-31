@@ -473,8 +473,8 @@ public class AndroidBuildingMusicPlayerActivity extends TabActivity implements O
 	
 	@Override
 	 public void onDestroy(){
-	 super.onDestroy();
-	    mp.release();
+		super.onDestroy();
+	    //mp.release();
 	 }
 	
 }
