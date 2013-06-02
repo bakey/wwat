@@ -3,7 +3,21 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_1"
     >
+   <ImageView
+        android:id="@+id/home_ad_image"
+        android:layout_width="wrap_content"
+        android:layout_height="150px"
+        android:src="@drawable/ad1"
+    />
+  <GridView 
+    	android:id="@+id/homtetabGridView"
+    	android:stretchMode="columnWidth"
+    	android:verticalSpacing="10dp"
+    	android:columnWidth="90dp"
+    	android:numColumns="auto_fit"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent" > 
+	</GridView>
     
 </LinearLayout>
