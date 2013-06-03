@@ -12,6 +12,7 @@ public final class R {
     }
     public static final class color {
         public static final int black=0x7f040000;
+        public static final int white=0x7f040001;
     }
     public static final class drawable {
         public static final int ad1=0x7f020000;
@@ -68,12 +69,14 @@ public final class R {
         public static final int seek_handler=0x7f020033;
         public static final int seekbar_progress=0x7f020034;
         public static final int seekbar_progress_bg=0x7f020035;
-        public static final int track_info_bg=0x7f020036;
-        public static final int welcome_item_1=0x7f020037;
-        public static final int welcome_item_2=0x7f020038;
-        public static final int welcome_item_3=0x7f020039;
-        public static final int welcome_item_5_2_num=0x7f02003a;
-        public static final int welcome_item_bg=0x7f02003b;
+        public static final int songpic=0x7f020036;
+        public static final int songpic2=0x7f020037;
+        public static final int track_info_bg=0x7f020038;
+        public static final int welcome_item_1=0x7f020039;
+        public static final int welcome_item_2=0x7f02003a;
+        public static final int welcome_item_3=0x7f02003b;
+        public static final int welcome_item_5_2_num=0x7f02003c;
+        public static final int welcome_item_bg=0x7f02003d;
     }
     public static final class id {
         public static final int btnBackward=0x7f050016;
