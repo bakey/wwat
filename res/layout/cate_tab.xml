@@ -6,7 +6,12 @@
     >
    <GridView 
     	android:id="@+id/cateGridView"
+    	android:numColumns="auto_fit"
+    	android:columnWidth="120dp"
     	android:stretchMode="columnWidth"
+    	android:gravity="center"
+    	android:verticalSpacing="10dp"
+   		android:horizontalSpacing="10dp"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent" > 
 	</GridView>

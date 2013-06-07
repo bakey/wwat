@@ -6,25 +6,31 @@ import java.io.IOException;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.TabActivity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TabHost.TabSpec;
 
-public class HomeTabActivity extends Activity {
+public class HomeTabActivity extends TabActivity {
 	final String TAG = "HomeTab";
 	GridView mHometabGridView;
 	ImageView mImageView;
+	LinearLayout  mLoadingLayout;
+	private TabHost    mTopTabHost;
 	private  MediaPlayer m_player;
-	 protected static final int IMAGE_LOADED = 0x101;  
+	protected static final int IMAGE_LOADED = 0x101;  
 	View mLoading;
     Handler mHandler = new Handler() {  
          public void handleMessage(Message msg) {   
@@ -64,7 +70,9 @@ public class HomeTabActivity extends Activity {
 		 mHandler.sendMessage( msg ); //发送消息
 	}
 	private void showMainContent() {
-		showLoading( false );
+		//showLoading( false );
+		((ViewGroup) mLoadingLayout.getParent()).removeView( mLoadingLayout );
+		//mLoadingLayout.removeView( mLoading );
 		m_player = new MediaPlayer();
 		
 		mHometabGridView.setVisibility( View.VISIBLE );
@@ -92,12 +100,35 @@ public class HomeTabActivity extends Activity {
 			}
 		});
 	}
+	private void createTopTabs() {
+		 TabSpec recommendTabSpec = mTopTabHost.newTabSpec( "recommend" );
+		 recommendTabSpec.setIndicator( "推荐" );
+	     recommendTabSpec.setContent( new Intent(this, RecommendTabActivity.class) );
+	     
+	     TabSpec newestTabSpec = mTopTabHost.newTabSpec( "newest" );
+	     newestTabSpec.setIndicator( "最新" );
+	     newestTabSpec.setContent( new Intent(this, NewestTabActivity.class) );
+	     
+	     TabSpec rankingTabSpec = mTopTabHost.newTabSpec( "ranking" );
+	     rankingTabSpec.setIndicator( "排行" );
+	     rankingTabSpec.setContent( new Intent(this, RankingTabActivity.class) );
+	     
+	     mTopTabHost.addTab( recommendTabSpec );
+	        
+	     /*TabSpec CateSpec = mTabHost.newTabSpec( "Cate" );
+	     CateSpec.setIndicator("", getResources().getDrawable(R.drawable.navigation_cate_sel));
+	     Intent CateIntent = new Intent(this, CateTabActivity.class);
+	     CateSpec.setContent( CateIntent );*/
+	 }
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		this.setContentView( R.layout.home_tab );
+		mTopTabHost = this.getTabHost();
+		createTopTabs();
 		mLoading = findViewById( R.id.video_tip_layout );
+		mLoadingLayout = (LinearLayout)findViewById( R.id.loading );
 		mHometabGridView = (GridView) findViewById( R.id.homtetabGridView );
 		mImageView = (ImageView) findViewById( R.id.home_ad_image );
 		mHometabGridView.setVisibility( View.GONE );

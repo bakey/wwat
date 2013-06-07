@@ -278,12 +278,12 @@ public class AndroidBuildingMusicPlayerActivity extends TabActivity implements O
         setContentView( R.layout.main );
         mTabHost = this.getTabHost();   
         
-        TabSpec homeTabSpec = mTabHost.newTabSpec("Home");
+        TabSpec homeTabSpec = mTabHost.newTabSpec( "Home" );
         homeTabSpec.setIndicator("", getResources().getDrawable(R.drawable.navigation_index_sel));
         Intent homeTabIntent = new Intent(this, HomeTabActivity.class);
         homeTabSpec.setContent(homeTabIntent);
         
-        TabSpec CateSpec = mTabHost.newTabSpec("Cate");
+        TabSpec CateSpec = mTabHost.newTabSpec( "Cate" );
         CateSpec.setIndicator("", getResources().getDrawable(R.drawable.navigation_cate_sel));
         Intent CateIntent = new Intent(this, CateTabActivity.class);
         CateSpec.setContent( CateIntent );

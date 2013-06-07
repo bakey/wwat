@@ -29,16 +29,14 @@ public class ImageAdapter extends BaseAdapter {
 			gridView = new View(context);
  
 			// get layout from mobile.xml
-			gridView = inflater.inflate(R.layout.grid, null);
+			gridView = inflater.inflate(R.layout.cate_item, null);
  
 			// set value into textview
-			TextView textView = (TextView) gridView
-					.findViewById(R.id.grid_item_label);
+			TextView textView = (TextView) gridView.findViewById(R.id.ItemText);
 			textView.setText(mAlbums[position]);
  
 			// set image based on selected text
-			ImageView imageView = (ImageView) gridView
-					.findViewById(R.id.grid_item_image);
+			ImageView imageView = (ImageView) gridView.findViewById(R.id.ItemImage);
  
 			String mobile = mAlbums[position];
 			

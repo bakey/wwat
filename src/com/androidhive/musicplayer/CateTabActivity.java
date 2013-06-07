@@ -1,6 +1,9 @@
 package com.androidhive.musicplayer;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.AdapterView;
@@ -14,7 +17,7 @@ import android.view.View;
 public class CateTabActivity extends Activity {
 	GridView  mGridView;
 	static final String[] mAlbums = new String[] { 
-		"六一专辑", "儿歌","音乐", "故事" , "系列故事" , "英语" , "诵读" };
+		"六一专辑", "儿歌","音乐", "故事" , "系列故事" , "英语" , "诵读" , "sanwushuoshi" , "heiheihei" , "ggggg" , };
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -29,7 +32,7 @@ public class CateTabActivity extends Activity {
 					int position, long id) {
 				Toast.makeText(
 				   getApplicationContext(),
-				   ((TextView) v.findViewById(R.id.grid_item_label)).getText(),
+				   ((TextView) v.findViewById(R.id.ItemText)).getText(),
 				   Toast.LENGTH_SHORT).show();
  
 			}

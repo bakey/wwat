@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@drawable/bg_2"
     >
  
     <ImageView
         android:id="@+id/hometab_grid_item_image"
-        android:layout_width="50dp"
-        android:layout_margin="10px"
-        android:layout_height="fill_parent"
-        android:scaleType="fitCenter"
+        android:layout_width="70dp"
+        android:layout_height="90dp"
+        android:layout_margin="10px"        
+        android:scaleType="fitXY"
         android:gravity="center" 
     />
     <LinearLayout 
+        android:id="@+id/audioDesLO"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="10px"
      >
 
     <TextView
@@ -30,12 +32,18 @@
         android:textSize="20px" />
 
      <TextView
-        android:id="@+id/home_grid_item2"
+         android:id="@+id/home_grid_item2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@+id/label2"
+         android:textColor="@color/gray"
+         android:textSize="15px" />
+     <LinearLayout 
+        android:id="@+id/starLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@+id/label2"
-        android:textColor="@color/black"
-        android:textSize="15px" 
+        android:orientation="horizontal"
+        android:layout_marginTop="5px"
      />
     </LinearLayout> 
 </LinearLayout>

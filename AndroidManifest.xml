@@ -22,6 +22,7 @@
         <activity android:name="CateTabActivity"/>
 		<activity android:name="PocketTabActivity"/>		
 		<activity android:name="PlayingTabActivity"/>
+		<activity android:name="RecommendTabActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 

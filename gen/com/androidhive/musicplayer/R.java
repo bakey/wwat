@@ -12,6 +12,7 @@ public final class R {
     }
     public static final class color {
         public static final int black=0x7f040000;
+        public static final int gray=0x7f040002;
         public static final int white=0x7f040001;
     }
     public static final class drawable {
@@ -77,51 +78,53 @@ public final class R {
         public static final int welcome_item_3=0x7f02003b;
         public static final int welcome_item_5_2_num=0x7f02003c;
         public static final int welcome_item_bg=0x7f02003d;
+        public static final int xin_01=0x7f02003e;
     }
     public static final class id {
-        public static final int btnBackward=0x7f050019;
-        public static final int btnForward=0x7f05001b;
-        public static final int btnNext=0x7f05001c;
-        public static final int btnPlay=0x7f05001a;
-        public static final int btnPlaylist=0x7f050015;
-        public static final int btnPrevious=0x7f050018;
-        public static final int btnRepeat=0x7f050021;
-        public static final int btnShuffle=0x7f050022;
-        public static final int button_into_app=0x7f050008;
-        public static final int cateGridView=0x7f050003;
-        public static final int grid_item_image=0x7f050004;
-        public static final int grid_item_label=0x7f050005;
-        public static final int home_ad_image=0x7f050011;
+        public static final int ItemImage=0x7f050003;
+        public static final int ItemText=0x7f050004;
+        public static final int audioDesLO=0x7f050009;
+        public static final int btnBackward=0x7f05001a;
+        public static final int btnForward=0x7f05001c;
+        public static final int btnNext=0x7f05001d;
+        public static final int btnPlay=0x7f05001b;
+        public static final int btnPlaylist=0x7f050016;
+        public static final int btnPrevious=0x7f050019;
+        public static final int btnRepeat=0x7f050022;
+        public static final int btnShuffle=0x7f050023;
+        public static final int button_into_app=0x7f050007;
+        public static final int cateGridView=0x7f050005;
+        public static final int home_ad_image=0x7f050012;
         public static final int home_grid_item1=0x7f05000a;
         public static final int home_grid_item2=0x7f05000c;
-        public static final int hometab_grid_item_image=0x7f050009;
-        public static final int homtetabGridView=0x7f050012;
-        public static final int identify_label=0x7f050010;
-        public static final int label=0x7f050006;
+        public static final int hometab_grid_item_image=0x7f050008;
+        public static final int homtetabGridView=0x7f050013;
+        public static final int identify_label=0x7f050011;
         public static final int label1=0x7f05000b;
         public static final int label2=0x7f05000d;
-        public static final int loading=0x7f05000e;
-        public static final int player_footer_bg=0x7f050017;
-        public static final int player_header_bg=0x7f050013;
+        public static final int loading=0x7f05000f;
+        public static final int player_footer_bg=0x7f050018;
+        public static final int player_header_bg=0x7f050014;
         /**  Guide Helper IDS 
          */
         public static final int root_layout=0x7f050000;
         public static final int scroll_layout=0x7f050002;
-        public static final int songCurrentDurationLabel=0x7f05001f;
-        public static final int songProgressBar=0x7f05001d;
-        public static final int songThumbnail=0x7f050016;
-        public static final int songTitle=0x7f050014;
-        public static final int songTotalDurationLabel=0x7f050020;
-        public static final int timerDisplay=0x7f05001e;
+        public static final int songCurrentDurationLabel=0x7f050020;
+        public static final int songProgressBar=0x7f05001e;
+        public static final int songThumbnail=0x7f050017;
+        public static final int songTitle=0x7f050015;
+        public static final int songTotalDurationLabel=0x7f050021;
+        public static final int starLayout=0x7f05000e;
+        public static final int timerDisplay=0x7f05001f;
         public static final int top_right_btn=0x7f050001;
-        public static final int video_tip_layout=0x7f05000f;
-        public static final int welcome_last_image=0x7f050007;
+        public static final int video_tip_layout=0x7f050010;
+        public static final int welcome_last_image=0x7f050006;
     }
     public static final class layout {
         public static final int bg_player_footer=0x7f030000;
         public static final int bg_player_header=0x7f030001;
-        public static final int cate_tab=0x7f030002;
-        public static final int grid=0x7f030003;
+        public static final int cate_item=0x7f030002;
+        public static final int cate_tab=0x7f030003;
         public static final int guide_helper=0x7f030004;
         public static final int guide_last=0x7f030005;
         public static final int home_grid=0x7f030006;
