@@ -4,4 +4,5 @@
   <item type="id" name="root_layout"/>
   <item type="id" name="top_right_btn"/>
   <item type="id" name="scroll_layout"/>
+  <item type="id" name="playing_tab_animation" />
 </resources>

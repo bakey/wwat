@@ -50,7 +50,7 @@ public class HometabImageAdapter extends BaseAdapter {
 			imageView.setImageResource( R.drawable.songpic );
 			
 			//ViewGroup attrParent = (ViewGroup)gridView.findViewById( R.id.starLayout );
-			LinearLayout starLayout = (LinearLayout) gridView.findViewById( R.id.starLayout );;
+			LinearLayout starLayout = (LinearLayout) gridView.findViewById( R.id.starLayout );
 			
 			
 			for( int i = 0 ; i < 5 ; i ++ ) {	

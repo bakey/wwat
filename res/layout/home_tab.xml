@@ -51,7 +51,7 @@
         android:textSize="22sp"
         android:layout_height="fill_parent"
         android:gravity="center"
-        android:text="加载中，轻稍候...."
+        android:text="加载中，请稍候...."
     />
     </LinearLayout>
 

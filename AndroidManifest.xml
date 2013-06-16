@@ -23,8 +23,11 @@
 		<activity android:name="PocketTabActivity"/>		
 		<activity android:name="PlayingTabActivity"/>
 		<activity android:name="RecommendTabActivity" />
+		<activity android:name="NewestTabActivity" />
+		<activity android:name="RankingTabActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
 <!-- AndroidBuildingMusicPlayerActivity -->

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:apk="http://schemas.android.com/apk/res/android" apk:oneshot="false">
+    <item apk:drawable="@drawable/navigation_playing_gif_1" apk:duration="500" />
+    <item apk:drawable="@drawable/navigation_playing_gif_2" apk:duration="500" />
+    <item apk:drawable="@drawable/navigation_playing_gif_3" apk:duration="500" />
+</animation-list>

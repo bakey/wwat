@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import com.androidhive.musicplayer.common.GuideHelper;
+import com.androidhive.musicplayer.views.Global;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TabHost;
@@ -294,7 +296,13 @@ public class AndroidBuildingMusicPlayerActivity extends TabActivity implements O
         PocketSpec.setContent( PocketIntent );
         
         TabSpec PlayingSpec = mTabHost.newTabSpec( "Playing" );
-        PlayingSpec.setIndicator("" , getResources().getDrawable(R.drawable.navigation_playing_num_sel));
+        ImageView playingView = new ImageView( this );
+        Global.tabView = playingView;
+        playingView.setImageResource( R.drawable.navigation_playing_num_sel );
+        //playingView.setBackground( getResources().getDrawable(R.drawable.navigation_playing_num_sel) );
+        playingView.setId( R.id.playing_tab_animation );
+        PlayingSpec.setIndicator( playingView );
+        //PlayingSpec.setIndicator("" , getResources().getDrawable(R.drawable.navigation_playing_num_sel));
         Intent PlayingIntent = new Intent( this , PlayingTabActivity.class );
         PlayingSpec.setContent( PlayingIntent );
         
@@ -307,12 +315,11 @@ public class AndroidBuildingMusicPlayerActivity extends TabActivity implements O
         	mTabHost.addTab( PlayingSpec );
         }		
         mTabHost.setOnTabChangedListener(new OnTabChangeListener() {
-
         	@Override
         	public void onTabChanged(String tabId) {
         		int i = mTabHost.getCurrentTab();
         	  }
-        	});
+        });
    
 	}	
 	
