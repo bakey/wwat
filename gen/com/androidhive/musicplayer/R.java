@@ -136,12 +136,13 @@ public final class R {
         public static final int home_grid=0x7f030006;
         public static final int home_tab=0x7f030007;
         public static final int main=0x7f030008;
-        public static final int player=0x7f030009;
-        public static final int playing_tab=0x7f03000a;
-        public static final int playlist=0x7f03000b;
-        public static final int playlist_item=0x7f03000c;
-        public static final int pocket_tab=0x7f03000d;
-        public static final int rounded_corner=0x7f03000e;
+        public static final int play_stop_tab=0x7f030009;
+        public static final int player=0x7f03000a;
+        public static final int playing_tab=0x7f03000b;
+        public static final int playlist=0x7f03000c;
+        public static final int playlist_item=0x7f03000d;
+        public static final int pocket_tab=0x7f03000e;
+        public static final int rounded_corner=0x7f03000f;
     }
     public static final class string {
         public static final int AudioTitle=0x7f060003;
