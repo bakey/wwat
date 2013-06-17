@@ -57,7 +57,7 @@ public class PlayListActivity extends ListActivity {
 				
 				// Starting new intent
 				Intent in = new Intent(getApplicationContext(),
-						AndroidBuildingMusicPlayerActivity.class);
+						MainActivity.class);
 				// Sending songIndex to PlayerActivity
 				in.putExtra("songIndex", songIndex);
 				setResult(100, in);

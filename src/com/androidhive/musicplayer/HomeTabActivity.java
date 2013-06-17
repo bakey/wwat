@@ -44,11 +44,13 @@ public class HomeTabActivity extends TabActivity {
 	LinearLayout  mLoadingLayout;
 	private TabHost    mTopTabHost;
 	private  MediaPlayer m_player;
+	PlayingApplication mPlayingApp ; 
 	protected static final int IMAGE_LOADED = 0x101;  
 	View mLoading;
 	String mAudioTitles[];
 	String mAudioClassify[];
 	String mAudioUrl[];
+	String mAudioThumbUrl[];
 	
     Handler mHandler = new Handler() {  
          public void handleMessage(Message msg) {   
@@ -116,6 +118,7 @@ public class HomeTabActivity extends TabActivity {
 		((ViewGroup) mLoadingLayout.getParent()).removeView( mLoadingLayout );
 		m_player = new MediaPlayer();
 		final ImageView playingView = Global.tabView; //null;
+		mPlayingApp.setPlayer( m_player );
 	
 		if ( playingView != null ) {
 			Log.d( TAG , "get animation imageview success");
@@ -150,6 +153,8 @@ public class HomeTabActivity extends TabActivity {
 							   "get io exection ",
 							   Toast.LENGTH_SHORT).show();
 				}
+				mPlayingApp.setAudioTitle( mAudioTitles[position] );
+				mPlayingApp.setPlaying( true );
 				/*Toast.makeText(
 				   getApplicationContext(),
 				   ((TextView) v.findViewById(R.id.home_grid_item1)).getText(),
@@ -186,6 +191,7 @@ public class HomeTabActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		this.setContentView( R.layout.home_tab );
 		mTopTabHost = this.getTabHost();
+		mPlayingApp = ((PlayingApplication)getApplicationContext());
 		createTopTabs();
 		mLoading = findViewById( R.id.video_tip_layout );
 		mLoadingLayout = (LinearLayout)findViewById( R.id.loading );

@@ -31,7 +31,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TabHost.TabSpec;
 
-public class AndroidBuildingMusicPlayerActivity extends TabActivity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
+public class MainActivity extends TabActivity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
 	private ImageButton btnPlay;
 	private ImageButton btnForward;

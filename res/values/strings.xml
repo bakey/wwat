@@ -4,5 +4,6 @@
     <string name="hello">Hello World, AndroidBuildingMusicPlayerActivity!</string>
     <string name="app_name">娃娃听听</string>
     <string name="remote_host">www.hkzhe.com</string>
+    <string name="AudioTitle">当前没有播放的故事</string>
 
 </resources>

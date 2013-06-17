@@ -8,7 +8,7 @@ public class Utilities {
 	 * Timer Format
 	 * Hours:Minutes:Seconds
 	 * */
-	public String milliSecondsToTimer(long milliseconds){
+	static public String milliSecondsToTimer(long milliseconds){
 		String finalTimerString = "";
 		String secondsString = "";
 		
@@ -38,7 +38,7 @@ public class Utilities {
 	 * @param currentDuration
 	 * @param totalDuration
 	 * */
-	public int getProgressPercentage(long currentDuration, long totalDuration){
+	static public int getProgressPercentage(long currentDuration, long totalDuration){
 		Double percentage = (double) 0;
 		
 		long currentSeconds = (int) (currentDuration / 1000);

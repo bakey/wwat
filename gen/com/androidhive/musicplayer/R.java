@@ -116,6 +116,7 @@ public final class R {
         public static final int scroll_layout=0x7f050002;
         public static final int songCurrentDurationLabel=0x7f050021;
         public static final int songProgressBar=0x7f05001f;
+        public static final int songThumb=0x7f050025;
         public static final int songThumbnail=0x7f050018;
         public static final int songTitle=0x7f050016;
         public static final int songTotalDurationLabel=0x7f050022;
@@ -143,6 +144,7 @@ public final class R {
         public static final int rounded_corner=0x7f03000e;
     }
     public static final class string {
+        public static final int AudioTitle=0x7f060003;
         public static final int app_name=0x7f060001;
         public static final int hello=0x7f060000;
         public static final int remote_host=0x7f060002;
