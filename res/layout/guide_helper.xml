@@ -8,7 +8,7 @@
     android:padding="10dp"
     android:visibility="gone">
     
-	<com.androidhive.musicplayer.views.ScrollLayout
+	<com.hkzhe.wwtt.views.ScrollLayout
 	    android:id="@id/scroll_layout"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
