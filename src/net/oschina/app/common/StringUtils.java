@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 /** 
- * 瀛楃涓叉搷浣滃伐鍏峰寘
+ * 鐎涙顑佹稉鍙夋惙娴ｆ粌浼愰崗宄板瘶
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -19,7 +19,7 @@ public class StringUtils
 	private final static SimpleDateFormat dateFormater2 = new SimpleDateFormat("yyyy-MM-dd");
 	
 	/**
-	 * 灏嗗瓧绗︿覆杞綅鏃ユ湡绫诲瀷
+	 * 鐏忓棗鐡х粭锔胯鏉烆兛缍呴弮銉︽埂缁鐎�
 	 * @param sdate
 	 * @return
 	 */
@@ -32,7 +32,7 @@ public class StringUtils
 	}
 	
 	/**
-	 * 浠ュ弸濂界殑鏂瑰紡鏄剧ず鏃堕棿
+	 * 娴犮儱寮告總鐣屾畱閺傜懓绱￠弰鍓с仛閺冨爼妫�
 	 * @param sdate
 	 * @return
 	 */
@@ -44,15 +44,15 @@ public class StringUtils
 		String ftime = "";
 		Calendar cal = Calendar.getInstance();
 		
-		//鍒ゆ柇鏄惁鏄悓涓�ぉ
+		//閸掋倖鏌囬弰顖氭儊閺勵垰鎮撴稉锟姐亯
 		String curDate = dateFormater2.format(cal.getTime());
 		String paramDate = dateFormater2.format(time);
 		if(curDate.equals(paramDate)){
 			int hour = (int)((cal.getTimeInMillis() - time.getTime())/3600000);
 			if(hour == 0)
-				ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000,1)+"鍒嗛挓鍓�";
+				ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000,1)+"閸掑棝鎸撻崜锟�";
 			else 
-				ftime = hour+"灏忔椂鍓�";
+				ftime = hour+"鐏忓繑妞傞崜锟�";
 			return ftime;
 		}
 		
@@ -62,18 +62,18 @@ public class StringUtils
 		if(days == 0){
 			int hour = (int)((cal.getTimeInMillis() - time.getTime())/3600000);
 			if(hour == 0)
-				ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000,1)+"鍒嗛挓鍓�";
+				ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000,1)+"閸掑棝鎸撻崜锟�";
 			else 
-				ftime = hour+"灏忔椂鍓�";
+				ftime = hour+"鐏忓繑妞傞崜锟�";
 		}
 		else if(days == 1){
-			ftime = "鏄ㄥぉ";
+			ftime = "閺勩劌銇�";
 		}
 		else if(days == 2){
-			ftime = "鍓嶅ぉ";
+			ftime = "閸撳秴銇�";
 		}
 		else if(days > 2 && days <= 10){ 
-			ftime = days+"澶╁墠";			
+			ftime = days+"婢垛晛澧�";			
 		}
 		else if(days > 10){			
 			ftime = dateFormater2.format(time);
@@ -82,7 +82,7 @@ public class StringUtils
 	}
 	
 	/**
-	 * 鍒ゆ柇缁欏畾瀛楃涓叉椂闂存槸鍚︿负浠婃棩
+	 * 閸掋倖鏌囩紒娆忕暰鐎涙顑佹稉鍙夋闂傚瓨妲搁崥锔胯礋娴犲﹥妫�
 	 * @param sdate
 	 * @return boolean
 	 */
@@ -101,9 +101,9 @@ public class StringUtils
 	}
 	
 	/**
-	 * 鍒ゆ柇缁欏畾瀛楃涓叉槸鍚︾┖鐧戒覆銆�
-	 * 绌虹櫧涓叉槸鎸囩敱绌烘牸銆佸埗琛ㄧ銆佸洖杞︾銆佹崲琛岀缁勬垚鐨勫瓧绗︿覆
-	 * 鑻ヨ緭鍏ュ瓧绗︿覆涓簄ull鎴栫┖瀛楃涓诧紝杩斿洖true
+	 * 閸掋倖鏌囩紒娆忕暰鐎涙顑佹稉鍙夋Ц閸氾妇鈹栭惂鎴掕閵嗭拷
+	 * 缁岃櫣娅ф稉鍙夋Ц閹稿洨鏁辩粚鐑樼壐閵嗕礁鍩楃悰銊ь儊閵嗕礁娲栨潪锔绢儊閵嗕焦宕茬悰宀�儊缂佸嫭鍨氶惃鍕摟缁楋缚瑕�
+	 * 閼汇儴绶崗銉ョ摟缁楋缚瑕嗘稉绨剈ll閹存牜鈹栫�妤冾儊娑撹绱濇潻鏂挎礀true
 	 * @param input
 	 * @return boolean
 	 */
@@ -124,7 +124,7 @@ public class StringUtils
 	}
 
 	/**
-	 * 鍒ゆ柇鏄笉鏄竴涓悎娉曠殑鐢靛瓙閭欢鍦板潃
+	 * 閸掋倖鏌囬弰顖欑瑝閺勵垯绔存稉顏勬値濞夋洜娈戦悽闈涚摍闁喕娆㈤崷鏉挎絻
 	 * @param email
 	 * @return
 	 */
@@ -134,7 +134,7 @@ public class StringUtils
 	    return emailer.matcher(email).matches();
 	}
 	/**
-	 * 瀛楃涓茶浆鏁存暟
+	 * 鐎涙顑佹稉鑼舵祮閺佸瓨鏆�
 	 * @param str
 	 * @param defValue
 	 * @return
@@ -146,18 +146,18 @@ public class StringUtils
 		return defValue;
 	}
 	/**
-	 * 瀵硅薄杞暣鏁�
+	 * 鐎电钖勬潪顒佹殻閺侊拷
 	 * @param obj
-	 * @return 杞崲寮傚父杩斿洖 0
+	 * @return 鏉烆剚宕插鍌氱埗鏉╂柨娲�0
 	 */
 	public static int toInt(Object obj) {
 		if(obj==null) return 0;
 		return toInt(obj.toString(),0);
 	}
 	/**
-	 * 瀵硅薄杞暣鏁�
+	 * 鐎电钖勬潪顒佹殻閺侊拷
 	 * @param obj
-	 * @return 杞崲寮傚父杩斿洖 0
+	 * @return 鏉烆剚宕插鍌氱埗鏉╂柨娲�0
 	 */
 	public static long toLong(String obj) {
 		try{
@@ -166,9 +166,8 @@ public class StringUtils
 		return 0;
 	}
 	/**
-	 * 瀛楃涓茶浆甯冨皵鍊�
-	 * @param b
-	 * @return 杞崲寮傚父杩斿洖 false
+	 * 鐎涙顑佹稉鑼舵祮鐢啫鐨甸崐锟�	 * @param b
+	 * @return 鏉烆剚宕插鍌氱埗鏉╂柨娲�false
 	 */
 	public static boolean toBool(String b) {
 		try{

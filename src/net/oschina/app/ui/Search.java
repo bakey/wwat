@@ -28,7 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
- * 鎼滅储
+ * 閹兼粎鍌�
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -73,7 +73,7 @@ public class Search extends Activity{
 	}
 	
     /**
-     * 澶撮儴鎸夐挳灞曠ず
+     * 婢舵挳鍎撮幐澶愭尦鐏炴洜銇�
      * @param type
      */
     private void headButtonSwitch(int type) {
@@ -89,7 +89,7 @@ public class Search extends Activity{
 		}
     }
 	
-	//鍒濆鍖栬鍥炬帶浠�
+	//閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�   
     private void initView()
     {
     	imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
@@ -153,15 +153,15 @@ public class Search extends Activity{
     	lvSearchAdapter = new ListViewSearchAdapter(this, lvSearchData, R.layout.search_listitem); 
     	mlvSearch = (ListView)findViewById(R.id.search_listview);
     	mlvSearch.setVisibility(ListView.GONE);
-    	mlvSearch.addFooterView(lvSearch_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+    	mlvSearch.addFooterView(lvSearch_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
     	mlvSearch.setAdapter(lvSearchAdapter); 
     	mlvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮搴曢儴鏍忔棤鏁�
+        		//閻愮懓鍤惔鏇㈠劥閺嶅繑妫ら弫锟�        	
         		if(view == lvSearch_footer) return;
         		
         		Result res = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			res = (Result)view.getTag();
         		}else{
@@ -170,16 +170,15 @@ public class Search extends Activity{
         		} 
         		if(res == null) return;
         		
-        		//璺宠浆
+        		//鐠哄疇娴�
         		UIHelper.showUrlRedirect(view.getContext(), res.getUrl());
         	}
 		});
     	mlvSearch.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvSearchData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvSearchData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvSearch_footer) == view.getLastVisiblePosition())
@@ -192,7 +191,7 @@ public class Search extends Activity{
 				{
 					lvSearch_foot_more.setText(R.string.load_ing);
 					lvSearch_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvSumData/20;
 					loadLvSearchData(curSearchCatalog, pageIndex, mSearchHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -202,8 +201,8 @@ public class Search extends Activity{
 		});
     }
     
-    //鍒濆鍖栨帶浠舵暟鎹�
-  	private void initData()
+    //閸掓繂顬婇崠鏍ㄥ付娴犺埖鏆熼幑锟�  	
+    private void initData()
   	{			
 		mSearchHandler = new Handler()
 		{
@@ -214,14 +213,13 @@ public class Search extends Activity{
 				if(msg.what >= 0){						
 					SearchList list = (SearchList)msg.obj;
 					Notice notice = list.getNotice();
-					//澶勭悊listview鏁版嵁
+					//婢跺嫮鎮妉istview閺佺増宓�
 					switch (msg.arg1) {
 					case UIHelper.LISTVIEW_ACTION_INIT:
 					case UIHelper.LISTVIEW_ACTION_REFRESH:
 					case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
 						lvSumData = msg.what;
-						lvSearchData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvSearchData.addAll(list.getResultlist());
+						lvSearchData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvSearchData.addAll(list.getResultlist());
 						break;
 					case UIHelper.LISTVIEW_ACTION_SCROLL:
 						lvSumData += msg.what;
@@ -251,13 +249,13 @@ public class Search extends Activity{
 						lvSearchAdapter.notifyDataSetChanged();
 						lvSearch_foot_more.setText(R.string.load_more);
 					}
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(notice != null){
 						UIHelper.sendBroadCast(Search.this, notice);
 					}
 				}
 				else if(msg.what == -1){
-					//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+					//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 					curLvDataState = UIHelper.LISTVIEW_DATA_MORE;
 					lvSearch_foot_more.setText(R.string.load_error);
 					((AppException)msg.obj).makeToast(Search.this);
@@ -268,22 +266,21 @@ public class Search extends Activity{
 				}
 				lvSearch_foot_progress.setVisibility(View.GONE);
 				if(msg.arg1 != UIHelper.LISTVIEW_ACTION_SCROLL){
-					mlvSearch.setSelection(0);//杩斿洖澶撮儴
+					mlvSearch.setSelection(0);//鏉╂柨娲栨径鎾劥
 				}
 			}
 		};
   	}
   	
     /**
-     * 绾跨▼鍔犺浇鏀惰棌鏁版嵁
-     * @param type 0:鍏ㄩ儴鏀惰棌 1:杞欢 2:璇濋 3:鍗氬 4:鏂伴椈 5:浠ｇ爜
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰閺�儼妫岄弫鐗堝祦
+     * @param type 0:閸忋劑鍎撮弨鎯版 1:鏉烆垯娆�2:鐠囨繈顣�3:閸楁艾顓�4:閺備即妞�5:娴狅絿鐖�
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvSearchData(final String catalog,final int pageIndex,final Handler handler,final int action){  
 		if(StringUtils.isEmpty(curSearchContent)){
-			UIHelper.ToastMessage(Search.this, "璇疯緭鍏ユ悳绱㈠唴瀹�");
+			UIHelper.ToastMessage(Search.this, "鐠囩柉绶崗銉︽偝缁便垹鍞寸�锟�");
 			return;
 		}
 		
@@ -302,7 +299,7 @@ public class Search extends Activity{
 	            	msg.what = -1;
 	            	msg.obj = e;
 	            }
-				msg.arg1 = action;//鍛婄煡handler褰撳墠action
+				msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
 				if(curSearchCatalog.equals(catalog))
 					handler.sendMessage(msg);
 			}
@@ -333,7 +330,7 @@ public class Search extends Activity{
 		    	else
 		    		search_catalog_software.setEnabled(true);
 				
-				//寮�鎼滅储
+				//瀵拷顬婇幖婊呭偍
 				mSearchEditer.clearFocus();
 				curSearchContent = mSearchEditer.getText().toString();
 				curSearchCatalog = catalog;

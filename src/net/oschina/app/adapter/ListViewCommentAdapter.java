@@ -22,18 +22,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * 鐢ㄦ埛璇勮Adapter绫�
+ * 閻劍鍩涚拠鍕啈Adapter缁拷
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
  */
 public class ListViewCommentAdapter extends BaseAdapter {
-	private Context 					context;//杩愯涓婁笅鏂�
-	private List<Comment> 				listItems;//鏁版嵁闆嗗悎
-	private LayoutInflater 				listContainer;//瑙嗗浘瀹瑰櫒
-	private int 						itemViewResource;//鑷畾涔夐」瑙嗗浘婧�
+	private Context 					context;//鏉╂劘顢戞稉濠佺瑓閺傦拷
+	private List<Comment> 				listItems;//閺佺増宓侀梿鍡楁値
+	private LayoutInflater 				listContainer;//鐟欏棗娴樼�鐟版珤
+	private int 						itemViewResource;//閼奉亜鐣炬稊澶愩�鐟欏棗娴樺┃锟�
 	private BitmapManager 				bmpManager;
-	static class ListItemView{				//鑷畾涔夋帶浠堕泦鍚�
+	static class ListItemView{				//閼奉亜鐣炬稊澶嬪付娴犲爼娉﹂崥锟�		
 			public ImageView face;
 	        public TextView name;  
 		    public TextView date;  
@@ -44,14 +44,14 @@ public class ListViewCommentAdapter extends BaseAdapter {
 	 }  
 
 	/**
-	 * 瀹炰緥鍖朅dapter
+	 * 鐎圭偘绶ラ崠鏈卍apter
 	 * @param context
 	 * @param data
 	 * @param resource
 	 */
 	public ListViewCommentAdapter(Context context, List<Comment> data,int resource) {
 		this.context = context;			
-		this.listContainer = LayoutInflater.from(context);	//鍒涘缓瑙嗗浘瀹瑰櫒骞惰缃笂涓嬫枃
+		this.listContainer = LayoutInflater.from(context);	//閸掓稑缂撶憴鍡楁禈鐎圭懓娅掗獮鎯邦啎缂冾喕绗傛稉瀣瀮
 		this.itemViewResource = resource;
 		this.listItems = data;
 		this.bmpManager = new BitmapManager(BitmapFactory.decodeResource(context.getResources(), R.drawable.widget_dface_loading));
@@ -70,20 +70,20 @@ public class ListViewCommentAdapter extends BaseAdapter {
 	}
 	
 	/**
-	 * ListView Item璁剧疆
+	 * ListView Item鐠佸墽鐤�
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//Log.d("method", "getView");
 		
-		//鑷畾涔夎鍥�
+		//閼奉亜鐣炬稊澶庮瀰閸ワ拷
 		ListItemView  listItemView = null;
 		
 		if (convertView == null) {
-			//鑾峰彇list_item甯冨眬鏂囦欢鐨勮鍥�
+			//閼惧嘲褰噇ist_item鐢啫鐪弬鍥︽閻ㄥ嫯顬呴崶锟�			
 			convertView = listContainer.inflate(this.itemViewResource, null);
 			
 			listItemView = new ListItemView();
-			//鑾峰彇鎺т欢瀵硅薄
+			//閼惧嘲褰囬幒褌娆㈢�纭呰杽
 			listItemView.face = (ImageView)convertView.findViewById(R.id.comment_listitem_userface);
 			listItemView.name = (TextView)convertView.findViewById(R.id.comment_listitem_username);
 			listItemView.date = (TextView)convertView.findViewById(R.id.comment_listitem_date);
@@ -92,13 +92,13 @@ public class ListViewCommentAdapter extends BaseAdapter {
 			listItemView.relies = (LinearLayout)convertView.findViewById(R.id.comment_listitem_relies);
 			listItemView.refers = (LinearLayout)convertView.findViewById(R.id.comment_listitem_refers);
 			
-			//璁剧疆鎺т欢闆嗗埌convertView
+			//鐠佸墽鐤嗛幒褌娆㈤梿鍡楀煂convertView
 			convertView.setTag(listItemView);
 		}else {
 			listItemView = (ListItemView)convertView.getTag();
 		}	
 		
-		//璁剧疆鏂囧瓧鍜屽浘鐗�
+		//鐠佸墽鐤嗛弬鍥х摟閸滃苯娴橀悧锟�	
 		Comment comment = listItems.get(position);
 		String faceURL = comment.getFace();
 		if(faceURL.endsWith("portrait.gif") || StringUtils.isEmpty(faceURL)){
@@ -106,13 +106,13 @@ public class ListViewCommentAdapter extends BaseAdapter {
 		}else{
 			bmpManager.loadBitmap(faceURL, listItemView.face);
 		}
-		listItemView.face.setTag(comment);//璁剧疆闅愯棌鍙傛暟(瀹炰綋绫�
+		listItemView.face.setTag(comment);//鐠佸墽鐤嗛梾鎰閸欏倹鏆�鐎圭偘缍嬬猾锟�
 		listItemView.face.setOnClickListener(faceClickListener);
 		listItemView.name.setText(comment.getAuthor());
 		listItemView.date.setText(StringUtils.friendly_time(comment.getPubDate()));
 		listItemView.content.setText(comment.getContent());
 		listItemView.content.parseLinkText();
-		listItemView.content.setTag(comment);//璁剧疆闅愯棌鍙傛暟(瀹炰綋绫�
+		listItemView.content.setTag(comment);//鐠佸墽鐤嗛梾鎰閸欏倹鏆�鐎圭偘缍嬬猾锟�
 		
 		switch(comment.getAppClient())
 		{	
@@ -121,16 +121,16 @@ public class ListViewCommentAdapter extends BaseAdapter {
 				listItemView.client.setText("");
 				break;
 			case 2:
-				listItemView.client.setText("鏉ヨ嚜:鎵嬫満");
+				listItemView.client.setText("閺夈儴鍤�閹靛婧�");
 				break;
 			case 3:
-				listItemView.client.setText("鏉ヨ嚜:Android");
+				listItemView.client.setText("閺夈儴鍤�Android");
 				break;
 			case 4:
-				listItemView.client.setText("鏉ヨ嚜:iPhone");
+				listItemView.client.setText("閺夈儴鍤�iPhone");
 				break;
 			case 5:
-				listItemView.client.setText("鏉ヨ嚜:Windows Phone");
+				listItemView.client.setText("閺夈儴鍤�Windows Phone");
 				break;
 		}
 		if(StringUtils.isEmpty(listItemView.client.getText().toString()))
@@ -139,27 +139,27 @@ public class ListViewCommentAdapter extends BaseAdapter {
 			listItemView.client.setVisibility(View.VISIBLE);
 		
 		listItemView.relies.setVisibility(View.GONE);
-		listItemView.relies.removeAllViews();//鍏堟竻绌�
+		listItemView.relies.removeAllViews();//閸忓牊绔荤粚锟�		
 		if(comment.getReplies().size() > 0){
-			//璇勮鏁扮洰
+			//鐠囧嫯顔戦弫鎵窗
 			View view = listContainer.inflate(R.layout.comment_reply, null);
 			TextView tv = (TextView)view.findViewById(R.id.comment_reply_content);
 			tv.setText(context.getString(R.string.comment_reply_title, comment.getReplies().size()));
 			listItemView.relies.addView(view);
-			//璇勮鍐呭
+			//鐠囧嫯顔戦崘鍛啇
 			for(Reply reply : comment.getReplies()){
 				View view2 = listContainer.inflate(R.layout.comment_reply, null);
 				TextView tv2 = (TextView)view2.findViewById(R.id.comment_reply_content);
-				tv2.setText(reply.rauthor+"("+StringUtils.friendly_time(reply.rpubDate)+")锛�"+reply.rcontent);
+				tv2.setText(reply.rauthor+"("+StringUtils.friendly_time(reply.rpubDate)+")閿涳拷"+reply.rcontent);
 				listItemView.relies.addView(view2);
 			}
 			listItemView.relies.setVisibility(View.VISIBLE);
 		}
 		
 		listItemView.refers.setVisibility(View.GONE);
-		listItemView.refers.removeAllViews();//鍏堟竻绌�
+		listItemView.refers.removeAllViews();//閸忓牊绔荤粚锟�		
 		if(comment.getRefers().size() > 0){
-			//寮曠敤鍐呭
+			//瀵洜鏁ら崘鍛啇
 			for(Refer refer : comment.getRefers()){
 				View view = listContainer.inflate(R.layout.comment_refer, null);
 				TextView title = (TextView)view.findViewById(R.id.comment_refer_title);

@@ -26,8 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
- * 鐢ㄦ埛鍏虫敞銆佺矇涓�
- * @author liux (http://my.oschina.net/liux)
+ * 閻劍鍩涢崗铏暈閵嗕胶鐭囨稉锟� * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
  */
@@ -65,7 +64,7 @@ public class UserFriend extends Activity {
 	}
 	
     /**
-     * 澶撮儴鎸夐挳灞曠ず
+     * 婢舵挳鍎撮幐澶愭尦鐏炴洜銇�
      * @param type
      */
     private void headButtonSwitch(int type) {
@@ -79,7 +78,7 @@ public class UserFriend extends Activity {
 		}
     }
 	
-	//鍒濆鍖栬鍥炬帶浠�
+	//閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�   
     private void initView()
     {	
     	mBack = (ImageView)findViewById(R.id.friend_head_back);
@@ -92,7 +91,7 @@ public class UserFriend extends Activity {
     	friend_type_fans.setOnClickListener(this.friendBtnClick(friend_type_fans,FriendList.TYPE_FANS));
     	friend_type_follower.setOnClickListener(this.friendBtnClick(friend_type_follower,FriendList.TYPE_FOLLOWER));
     	
-    	//璁剧疆褰撳墠鍒嗙被
+    	//鐠佸墽鐤嗚ぐ鎾冲閸掑棛琚�
     	curLvCatalog = getIntent().getIntExtra("friend_type", FriendList.TYPE_FOLLOWER);
     	if(curLvCatalog == FriendList.TYPE_FANS) {
         	friend_type_fans.setEnabled(false);
@@ -100,7 +99,7 @@ public class UserFriend extends Activity {
     		friend_type_follower.setEnabled(false);
     	}
     	
-    	//璁剧疆绮変笣涓庡叧娉ㄧ殑鏁伴噺
+    	//鐠佸墽鐤嗙划澶夌娑撳骸鍙у▔銊ф畱閺佷即鍣�
     	int followers = getIntent().getIntExtra("friend_followers", 0);
     	int fans = getIntent().getIntExtra("friend_fans", 0);
     	friend_type_follower.setText(getString(R.string.user_friend_follower, followers));
@@ -113,11 +112,11 @@ public class UserFriend extends Activity {
     	lvFriendAdapter = new ListViewFriendAdapter(this, lvFriendData, R.layout.friend_listitem); 
     	mlvFriend = (PullToRefreshListView)findViewById(R.id.friend_listview);
     	
-    	mlvFriend.addFooterView(lvFriend_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+    	mlvFriend.addFooterView(lvFriend_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
     	mlvFriend.setAdapter(lvFriendAdapter); 
     	mlvFriend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvFriend_footer) return;
         		
     			TextView name = (TextView)view.findViewById(R.id.friend_listitem_name);
@@ -125,7 +124,7 @@ public class UserFriend extends Activity {
 
         		if(friend == null) return;
         		
-        		//璺宠浆
+        		//鐠哄疇娴�
         		UIHelper.showUserCenter(view.getContext(), friend.getUserid(), friend.getName());
         	}
 		});
@@ -133,10 +132,9 @@ public class UserFriend extends Activity {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				mlvFriend.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvFriendData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvFriendData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvFriend_footer) == view.getLastVisiblePosition())
@@ -149,7 +147,7 @@ public class UserFriend extends Activity {
 				{
 					lvFriend_foot_more.setText(R.string.load_ing);
 					lvFriend_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvSumData/20;
 					loadLvFriendData(curLvCatalog, pageIndex, mFriendHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -165,8 +163,8 @@ public class UserFriend extends Activity {
         });
     }
     
-    //鍒濆鍖栨帶浠舵暟鎹�
-  	private void initData()
+    //閸掓繂顬婇崠鏍ㄥ付娴犺埖鏆熼幑锟�  
+    private void initData()
   	{	
 		mFriendHandler = new Handler()
 		{
@@ -177,14 +175,13 @@ public class UserFriend extends Activity {
 				if(msg.what >= 0){						
 					FriendList list = (FriendList)msg.obj;
 					Notice notice = list.getNotice();
-					//澶勭悊listview鏁版嵁
+					//婢跺嫮鎮妉istview閺佺増宓�
 					switch (msg.arg1) {
 					case UIHelper.LISTVIEW_ACTION_INIT:
 					case UIHelper.LISTVIEW_ACTION_REFRESH:
 					case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
 						lvSumData = msg.what;
-						lvFriendData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvFriendData.addAll(list.getFriendlist());
+						lvFriendData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvFriendData.addAll(list.getFriendlist());
 						break;
 					case UIHelper.LISTVIEW_ACTION_SCROLL:
 						lvSumData += msg.what;
@@ -214,13 +211,13 @@ public class UserFriend extends Activity {
 						lvFriendAdapter.notifyDataSetChanged();
 						lvFriend_foot_more.setText(R.string.load_more);
 					}
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(notice != null){
 						UIHelper.sendBroadCast(UserFriend.this, notice);
 					}
 				}
 				else if(msg.what == -1){
-					//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+					//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 					curLvDataState = UIHelper.LISTVIEW_DATA_MORE;
 					lvFriend_foot_more.setText(R.string.load_error);
 					((AppException)msg.obj).makeToast(UserFriend.this);
@@ -243,11 +240,10 @@ public class UserFriend extends Activity {
   	}
   	
     /**
-     * 绾跨▼鍔犺浇濂藉弸鍒楄〃鏁版嵁
-     * @param type 0:鏄剧ず鑷繁鐨勭矇涓�1:鏄剧ず鑷繁鐨勫叧娉ㄨ�
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰婵傝棄寮搁崚妤勩�閺佺増宓�
+     * @param type 0:閺勫墽銇氶懛顏勭箒閻ㄥ嫮鐭囨稉锟�:閺勫墽銇氶懛顏勭箒閻ㄥ嫬鍙у▔銊拷
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvFriendData(final int type,final int pageIndex,final Handler handler,final int action){  
 		headButtonSwitch(DATA_LOAD_ING);
@@ -266,7 +262,7 @@ public class UserFriend extends Activity {
 	            	msg.what = -1;
 	            	msg.obj = e;
 	            }
-				msg.arg1 = action;//鍛婄煡handler褰撳墠action
+				msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
 				if(curLvCatalog == type)
 					handler.sendMessage(msg);
 			}

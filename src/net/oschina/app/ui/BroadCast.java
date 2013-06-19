@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 /**
- * 閫氱煡淇℃伅骞挎挱鎺ユ敹鍣�
+ * 闁氨鐓℃穱鈩冧紖楠炴寧鎸遍幒銉︽暪閸ｏ拷
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-4-16
@@ -26,13 +26,13 @@ public class BroadCast extends BroadcastReceiver {
 		String ACTION_NAME = intent.getAction();
 		if("net.oschina.app.action.APPWIDGET_UPDATE".equals(ACTION_NAME))
 		{	
-			int atmeCount = intent.getIntExtra("atmeCount", 0);//@鎴�
-			int msgCount = intent.getIntExtra("msgCount", 0);//鐣欒█
-			int reviewCount = intent.getIntExtra("reviewCount", 0);//璇勮
-			int newFansCount = intent.getIntExtra("newFansCount", 0);//鏂扮矇涓�
-			int activeCount = atmeCount + reviewCount + msgCount + newFansCount;//淇℃伅鎬绘暟
+			int atmeCount = intent.getIntExtra("atmeCount", 0);//@閹达拷
+			int msgCount = intent.getIntExtra("msgCount", 0);//閻ｆ瑨鈻�
+			int reviewCount = intent.getIntExtra("reviewCount", 0);//鐠囧嫯顔�
+			int newFansCount = intent.getIntExtra("newFansCount", 0);//閺傛壆鐭囨稉锟�	
+			int activeCount = atmeCount + reviewCount + msgCount + newFansCount;//娣団剝浼呴幀缁樻殶
 			
-			//鍔ㄦ�-鎬绘暟
+			//閸斻劍锟�閹粯鏆�
 			if(Main.bv_active != null){
 				if(activeCount > 0){
 					Main.bv_active.setText(activeCount+"");
@@ -42,7 +42,7 @@ public class BroadCast extends BroadcastReceiver {
 					Main.bv_active.hide();
 				}
 			}
-			//@鎴�
+			//@閹达拷
 			if(Main.bv_atme != null){
 				if(atmeCount > 0){
 					Main.bv_atme.setText(atmeCount+"");
@@ -52,7 +52,7 @@ public class BroadCast extends BroadcastReceiver {
 					Main.bv_atme.hide();
 				}
 			}
-			//璇勮
+			//鐠囧嫯顔�
 			if(Main.bv_review != null){
 				if(reviewCount > 0){
 					Main.bv_review.setText(reviewCount+"");
@@ -62,7 +62,7 @@ public class BroadCast extends BroadcastReceiver {
 					Main.bv_review.hide();
 				}
 			}
-			//鐣欒█
+			//閻ｆ瑨鈻�
 			if(Main.bv_message != null){
 				if(msgCount > 0){
 					Main.bv_message.setText(msgCount+"");
@@ -73,20 +73,20 @@ public class BroadCast extends BroadcastReceiver {
 				}
 			}
 			
-			//閫氱煡鏍忔樉绀�
+			//闁氨鐓￠弽蹇旀▔缁�拷
 			this.notification(context, activeCount);
 		}
 	}
 
 	private void notification(Context context, int noticeCount){		
-		//鍒涘缓 NotificationManager
+		//閸掓稑缂�NotificationManager
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		
-		String contentTitle = "寮�簮涓浗";
-		String contentText = "鎮ㄦ湁 " + noticeCount + " 鏉℃渶鏂颁俊鎭�";
+		String contentTitle = "瀵拷绨稉顓炴禇";
+		String contentText = "閹劍婀�" + noticeCount + " 閺夆剝娓堕弬棰佷繆閹拷";
 		int _lastNoticeCount;
 		
-		//鍒ゆ柇鏄惁鍙戝嚭閫氱煡淇℃伅
+		//閸掋倖鏌囬弰顖氭儊閸欐垵鍤柅姘辩叀娣団剝浼�
 		if(noticeCount == 0)
 		{
 			notificationManager.cancelAll();
@@ -103,12 +103,12 @@ public class BroadCast extends BroadcastReceiver {
 			lastNoticeCount = noticeCount;
 		}
 		
-		//鍒涘缓閫氱煡 Notification
+		//閸掓稑缂撻柅姘辩叀 Notification
 		Notification notification = null;
 		
 		if(noticeCount > _lastNoticeCount) 
 		{
-			String noticeTitle = "鎮ㄦ湁 " + (noticeCount-_lastNoticeCount) + " 鏉℃渶鏂颁俊鎭�";
+			String noticeTitle = "閹劍婀�" + (noticeCount-_lastNoticeCount) + " 閺夆剝娓堕弬棰佷繆閹拷";
 			notification = new Notification(R.drawable.icon, noticeTitle, System.currentTimeMillis());
 		}
 		else
@@ -116,32 +116,32 @@ public class BroadCast extends BroadcastReceiver {
 			notification = new Notification();
 		}
 		
-		//璁剧疆鐐瑰嚮閫氱煡璺宠浆
+		//鐠佸墽鐤嗛悙鐟板毊闁氨鐓＄捄瀹犳祮
 		Intent intent = new Intent(context, Main.class);
 		intent.putExtra("NOTICE", true);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK); 
 		
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
-		//璁剧疆鏈�柊淇℃伅
+		//鐠佸墽鐤嗛張锟芥煀娣団剝浼�
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		
-		//璁剧疆鐐瑰嚮娓呴櫎閫氱煡
+		//鐠佸墽鐤嗛悙鐟板毊濞撳懘娅庨柅姘辩叀
 		notification.flags = Notification.FLAG_AUTO_CANCEL;
 		
 		if(noticeCount > _lastNoticeCount) 
 		{
-			//璁剧疆閫氱煡鏂瑰紡
+			//鐠佸墽鐤嗛柅姘辩叀閺傜懓绱�
 			notification.defaults |= Notification.DEFAULT_LIGHTS;
 			
-			//璁剧疆閫氱煡闊�
+			//鐠佸墽鐤嗛柅姘辩叀闂婏拷
 			notification.sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.notificationsound);
 			
-			//璁剧疆鎸姩 <闇�鍔犱笂鐢ㄦ埛鏉冮檺android.permission.VIBRATE>
+			//鐠佸墽鐤嗛幐顖氬З <闂囷拷顪呴崝鐘辩瑐閻劍鍩涢弶鍐android.permission.VIBRATE>
 			//notification.vibrate = new long[]{100, 250, 100, 500};
 		}
 		
-		//鍙戝嚭閫氱煡
+		//閸欐垵鍤柅姘辩叀
 		notificationManager.notify(NOTIFICATION_ID, notification);		
 	}
 	

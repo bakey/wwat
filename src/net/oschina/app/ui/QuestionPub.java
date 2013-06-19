@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 /**
- * 鍙戣〃甯栧瓙
+ * 閸欐垼銆冪敮鏍х摍
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -49,8 +49,8 @@ public class QuestionPub extends Activity{
 		
 	}
 	
-    //鍒濆鍖栬鍥炬帶浠�
-    private void initView()
+    //閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�   
+	private void initView()
     {    	
     	imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
     	
@@ -64,21 +64,21 @@ public class QuestionPub extends Activity{
     	mBack.setOnClickListener(UIHelper.finish(this));
     	mPublish.setOnClickListener(publishClickListener);
     	mCatalog.setOnItemSelectedListener(catalogSelectedListener);
-    	//缂栬緫鍣ㄦ坊鍔犳枃鏈洃鍚�
+    	//缂傛牞绶崳銊﹀潑閸旂姵鏋冮張顒傛磧閸氾拷
     	mTitle.addTextChangedListener(UIHelper.getTextWatcher(this, AppConfig.TEMP_POST_TITLE));
     	mContent.addTextChangedListener(UIHelper.getTextWatcher(this, AppConfig.TEMP_POST_CONTENT));
     	
-    	//鏄剧ず涓存椂缂栬緫鍐呭
+    	//閺勫墽銇氭稉瀛樻缂傛牞绶崘鍛啇
     	UIHelper.showTempEditContent(this, mTitle, AppConfig.TEMP_POST_TITLE);
     	UIHelper.showTempEditContent(this, mContent, AppConfig.TEMP_POST_CONTENT);
-    	//鏄剧ず涓存椂閫夋嫨鍒嗙被
+    	//閺勫墽銇氭稉瀛樻闁瀚ㄩ崚鍡欒
     	String position = ((AppContext)getApplication()).getProperty(AppConfig.TEMP_POST_CATALOG);
     	mCatalog.setSelection(StringUtils.toInt(position, 0));
     }
 	
     private AdapterView.OnItemSelectedListener catalogSelectedListener = new AdapterView.OnItemSelectedListener(){
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			//淇濆瓨涓存椂閫夋嫨鐨勫垎绫�
+			//娣囨繂鐡ㄦ稉瀛樻闁瀚ㄩ惃鍕瀻缁拷
 			((AppContext)getApplication()).setProperty(AppConfig.TEMP_POST_CATALOG, position+"");
 		}
 		public void onNothingSelected(AdapterView<?> parent) {}
@@ -86,17 +86,17 @@ public class QuestionPub extends Activity{
     
 	private View.OnClickListener publishClickListener = new View.OnClickListener() {
 		public void onClick(View v) {
-			//闅愯棌杞敭鐩�
+			//闂呮劘妫屾潪顖炴暛閻╋拷
 			imm.hideSoftInputFromWindow(v.getWindowToken(), 0);  
 			
 			String title = mTitle.getText().toString();
 			if(StringUtils.isEmpty(title)){
-				UIHelper.ToastMessage(v.getContext(), "璇疯緭鍏ユ爣棰�");
+				UIHelper.ToastMessage(v.getContext(), "鐠囩柉绶崗銉︾垼妫帮拷");
 				return;
 			}
 			String content = mContent.getText().toString();
 			if(StringUtils.isEmpty(content)){
-				UIHelper.ToastMessage(v.getContext(), "璇疯緭鍏ユ彁闂唴瀹�");
+				UIHelper.ToastMessage(v.getContext(), "鐠囩柉绶崗銉﹀絹闂傤喖鍞寸�锟�");
 				return;
 			}
 			
@@ -106,7 +106,7 @@ public class QuestionPub extends Activity{
 				return;
 			}
 			
-			mProgress = ProgressDialog.show(v.getContext(), null, "鍙戝竷涓仿仿�",true,true); 
+			mProgress = ProgressDialog.show(v.getContext(), null, "閸欐垵绔锋稉顒讳豢浠匡拷",true,true); 
 			
 			post = new Post();
 			post.setAuthorId(ac.getLoginUid());
@@ -123,14 +123,12 @@ public class QuestionPub extends Activity{
 						Result res = (Result)msg.obj;
 						UIHelper.ToastMessage(QuestionPub.this, res.getErrorMessage());
 						if(res.OK()){
-							//鍙戦�閫氱煡骞挎挱
+							//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 							if(res.getNotice() != null){
 								UIHelper.sendBroadCast(QuestionPub.this, res.getNotice());
 							}
-							//娓呴櫎涔嬪墠淇濆瓨鐨勭紪杈戝唴瀹�
-							ac.removeProperty(AppConfig.TEMP_POST_TITLE,AppConfig.TEMP_POST_CATALOG,AppConfig.TEMP_POST_CONTENT);
-							//璺宠浆鍒版枃绔犺鎯�
-							finish();
+							//濞撳懘娅庢稊瀣娣囨繂鐡ㄩ惃鍕椽鏉堟垵鍞寸�锟�							ac.removeProperty(AppConfig.TEMP_POST_TITLE,AppConfig.TEMP_POST_CATALOG,AppConfig.TEMP_POST_CONTENT);
+							//鐠哄疇娴嗛崚鐗堟瀮缁旂姾顕涢幆锟�							finish();
 						}
 					}
 					else {

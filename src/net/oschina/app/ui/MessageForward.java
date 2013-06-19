@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 /**
- * 杞彂鐣欒█
+ * 鏉烆剙褰傞悾娆掆枅
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -44,8 +44,8 @@ public class MessageForward extends Activity{
 		this.initView();
 	}
 	
-    //鍒濆鍖栬鍥炬帶浠�
-    private void initView()
+    //閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�    
+	private void initView()
     {
     	imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
     	
@@ -66,17 +66,17 @@ public class MessageForward extends Activity{
 	
 	private View.OnClickListener publishClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
-			//闅愯棌杞敭鐩�
+			//闂呮劘妫屾潪顖炴暛閻╋拷
 			imm.hideSoftInputFromWindow(v.getWindowToken(), 0);  
 			
 			_content = mContent.getText().toString();
 			_receiver = mReceiver.getText().toString();
 			if(StringUtils.isEmpty(_content)){
-				UIHelper.ToastMessage(v.getContext(), "璇疯緭鍏ョ暀瑷�唴瀹�");
+				UIHelper.ToastMessage(v.getContext(), "鐠囩柉绶崗銉ф殌鐟凤拷鍞寸�锟�");
 				return;
 			}
 			if(StringUtils.isEmpty(_receiver)){
-				UIHelper.ToastMessage(v.getContext(), "璇疯緭鍏ュ鏂圭殑鏄电О");
+				UIHelper.ToastMessage(v.getContext(), "鐠囩柉绶崗銉ヮ嚠閺傚湱娈戦弰鐢敌�");
 				return;
 			}
 			
@@ -86,7 +86,7 @@ public class MessageForward extends Activity{
 				return;
 			}
 			
-			mProgress = ProgressDialog.show(v.getContext(), null, "鍙戦�涓仿仿�",true,true); 
+			mProgress = ProgressDialog.show(v.getContext(), null, "閸欐垿锟芥稉顒讳豢浠匡拷",true,true); 
 			
 			final Handler handler = new Handler(){
 				public void handleMessage(Message msg) {
@@ -97,7 +97,7 @@ public class MessageForward extends Activity{
 						Result res = (Result)msg.obj;
 						UIHelper.ToastMessage(MessageForward.this, res.getErrorMessage());
 						if(res.OK()){
-							//鍙戦�閫氱煡骞挎挱
+							//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 							if(res.getNotice() != null){
 								UIHelper.sendBroadCast(MessageForward.this, res.getNotice());
 							}

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Scroller;
 
 /**
- * 左右滑动切换屏幕控件
+ * 宸﹀彸婊戝姩鍒囨崲灞忓箷鎺т欢
  * @author Yao.GUET date: 2011-05-04
  * @modify liux (http://my.oschina.net/liux)
  */
@@ -31,8 +31,7 @@ public class ScrollLayout extends ViewGroup {
     private OnViewChangeListener mOnViewChangeListener;
 
     /**
-     * 设置是否可左右滑动
-     * @author liux
+     * 璁剧疆鏄惁鍙乏鍙虫粦鍔�     * @author liux
      */
     private boolean isScroll = true;
     public void setIsScroll(boolean b) {
@@ -101,7 +100,7 @@ public class ScrollLayout extends ViewGroup {
 	}
 
 	public void snapToScreen(int whichScreen) {
-		//是否可滑动
+		//鏄惁鍙粦鍔�		
 		if(!isScroll) {
 			this.setToScreen(whichScreen);
 			return;
@@ -116,7 +115,7 @@ public class ScrollLayout extends ViewGroup {
 		if (getScrollX() != (whichScreen * getWidth())) {
 			final int delta = whichScreen * getWidth() - getScrollX();
 			mScroller.startScroll(getScrollX(), 0, delta, 0,
-					Math.abs(delta) * 1);//持续滚动时间 以毫秒为单位
+					Math.abs(delta) * 1);//鎸佺画婊氬姩鏃堕棿 浠ユ绉掍负鍗曚綅
 			mCurScreen = whichScreen;
 			invalidate(); // Redraw the layout
             
@@ -152,7 +151,7 @@ public class ScrollLayout extends ViewGroup {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		//是否可滑动
+		//鏄惁鍙粦鍔�		
 		if(!isScroll) {
 			return false;
 		}
@@ -255,8 +254,7 @@ public class ScrollLayout extends ViewGroup {
 	}
 	
 	/**
-	 * 设置屏幕切换监听器
-	 * @param listener
+	 * 璁剧疆灞忓箷鍒囨崲鐩戝惉鍣�	 * @param listener
 	 */
 	public void SetOnViewChangeListener(OnViewChangeListener listener)
 	{
@@ -264,8 +262,7 @@ public class ScrollLayout extends ViewGroup {
 	}
 
 	/**
-	 * 屏幕切换监听器
-	 * @author liux
+	 * 灞忓箷鍒囨崲鐩戝惉鍣�	 * @author liux
 	 */
 	public interface OnViewChangeListener {
 		public void OnViewChange(int view);

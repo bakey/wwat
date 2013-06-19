@@ -10,16 +10,16 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 /**
- * 鐢ㄦ埛琛ㄦ儏Adapter绫�
+ * 閻劍鍩涚悰銊﹀剰Adapter缁拷
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-8-9
  */
 public class GridViewFaceAdapter extends BaseAdapter
 {
-	// 瀹氫箟Context
+	// 鐎规矮绠烠ontext
 	private Context	mContext;
-	// 瀹氫箟鏁村瀷鏁扮粍 鍗冲浘鐗囨簮
+	// 鐎规矮绠熼弫鏉戠�閺佹壆绮�閸楀啿娴橀悧鍥ㄧ爱
 	private int[] mImageIds;
 
 	public GridViewFaceAdapter(Context c)
@@ -47,20 +47,20 @@ public class GridViewFaceAdapter extends BaseAdapter
 		};
 	}
 
-	// 鑾峰彇鍥剧墖鐨勪釜鏁�
+	// 閼惧嘲褰囬崶鍓у閻ㄥ嫪閲滈弫锟�	
 	public int getCount()
 	{
 		return mImageIds.length;
 	}
 
-	// 鑾峰彇鍥剧墖鍦ㄥ簱涓殑浣嶇疆
+	// 閼惧嘲褰囬崶鍓у閸︺劌绨辨稉顓犳畱娴ｅ秶鐤�
 	public Object getItem(int position)
 	{
 		return position;
 	}
 
 
-	// 鑾峰彇鍥剧墖ID
+	// 閼惧嘲褰囬崶鍓уID
 	public long getItemId(int position)
 	{
 		return mImageIds[position];
@@ -73,9 +73,9 @@ public class GridViewFaceAdapter extends BaseAdapter
 		if (convertView == null)
 		{
 			imageView = new ImageView(mContext);
-			// 璁剧疆鍥剧墖n脳n鏄剧ず
+			// 鐠佸墽鐤嗛崶鍓уn鑴硁閺勫墽銇�
 			imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-			// 璁剧疆鏄剧ず姣斾緥绫诲瀷
+			// 鐠佸墽鐤嗛弰鍓с仛濮ｆ柧绶ョ猾璇茬�
 			imageView.setScaleType(ImageView.ScaleType.CENTER);
 		}
 		else
@@ -93,5 +93,6 @@ public class GridViewFaceAdapter extends BaseAdapter
 		
 		return imageView;
 	}
+
 
 }

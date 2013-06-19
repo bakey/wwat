@@ -17,18 +17,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * 闂瓟Adapter绫�
+ * 闂傤喚鐡烝dapter缁拷
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
  */
 public class ListViewQuestionAdapter extends BaseAdapter {
-	private Context 					context;//杩愯涓婁笅鏂�
-	private List<Post> 					listItems;//鏁版嵁闆嗗悎
-	private LayoutInflater 				listContainer;//瑙嗗浘瀹瑰櫒
-	private int 						itemViewResource;//鑷畾涔夐」瑙嗗浘婧�
+	private Context 					context;//鏉╂劘顢戞稉濠佺瑓閺傦拷
+	private List<Post> 					listItems;//閺佺増宓侀梿鍡楁値
+	private LayoutInflater 				listContainer;//鐟欏棗娴樼�鐟版珤
+	private int 						itemViewResource;//閼奉亜鐣炬稊澶愩�鐟欏棗娴樺┃锟�
 	private BitmapManager 				bmpManager;
-	static class ListItemView{				//鑷畾涔夋帶浠堕泦鍚� 
+	static class ListItemView{				//閼奉亜鐣炬稊澶嬪付娴犲爼娉﹂崥锟�
 			public ImageView face;
 	        public TextView title;  
 		    public TextView author;
@@ -37,14 +37,14 @@ public class ListViewQuestionAdapter extends BaseAdapter {
 	 }  
 
 	/**
-	 * 瀹炰緥鍖朅dapter
+	 * 鐎圭偘绶ラ崠鏈卍apter
 	 * @param context
 	 * @param data
 	 * @param resource
 	 */
 	public ListViewQuestionAdapter(Context context, List<Post> data,int resource) {
 		this.context = context;			
-		this.listContainer = LayoutInflater.from(context);	//鍒涘缓瑙嗗浘瀹瑰櫒骞惰缃笂涓嬫枃
+		this.listContainer = LayoutInflater.from(context);	//閸掓稑缂撶憴鍡楁禈鐎圭懓娅掗獮鎯邦啎缂冾喕绗傛稉瀣瀮
 		this.itemViewResource = resource;
 		this.listItems = data;
 		this.bmpManager = new BitmapManager(BitmapFactory.decodeResource(context.getResources(), R.drawable.widget_dface_loading));
@@ -63,33 +63,32 @@ public class ListViewQuestionAdapter extends BaseAdapter {
 	}
 	
 	/**
-	 * ListView Item璁剧疆
+	 * ListView Item鐠佸墽鐤�
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//Log.d("method", "getView");
 		
-		//鑷畾涔夎鍥�
+		//閼奉亜鐣炬稊澶庮瀰閸ワ拷
 		ListItemView  listItemView = null;
 		
 		if (convertView == null) {
-			//鑾峰彇list_item甯冨眬鏂囦欢鐨勮鍥�
-			convertView = listContainer.inflate(this.itemViewResource, null);
+			//閼惧嘲褰噇ist_item鐢啫鐪弬鍥︽閻ㄥ嫯顬呴崶锟�			convertView = listContainer.inflate(this.itemViewResource, null);
 			
 			listItemView = new ListItemView();
-			//鑾峰彇鎺т欢瀵硅薄
+			//閼惧嘲褰囬幒褌娆㈢�纭呰杽
 			listItemView.face = (ImageView)convertView.findViewById(R.id.question_listitem_userface);
 			listItemView.title = (TextView)convertView.findViewById(R.id.question_listitem_title);
 			listItemView.author = (TextView)convertView.findViewById(R.id.question_listitem_author);
 			listItemView.count= (TextView)convertView.findViewById(R.id.question_listitem_count);
 			listItemView.date= (TextView)convertView.findViewById(R.id.question_listitem_date);
 			
-			//璁剧疆鎺т欢闆嗗埌convertView
+			//鐠佸墽鐤嗛幒褌娆㈤梿鍡楀煂convertView
 			convertView.setTag(listItemView);
 		}else {
 			listItemView = (ListItemView)convertView.getTag();
 		}	
       
-		//璁剧疆鏂囧瓧鍜屽浘鐗�
+		//鐠佸墽鐤嗛弬鍥х摟閸滃苯娴橀悧锟�		
 		Post post = listItems.get(position);
 		String faceURL = post.getFace();
 		if(faceURL.endsWith("portrait.gif") || StringUtils.isEmpty(faceURL)){
@@ -101,10 +100,10 @@ public class ListViewQuestionAdapter extends BaseAdapter {
 		listItemView.face.setTag(post);
 		
 		listItemView.title.setText(post.getTitle());
-		listItemView.title.setTag(post);//璁剧疆闅愯棌鍙傛暟(瀹炰綋绫�
+		listItemView.title.setTag(post);//鐠佸墽鐤嗛梾鎰閸欏倹鏆�鐎圭偘缍嬬猾锟�
 		listItemView.author.setText(post.getAuthor());
 		listItemView.date.setText(StringUtils.friendly_time(post.getPubDate()));
-		listItemView.count.setText(post.getAnswerCount()+"鍥瀨"+post.getViewCount()+"闃�");
+		listItemView.count.setText(post.getAnswerCount()+"閸ョ�"+post.getViewCount()+"闂冿拷");
 		
 		return convertView;
 	}

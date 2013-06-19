@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/com/weibo/net/Utility.java=UTF-8
 encoding//src/com/weibo/net/WeiboDialog.java=UTF-8
 encoding//src/net/oschina/app/AppContext.java=UTF-8
 encoding//src/net/oschina/app/AppException.java=UTF-8
@@ -17,6 +18,7 @@ encoding//src/net/oschina/app/adapter/ListViewSearchAdapter.java=UTF-8
 encoding//src/net/oschina/app/adapter/ListViewSoftwareAdapter.java=UTF-8
 encoding//src/net/oschina/app/adapter/ListViewSoftwareCatalogAdapter.java=UTF-8
 encoding//src/net/oschina/app/adapter/ListViewTweetAdapter.java=UTF-8
+encoding//src/net/oschina/app/api/ApiClient.java=UTF-8
 encoding//src/net/oschina/app/common/SinaWeiboHelper.java=UTF-8
 encoding//src/net/oschina/app/common/StringUtils.java=UTF-8
 encoding//src/net/oschina/app/common/UIHelper.java=UTF-8

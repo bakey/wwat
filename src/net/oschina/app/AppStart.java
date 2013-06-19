@@ -13,7 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 
 /**
- * 搴旂敤绋嬪簭鍚姩绫伙細鏄剧ず娆㈣繋鐣岄潰骞惰烦杞埌涓荤晫闈�
+ * 鎼存梻鏁ょ粙瀣碍閸氼垰濮╃猾浼欑窗閺勫墽銇氬▎銏ｇ箣閻ｅ矂娼伴獮鎯扮儲鏉烆剙鍩屾稉鑽ゆ櫕闂堬拷
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -26,7 +26,7 @@ public class AppStart extends Activity {
         final View view = View.inflate(this, R.layout.start, null);
 		setContentView(view);
         
-		//娓愬彉灞曠ず鍚姩灞�
+		//濞撴劕褰夌仦鏇犮仛閸氼垰濮╃仦锟�		
 		AlphaAnimation aa = new AlphaAnimation(0.3f,1.0f);
 		aa.setDuration(2000);
 		view.startAnimation(aa);
@@ -43,7 +43,7 @@ public class AppStart extends Activity {
 			
 		});
 		
-		//鍏煎浣庣増鏈琧ookie锛�.5鐗堟湰浠ヤ笅锛屽寘鎷�.5.0,1.5.1锛�
+		//閸忕厧顔愭担搴ｅ閺堢惂ookie閿涳拷.5閻楀牊婀版禒銉ょ瑓閿涘苯瀵橀幏锟�5.0,1.5.1閿涳拷
 		AppContext appContext = (AppContext)getApplication();
 		String cookie = appContext.getProperty("cookie");
 		if(StringUtils.isEmpty(cookie)) {
@@ -58,7 +58,7 @@ public class AppStart extends Activity {
     }
     
     /**
-     * 璺宠浆鍒�..
+     * 鐠哄疇娴嗛崚锟�.
      */
     private void redirectTo(){        
         Intent intent = new Intent(this, Main.class);

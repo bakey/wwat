@@ -53,9 +53,10 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 /**
- * API客户端接口：用于访问网络数据
+ * API瀹㈡埛绔帴鍙ｏ細鐢ㄤ簬璁块棶缃戠粶鏁版嵁
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -87,11 +88,11 @@ public class ApiClient {
 	private static String getUserAgent(AppContext appContext) {
 		if(appUserAgent == null || appUserAgent == "") {
 			StringBuilder ua = new StringBuilder("OSChina.NET");
-			ua.append('/'+appContext.getPackageInfo().versionName+'_'+appContext.getPackageInfo().versionCode);//App版本
-			ua.append("/Android");//手机系统平台
-			ua.append("/"+android.os.Build.VERSION.RELEASE);//手机系统版本
-			ua.append("/"+android.os.Build.MODEL); //手机型号
-			ua.append("/"+appContext.getAppId());//客户端唯一标识
+			ua.append('/'+appContext.getPackageInfo().versionName+'_'+appContext.getPackageInfo().versionCode);//App鐗堟湰
+			ua.append("/Android");//鎵嬫満绯荤粺骞冲彴
+			ua.append("/"+android.os.Build.VERSION.RELEASE);//鎵嬫満绯荤粺鐗堟湰
+			ua.append("/"+android.os.Build.MODEL); //鎵嬫満鍨嬪彿
+			ua.append("/"+appContext.getAppId());//瀹㈡埛绔敮涓�爣璇�
 			appUserAgent = ua.toString();
 		}
 		return appUserAgent;
@@ -99,22 +100,22 @@ public class ApiClient {
 	
 	private static HttpClient getHttpClient() {        
         HttpClient httpClient = new HttpClient();
-		// 设置 HttpClient 接收 Cookie,用与浏览器一样的策略
+		// 璁剧疆 HttpClient 鎺ユ敹 Cookie,鐢ㄤ笌娴忚鍣ㄤ竴鏍风殑绛栫暐
 		httpClient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
-        // 设置 默认的超时重试处理策略
+        // 璁剧疆 榛樿鐨勮秴鏃堕噸璇曞鐞嗙瓥鐣�
 		httpClient.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
-		// 设置 连接超时时间
+		// 璁剧疆 杩炴帴瓒呮椂鏃堕棿
 		httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(TIMEOUT_CONNECTION);
-		// 设置 读数据超时时间 
+		// 璁剧疆 璇绘暟鎹秴鏃舵椂闂�
 		httpClient.getHttpConnectionManager().getParams().setSoTimeout(TIMEOUT_SOCKET);
-		// 设置 字符集
+		// 璁剧疆 瀛楃闆�
 		httpClient.getParams().setContentCharset(UTF_8);
 		return httpClient;
 	}	
 	
 	private static GetMethod getHttpGet(String url, String cookie, String userAgent) {
 		GetMethod httpGet = new GetMethod(url);
-		// 设置 请求超时时间
+		// 璁剧疆 璇锋眰瓒呮椂鏃堕棿
 		httpGet.getParams().setSoTimeout(TIMEOUT_SOCKET);
 		httpGet.setRequestHeader("Host", URLs.HOST);
 		httpGet.setRequestHeader("Connection","Keep-Alive");
@@ -125,7 +126,7 @@ public class ApiClient {
 	
 	private static PostMethod getHttpPost(String url, String cookie, String userAgent) {
 		PostMethod httpPost = new PostMethod(url);
-		// 设置 请求超时时间
+		// 璁剧疆 璇锋眰瓒呮椂鏃堕棿
 		httpPost.getParams().setSoTimeout(TIMEOUT_SOCKET);
 		httpPost.setRequestHeader("Host", URLs.HOST);
 		httpPost.setRequestHeader("Connection","Keep-Alive");
@@ -144,7 +145,7 @@ public class ApiClient {
 			url.append(name);
 			url.append('=');
 			url.append(String.valueOf(params.get(name)));
-			//不做URLEncoder处理
+			//涓嶅仛URLEncoder澶勭悊
 			//url.append(URLEncoder.encode(String.valueOf(params.get(name)), UTF_8));
 		}
 
@@ -152,12 +153,13 @@ public class ApiClient {
 	}
 	
 	/**
-	 * get请求URL
+	 * get璇锋眰URL
 	 * @param url
 	 * @throws AppException 
 	 */
 	private static InputStream http_get(AppContext appContext, String url) throws AppException {	
 		//System.out.println("get_url==> "+url);
+		Log.d("bakey" , "get url = " + url );
 		String cookie = getCookie(appContext);
 		String userAgent = getUserAgent(appContext);
 		
@@ -186,7 +188,7 @@ public class ApiClient {
 					} catch (InterruptedException e1) {} 
 					continue;
 				}
-				// 发生致命的异常，可能是协议不对或者返回的内容有问题
+				// 鍙戠敓鑷村懡鐨勫紓甯革紝鍙兘鏄崗璁笉瀵规垨鑰呰繑鍥炵殑鍐呭鏈夐棶棰�
 				e.printStackTrace();
 				throw AppException.http(e);
 			} catch (IOException e) {
@@ -197,11 +199,11 @@ public class ApiClient {
 					} catch (InterruptedException e1) {} 
 					continue;
 				}
-				// 发生网络异常
+				// 鍙戠敓缃戠粶寮傚父
 				e.printStackTrace();
 				throw AppException.network(e);
 			} finally {
-				// 释放连接
+				// 閲婃斁杩炴帴
 				httpGet.releaseConnection();
 				httpClient = null;
 			}
@@ -223,7 +225,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 公用post方法
+	 * 鍏敤post鏂规硶
 	 * @param url
 	 * @param params
 	 * @param files
@@ -237,7 +239,7 @@ public class ApiClient {
 		HttpClient httpClient = null;
 		PostMethod httpPost = null;
 		
-		//post表单参数处理
+		//post琛ㄥ崟鍙傛暟澶勭悊
 		int length = (params == null ? 0 : params.size()) + (files == null ? 0 : files.size());
 		Part[] parts = new Part[length];
 		int i = 0;
@@ -276,7 +278,7 @@ public class ApiClient {
 		            for (Cookie ck : cookies) {
 		                tmpcookies += ck.toString()+";";
 		            }
-		            //保存cookie   
+		            //淇濆瓨cookie   
 	        		if(appContext != null && tmpcookies != ""){
 	        			appContext.setProperty("cookie", tmpcookies);
 	        			appCookie = tmpcookies;
@@ -293,7 +295,7 @@ public class ApiClient {
 					} catch (InterruptedException e1) {} 
 					continue;
 				}
-				// 发生致命的异常，可能是协议不对或者返回的内容有问题
+				// 鍙戠敓鑷村懡鐨勫紓甯革紝鍙兘鏄崗璁笉瀵规垨鑰呰繑鍥炵殑鍐呭鏈夐棶棰�
 				e.printStackTrace();
 				throw AppException.http(e);
 			} catch (IOException e) {
@@ -304,11 +306,11 @@ public class ApiClient {
 					} catch (InterruptedException e1) {} 
 					continue;
 				}
-				// 发生网络异常
+				// 鍙戠敓缃戠粶寮傚父
 				e.printStackTrace();
 				throw AppException.network(e);
 			} finally {
-				// 释放连接
+				// 閲婃斁杩炴帴
 				httpPost.releaseConnection();
 				httpClient = null;
 			}
@@ -330,7 +332,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * post请求URL
+	 * post璇锋眰URL
 	 * @param url
 	 * @param params
 	 * @param files
@@ -343,7 +345,7 @@ public class ApiClient {
 	}	
 	
 	/**
-	 * 获取网络图片
+	 * 鑾峰彇缃戠粶鍥剧墖
 	 * @param url
 	 * @return
 	 */
@@ -374,7 +376,7 @@ public class ApiClient {
 					} catch (InterruptedException e1) {} 
 					continue;
 				}
-				// 发生致命的异常，可能是协议不对或者返回的内容有问题
+				// 鍙戠敓鑷村懡鐨勫紓甯革紝鍙兘鏄崗璁笉瀵规垨鑰呰繑鍥炵殑鍐呭鏈夐棶棰�
 				e.printStackTrace();
 				throw AppException.http(e);
 			} catch (IOException e) {
@@ -385,11 +387,11 @@ public class ApiClient {
 					} catch (InterruptedException e1) {} 
 					continue;
 				}
-				// 发生网络异常
+				// 鍙戠敓缃戠粶寮傚父
 				e.printStackTrace();
 				throw AppException.network(e);
 			} finally {
-				// 释放连接
+				// 閲婃斁杩炴帴
 				httpGet.releaseConnection();
 				httpClient = null;
 			}
@@ -398,7 +400,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 检查版本更新
+	 * 妫�煡鐗堟湰鏇存柊
 	 * @param url
 	 * @return
 	 */
@@ -413,7 +415,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 登录， 自动处理cookie
+	 * 鐧诲綍锛�鑷姩澶勭悊cookie
 	 * @param url
 	 * @param username
 	 * @param pwd
@@ -441,7 +443,7 @@ public class ApiClient {
 	}
 
 	/**
-	 * 我的个人资料
+	 * 鎴戠殑涓汉璧勬枡
 	 * @param appContext
 	 * @param uid
 	 * @return
@@ -461,12 +463,12 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取用户信息个人专页（包含该用户的动态信息以及个人信息）
-	 * @param uid 自己的uid
-	 * @param hisuid 被查看用户的uid
-	 * @param hisname 被查看用户的用户名
-	 * @param pageIndex 页面索引
-	 * @param pageSize 每页读取的动态个数
+	 * 鑾峰彇鐢ㄦ埛淇℃伅涓汉涓撻〉锛堝寘鍚鐢ㄦ埛鐨勫姩鎬佷俊鎭互鍙婁釜浜轰俊鎭級
+	 * @param uid 鑷繁鐨剈id
+	 * @param hisuid 琚煡鐪嬬敤鎴风殑uid
+	 * @param hisname 琚煡鐪嬬敤鎴风殑鐢ㄦ埛鍚�
+	 * @param pageIndex 椤甸潰绱㈠紩
+	 * @param pageSize 姣忛〉璇诲彇鐨勫姩鎬佷釜鏁�
 	 * @return
 	 * @throws AppException
 	 */
@@ -488,10 +490,10 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 更新用户之间关系（加关注、取消关注）
-	 * @param uid 自己的uid
-	 * @param hisuid 对方用户的uid
-	 * @param newrelation 0:取消对他的关注 1:关注他
+	 * 鏇存柊鐢ㄦ埛涔嬮棿鍏崇郴锛堝姞鍏虫敞銆佸彇娑堝叧娉級
+	 * @param uid 鑷繁鐨剈id
+	 * @param hisuid 瀵规柟鐢ㄦ埛鐨剈id
+	 * @param newrelation 0:鍙栨秷瀵逛粬鐨勫叧娉�1:鍏虫敞浠�
 	 * @return
 	 * @throws AppException
 	 */
@@ -511,7 +513,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取用户通知信息
+	 * 鑾峰彇鐢ㄦ埛閫氱煡淇℃伅
 	 * @param uid
 	 * @return
 	 * @throws AppException
@@ -530,9 +532,9 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 清空通知消息
+	 * 娓呯┖閫氱煡娑堟伅
 	 * @param uid
-	 * @param type 1:@我的信息 2:未读消息 3:评论个数 4:新粉丝个数
+	 * @param type 1:@鎴戠殑淇℃伅 2:鏈娑堟伅 3:璇勮涓暟 4:鏂扮矇涓濅釜鏁�
 	 * @return
 	 * @throws AppException
 	 */
@@ -551,9 +553,9 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 用户粉丝、关注人列表
+	 * 鐢ㄦ埛绮変笣銆佸叧娉ㄤ汉鍒楄〃
 	 * @param uid
-	 * @param relation 0:显示自己的粉丝 1:显示自己的关注者
+	 * @param relation 0:鏄剧ず鑷繁鐨勭矇涓�1:鏄剧ず鑷繁鐨勫叧娉ㄨ�
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
@@ -577,7 +579,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取资讯列表
+	 * 鑾峰彇璧勮鍒楄〃
 	 * @param url
 	 * @param catalog
 	 * @param pageIndex
@@ -602,7 +604,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取资讯的详情
+	 * 鑾峰彇璧勮鐨勮鎯�
 	 * @param url
 	 * @param news_id
 	 * @return
@@ -623,7 +625,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取某用户的博客列表
+	 * 鑾峰彇鏌愮敤鎴风殑鍗氬鍒楄〃
 	 * @param authoruid
 	 * @param uid
 	 * @param pageIndex
@@ -650,8 +652,8 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取博客列表
-	 * @param type 推荐：recommend 最新：latest
+	 * 鑾峰彇鍗氬鍒楄〃
+	 * @param type 鎺ㄨ崘锛歳ecommend 鏈�柊锛歭atest
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
@@ -674,7 +676,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 删除某用户的博客
+	 * 鍒犻櫎鏌愮敤鎴风殑鍗氬
 	 * @param uid
 	 * @param authoruid
 	 * @param id
@@ -697,7 +699,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取博客详情
+	 * 鑾峰彇鍗氬璇︽儏
 	 * @param blog_id
 	 * @return
 	 * @throws AppException
@@ -717,7 +719,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取软件详情
+	 * 鑾峰彇杞欢璇︽儏
 	 * @param soft_id
 	 * @return
 	 * @throws AppException
@@ -737,7 +739,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取帖子列表
+	 * 鑾峰彇甯栧瓙鍒楄〃
 	 * @param url
 	 * @param catalog
 	 * @param pageIndex
@@ -761,7 +763,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取帖子的详情
+	 * 鑾峰彇甯栧瓙鐨勮鎯�
 	 * @param url
 	 * @param post_id
 	 * @return
@@ -781,8 +783,8 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 发帖子
-	 * @param post （uid、title、catalog、content、isNoticeMe）
+	 * 鍙戝笘瀛�
+	 * @param post 锛坲id銆乼itle銆乧atalog銆乧ontent銆乮sNoticeMe锛�
 	 * @return
 	 * @throws AppException
 	 */
@@ -804,7 +806,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取动弹列表
+	 * 鑾峰彇鍔ㄥ脊鍒楄〃
 	 * @param uid
 	 * @param pageIndex
 	 * @param pageSize
@@ -828,7 +830,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取动弹详情
+	 * 鑾峰彇鍔ㄥ脊璇︽儏
 	 * @param tweet_id
 	 * @return
 	 * @throws AppException
@@ -847,7 +849,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 发动弹
+	 * 鍙戝姩寮�
 	 * @param Tweet-uid & msg & image
 	 * @return
 	 * @throws AppException
@@ -871,7 +873,7 @@ public class ApiClient {
 	}
 
 	/**
-	 * 删除动弹
+	 * 鍒犻櫎鍔ㄥ脊
 	 * @param uid
 	 * @param tweetid
 	 * @return
@@ -892,9 +894,9 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取动态列表
+	 * 鑾峰彇鍔ㄦ�鍒楄〃
 	 * @param uid
-	 * @param catalog 1最新动态  2@我  3评论  4我自己 
+	 * @param catalog 1鏈�柊鍔ㄦ�  2@鎴� 3璇勮  4鎴戣嚜宸�
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
@@ -918,7 +920,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取留言列表
+	 * 鑾峰彇鐣欒█鍒楄〃
 	 * @param uid
 	 * @param pageIndex
 	 * @return
@@ -941,10 +943,10 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 发送留言
-	 * @param uid 登录用户uid
-	 * @param receiver 接受者的用户id
-	 * @param content 消息内容，注意不能超过250个字符
+	 * 鍙戦�鐣欒█
+	 * @param uid 鐧诲綍鐢ㄦ埛uid
+	 * @param receiver 鎺ュ彈鑰呯殑鐢ㄦ埛id
+	 * @param content 娑堟伅鍐呭锛屾敞鎰忎笉鑳借秴杩�50涓瓧绗�
 	 * @return
 	 * @throws AppException
 	 */
@@ -964,10 +966,10 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 转发留言
-	 * @param uid 登录用户uid
-	 * @param receiver 接受者的用户名
-	 * @param content 消息内容，注意不能超过250个字符
+	 * 杞彂鐣欒█
+	 * @param uid 鐧诲綍鐢ㄦ埛uid
+	 * @param receiver 鎺ュ彈鑰呯殑鐢ㄦ埛鍚�
+	 * @param content 娑堟伅鍐呭锛屾敞鎰忎笉鑳借秴杩�50涓瓧绗�
 	 * @return
 	 * @throws AppException
 	 */
@@ -987,9 +989,9 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 删除留言
-	 * @param uid 登录用户uid
-	 * @param friendid 留言者id
+	 * 鍒犻櫎鐣欒█
+	 * @param uid 鐧诲綍鐢ㄦ埛uid
+	 * @param friendid 鐣欒█鑰卛d
 	 * @return
 	 * @throws AppException
 	 */
@@ -1008,8 +1010,8 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取博客评论列表
-	 * @param id 博客id
+	 * 鑾峰彇鍗氬璇勮鍒楄〃
+	 * @param id 鍗氬id
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
@@ -1032,10 +1034,10 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 发表博客评论
-	 * @param blog 博客id
-	 * @param uid 登陆用户的uid
-	 * @param content 评论内容
+	 * 鍙戣〃鍗氬璇勮
+	 * @param blog 鍗氬id
+	 * @param uid 鐧婚檰鐢ㄦ埛鐨剈id
+	 * @param content 璇勮鍐呭
 	 * @return
 	 * @throws AppException
 	 */
@@ -1055,12 +1057,12 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 发表博客评论
-	 * @param blog 博客id
-	 * @param uid 登陆用户的uid
-	 * @param content 评论内容
-	 * @param reply_id 评论id
-	 * @param objuid 被评论的评论发表者的uid
+	 * 鍙戣〃鍗氬璇勮
+	 * @param blog 鍗氬id
+	 * @param uid 鐧婚檰鐢ㄦ埛鐨剈id
+	 * @param content 璇勮鍐呭
+	 * @param reply_id 璇勮id
+	 * @param objuid 琚瘎璁虹殑璇勮鍙戣〃鑰呯殑uid
 	 * @return
 	 * @throws AppException
 	 */
@@ -1082,12 +1084,12 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 删除博客评论
-	 * @param uid 登录用户的uid
-	 * @param blogid 博客id
-	 * @param replyid 评论id
-	 * @param authorid 评论发表者的uid
-	 * @param owneruid 博客作者uid
+	 * 鍒犻櫎鍗氬璇勮
+	 * @param uid 鐧诲綍鐢ㄦ埛鐨剈id
+	 * @param blogid 鍗氬id
+	 * @param replyid 璇勮id
+	 * @param authorid 璇勮鍙戣〃鑰呯殑uid
+	 * @param owneruid 鍗氬浣滆�uid
 	 * @return
 	 * @throws AppException
 	 */
@@ -1109,8 +1111,8 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取评论列表
-	 * @param catalog 1新闻  2帖子  3动弹  4动态
+	 * 鑾峰彇璇勮鍒楄〃
+	 * @param catalog 1鏂伴椈  2甯栧瓙  3鍔ㄥ脊  4鍔ㄦ�
 	 * @param id
 	 * @param pageIndex
 	 * @param pageSize
@@ -1135,12 +1137,12 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 发表评论
-	 * @param catalog 1新闻  2帖子  3动弹  4动态
-	 * @param id 某条新闻，帖子，动弹的id
-	 * @param uid 用户uid
-	 * @param content 发表评论的内容
-	 * @param isPostToMyZone 是否转发到我的空间  0不转发  1转发
+	 * 鍙戣〃璇勮
+	 * @param catalog 1鏂伴椈  2甯栧瓙  3鍔ㄥ脊  4鍔ㄦ�
+	 * @param id 鏌愭潯鏂伴椈锛屽笘瀛愶紝鍔ㄥ脊鐨刬d
+	 * @param uid 鐢ㄦ埛uid
+	 * @param content 鍙戣〃璇勮鐨勫唴瀹�
+	 * @param isPostToMyZone 鏄惁杞彂鍒版垜鐨勭┖闂� 0涓嶈浆鍙� 1杞彂
 	 * @return
 	 * @throws AppException
 	 */
@@ -1163,12 +1165,12 @@ public class ApiClient {
 
 	/**
 	 * 
-	 * @param id 表示被评论的某条新闻，帖子，动弹的id 或者某条消息的 friendid 
-	 * @param catalog 表示该评论所属什么类型：1新闻  2帖子  3动弹  4动态
-	 * @param replyid 表示被回复的单个评论id
-	 * @param authorid 表示该评论的原始作者id
-	 * @param uid 用户uid 一般都是当前登录用户uid
-	 * @param content 发表评论的内容
+	 * @param id 琛ㄧず琚瘎璁虹殑鏌愭潯鏂伴椈锛屽笘瀛愶紝鍔ㄥ脊鐨刬d 鎴栬�鏌愭潯娑堟伅鐨�friendid 
+	 * @param catalog 琛ㄧず璇ヨ瘎璁烘墍灞炰粈涔堢被鍨嬶細1鏂伴椈  2甯栧瓙  3鍔ㄥ脊  4鍔ㄦ�
+	 * @param replyid 琛ㄧず琚洖澶嶇殑鍗曚釜璇勮id
+	 * @param authorid 琛ㄧず璇ヨ瘎璁虹殑鍘熷浣滆�id
+	 * @param uid 鐢ㄦ埛uid 涓�埇閮芥槸褰撳墠鐧诲綍鐢ㄦ埛uid
+	 * @param content 鍙戣〃璇勮鐨勫唴瀹�
 	 * @return
 	 * @throws AppException
 	 */
@@ -1191,11 +1193,11 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 删除评论
-	 * @param id 表示被评论对应的某条新闻,帖子,动弹的id 或者某条消息的 friendid
-	 * @param catalog 表示该评论所属什么类型：1新闻  2帖子  3动弹  4动态&留言
-	 * @param replyid 表示被回复的单个评论id
-	 * @param authorid 表示该评论的原始作者id
+	 * 鍒犻櫎璇勮
+	 * @param id 琛ㄧず琚瘎璁哄搴旂殑鏌愭潯鏂伴椈,甯栧瓙,鍔ㄥ脊鐨刬d 鎴栬�鏌愭潯娑堟伅鐨�friendid
+	 * @param catalog 琛ㄧず璇ヨ瘎璁烘墍灞炰粈涔堢被鍨嬶細1鏂伴椈  2甯栧瓙  3鍔ㄥ脊  4鍔ㄦ�&鐣欒█
+	 * @param replyid 琛ㄧず琚洖澶嶇殑鍗曚釜璇勮id
+	 * @param authorid 琛ㄧず璇ヨ瘎璁虹殑鍘熷浣滆�id
 	 * @return
 	 * @throws AppException
 	 */
@@ -1216,11 +1218,11 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 用户收藏列表
-	 * @param uid 用户UID
-	 * @param type 0:全部收藏 1:软件 2:话题 3:博客 4:新闻 5:代码
-	 * @param pageIndex 页面索引 0表示第一页
-	 * @param pageSize 每页的数量
+	 * 鐢ㄦ埛鏀惰棌鍒楄〃
+	 * @param uid 鐢ㄦ埛UID
+	 * @param type 0:鍏ㄩ儴鏀惰棌 1:杞欢 2:璇濋 3:鍗氬 4:鏂伴椈 5:浠ｇ爜
+	 * @param pageIndex 椤甸潰绱㈠紩 0琛ㄧず绗竴椤�
+	 * @param pageSize 姣忛〉鐨勬暟閲�
 	 * @return
 	 * @throws AppException
 	 */
@@ -1242,10 +1244,10 @@ public class ApiClient {
 	}	
 	
 	/**
-	 * 用户添加收藏
-	 * @param uid 用户UID
-	 * @param objid 比如是新闻ID 或者问答ID 或者动弹ID
-	 * @param type 1:软件 2:话题 3:博客 4:新闻 5:代码
+	 * 鐢ㄦ埛娣诲姞鏀惰棌
+	 * @param uid 鐢ㄦ埛UID
+	 * @param objid 姣斿鏄柊闂籌D 鎴栬�闂瓟ID 鎴栬�鍔ㄥ脊ID
+	 * @param type 1:杞欢 2:璇濋 3:鍗氬 4:鏂伴椈 5:浠ｇ爜
 	 * @return
 	 * @throws AppException
 	 */
@@ -1265,10 +1267,10 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 用户删除收藏
-	 * @param uid 用户UID
-	 * @param objid 比如是新闻ID 或者问答ID 或者动弹ID
-	 * @param type 1:软件 2:话题 3:博客 4:新闻 5:代码
+	 * 鐢ㄦ埛鍒犻櫎鏀惰棌
+	 * @param uid 鐢ㄦ埛UID
+	 * @param objid 姣斿鏄柊闂籌D 鎴栬�闂瓟ID 鎴栬�鍔ㄥ脊ID
+	 * @param type 1:杞欢 2:璇濋 3:鍗氬 4:鏂伴椈 5:浠ｇ爜
 	 * @return
 	 * @throws AppException
 	 */
@@ -1288,9 +1290,9 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 获取搜索列表
-	 * @param catalog 全部:all 新闻:news  问答:post 软件:software 博客:blog 代码:code
-	 * @param content 搜索的内容
+	 * 鑾峰彇鎼滅储鍒楄〃
+	 * @param catalog 鍏ㄩ儴:all 鏂伴椈:news  闂瓟:post 杞欢:software 鍗氬:blog 浠ｇ爜:code
+	 * @param content 鎼滅储鐨勫唴瀹�
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
@@ -1313,8 +1315,8 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 软件列表
-	 * @param searchTag 软件分类  推荐:recommend 最新:time 热门:view 国产:list_cn
+	 * 杞欢鍒楄〃
+	 * @param searchTag 杞欢鍒嗙被  鎺ㄨ崘:recommend 鏈�柊:time 鐑棬:view 鍥戒骇:list_cn
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
@@ -1337,8 +1339,8 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 软件分类的软件列表
-	 * @param searchTag 从softwarecatalog_list获取的tag
+	 * 杞欢鍒嗙被鐨勮蒋浠跺垪琛�
+	 * @param searchTag 浠巗oftwarecatalog_list鑾峰彇鐨則ag
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
@@ -1361,8 +1363,8 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 软件分类列表
-	 * @param tag 第一级:0  第二级:tag
+	 * 杞欢鍒嗙被鍒楄〃
+	 * @param tag 绗竴绾�0  绗簩绾�tag
 	 * @return
 	 * @throws AppException
 	 */

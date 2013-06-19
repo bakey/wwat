@@ -113,7 +113,7 @@ public class Utility {
     private static final int SET_CONNECTION_TIMEOUT = 50000;
     private static final int SET_SOCKET_TIMEOUT = 200000;
 
-    // 设置Token
+    // 鐠佸墽鐤員oken
     public static void setTokenObject(Token token) {
         mToken = token;
     }
@@ -122,7 +122,7 @@ public class Utility {
         mAuth = auth;
     }
 
-    // 设置http头,如果authParam不为空，则表示当前有token认证信息需要加入到头中
+ // 璁剧疆http澶�濡傛灉authParam涓嶄负绌猴紝鍒欒〃绀哄綋鍓嶆湁token璁よ瘉淇℃伅闇�鍔犲叆鍒板ご涓�   
     public static void setHeader(String httpMethod, HttpUriRequest request,
             WeiboParameters authParam, String url, Token token) throws WeiboException {
         if (!isBundleEmpty(mRequestHeader)) {
@@ -149,7 +149,7 @@ public class Utility {
         return false;
     }
 
-    // 填充request bundle
+    // 婵夘偄鍘杛equest bundle
     public static void setRequestHeader(String key, String value) {
         // mRequestHeader.clear();
         mRequestHeader.add(key, value);
@@ -382,12 +382,12 @@ public class Utility {
             HttpClient client = new DefaultHttpClient(ccm, params);
             WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
-                // 获取当前正在使用的APN接入点
-                Uri uri = Uri.parse("content://telephony/carriers/preferapn");
+                // 閼惧嘲褰囪ぐ鎾冲濮濓絽婀担璺ㄦ暏閻ㄥ嚈PN閹恒儱鍙嗛悙锟�              
+            	Uri uri = Uri.parse("content://telephony/carriers/preferapn");
                 Cursor mCursor = context.getContentResolver().query(uri, null, null, null, null);
                 if (mCursor != null && mCursor.moveToFirst()) {
-                    // 游标移至第一条记录，当然也只有一条
-                    String proxyStr = mCursor.getString(mCursor.getColumnIndex("proxy"));
+                    // 濞撳憡鐖ｇ粔鏄忓殾缁楊兛绔撮弶陇顔囪ぐ鏇礉瑜版挾鍔ф稊鐔峰涧閺堝绔撮弶锟�             
+                	String proxyStr = mCursor.getString(mCursor.getColumnIndex("proxy"));
                     if (proxyStr != null && proxyStr.trim().length() > 0) {
                         HttpHost proxy = new HttpHost(proxyStr, 80);
                         client.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY, proxy);
@@ -453,12 +453,12 @@ public class Utility {
         HttpClient client = new DefaultHttpClient(httpParameters);
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
-            // 获取当前正在使用的APN接入点
-            Uri uri = Uri.parse("content://telephony/carriers/preferapn");
+            // 閼惧嘲褰囪ぐ鎾冲濮濓絽婀担璺ㄦ暏閻ㄥ嚈PN閹恒儱鍙嗛悙锟�           
+        	Uri uri = Uri.parse("content://telephony/carriers/preferapn");
             Cursor mCursor = context.getContentResolver().query(uri, null, null, null, null);
             if (mCursor != null && mCursor.moveToFirst()) {
-                // 游标移至第一条记录，当然也只有一条
-                String proxyStr = mCursor.getString(mCursor.getColumnIndex("proxy"));
+                // 濞撳憡鐖ｇ粔鏄忓殾缁楊兛绔撮弶陇顔囪ぐ鏇礉瑜版挾鍔ф稊鐔峰涧閺堝绔撮弶锟�           
+            	String proxyStr = mCursor.getString(mCursor.getColumnIndex("proxy"));
                 if (proxyStr != null && proxyStr.trim().length() > 0) {
                     HttpHost proxy = new HttpHost(proxyStr, 80);
                     client.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY, proxy);

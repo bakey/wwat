@@ -27,7 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
- * 鐢ㄦ埛鏀惰棌
+ * 閻劍鍩涢弨鎯版
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -68,7 +68,7 @@ public class UserFavorite extends Activity {
 	}
 	
     /**
-     * 澶撮儴鎸夐挳灞曠ず
+     * 婢舵挳鍎撮幐澶愭尦鐏炴洜銇�
      * @param type
      */
     private void headButtonSwitch(int type) {
@@ -82,7 +82,7 @@ public class UserFavorite extends Activity {
 		}
     }
 	
-	//鍒濆鍖栬鍥炬帶浠�
+	//閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�  
     private void initView()
     {
     	mBack = (ImageView)findViewById(R.id.favorite_head_back);
@@ -111,15 +111,15 @@ public class UserFavorite extends Activity {
     	lvFavoriteAdapter = new ListViewFavoriteAdapter(this, lvFavoriteData, R.layout.favorite_listitem); 
     	mlvFavorite = (PullToRefreshListView)findViewById(R.id.favorite_listview);
     	
-    	mlvFavorite.addFooterView(lvFavorite_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+    	mlvFavorite.addFooterView(lvFavorite_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
     	mlvFavorite.setAdapter(lvFavoriteAdapter); 
     	mlvFavorite.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvFavorite_footer) return;
         		
         		Favorite fav = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			fav = (Favorite)view.getTag();
         		}else{
@@ -128,7 +128,7 @@ public class UserFavorite extends Activity {
         		} 
         		if(fav == null) return;
         		
-        		//璺宠浆
+        		//鐠哄疇娴�
         		UIHelper.showUrlRedirect(view.getContext(), fav.url);
         	}
 		});
@@ -136,10 +136,9 @@ public class UserFavorite extends Activity {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				mlvFavorite.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvFavoriteData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvFavoriteData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvFavorite_footer) == view.getLastVisiblePosition())
@@ -152,7 +151,7 @@ public class UserFavorite extends Activity {
 				{
 					lvFavorite_foot_more.setText(R.string.load_ing);
 					lvFavorite_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvSumData/20;
 					loadLvFavoriteData(curFavoriteCatalog, pageIndex, mFavoriteHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -163,11 +162,11 @@ public class UserFavorite extends Activity {
 		});
     	mlvFavorite.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+				//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvFavorite_footer) return false;				
 				
         		Favorite _fav = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			_fav = (Favorite)view.getTag();
         		}else{
@@ -179,7 +178,7 @@ public class UserFavorite extends Activity {
         		final Favorite fav = _fav;
         		
         		final AppContext ac = (AppContext)getApplication();
-				//鎿嶄綔--鍒犻櫎
+				//閹垮秳缍�-閸掔娀娅�
         		final int uid = ac.getLoginUid();
 
         		final Handler handler = new Handler(){
@@ -223,8 +222,8 @@ public class UserFavorite extends Activity {
         });
     }
     
-    //鍒濆鍖栨帶浠舵暟鎹�
-  	private void initData()
+    //閸掓繂顬婇崠鏍ㄥ付娴犺埖鏆熼幑锟� 
+    private void initData()
   	{			
 		mFavoriteHandler = new Handler()
 		{
@@ -235,14 +234,13 @@ public class UserFavorite extends Activity {
 				if(msg.what >= 0){						
 					FavoriteList list = (FavoriteList)msg.obj;
 					Notice notice = list.getNotice();
-					//澶勭悊listview鏁版嵁
+					//婢跺嫮鎮妉istview閺佺増宓�
 					switch (msg.arg1) {
 					case UIHelper.LISTVIEW_ACTION_INIT:
 					case UIHelper.LISTVIEW_ACTION_REFRESH:
 					case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
 						lvSumData = msg.what;
-						lvFavoriteData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvFavoriteData.addAll(list.getFavoritelist());
+						lvFavoriteData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvFavoriteData.addAll(list.getFavoritelist());
 						break;
 					case UIHelper.LISTVIEW_ACTION_SCROLL:
 						lvSumData += msg.what;
@@ -272,13 +270,13 @@ public class UserFavorite extends Activity {
 						lvFavoriteAdapter.notifyDataSetChanged();
 						lvFavorite_foot_more.setText(R.string.load_more);
 					}
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(notice != null){
 						UIHelper.sendBroadCast(UserFavorite.this, notice);
 					}
 				}
 				else if(msg.what == -1){
-					//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+					//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 					curLvDataState = UIHelper.LISTVIEW_DATA_MORE;
 					lvFavorite_foot_more.setText(R.string.load_error);
 					((AppException)msg.obj).makeToast(UserFavorite.this);
@@ -301,11 +299,10 @@ public class UserFavorite extends Activity {
   	}
   	
     /**
-     * 绾跨▼鍔犺浇鏀惰棌鏁版嵁
-     * @param type 0:鍏ㄩ儴鏀惰棌 1:杞欢 2:璇濋 3:鍗氬 4:鏂伴椈 5:浠ｇ爜
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰閺�儼妫岄弫鐗堝祦
+     * @param type 0:閸忋劑鍎撮弨鎯版 1:鏉烆垯娆�2:鐠囨繈顣�3:閸楁艾顓�4:閺備即妞�5:娴狅絿鐖�
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvFavoriteData(final int type,final int pageIndex,final Handler handler,final int action){  
 		headButtonSwitch(DATA_LOAD_ING);
@@ -324,7 +321,7 @@ public class UserFavorite extends Activity {
 	            	msg.what = -1;
 	            	msg.obj = e;
 	            }
-				msg.arg1 = action;//鍛婄煡handler褰撳墠action
+				msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
 				if(curFavoriteCatalog == type)
 					handler.sendMessage(msg);
 			}

@@ -21,18 +21,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * 鐢ㄦ埛鐣欒█璇︽儏Adapter绫�
+ * 閻劍鍩涢悾娆掆枅鐠囷附鍎廇dapter缁拷
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
  */
 public class ListViewMessageDetailAdapter extends BaseAdapter {
-	private Context 					context;//杩愯涓婁笅鏂�
-	private List<Comment> 				listItems;//鏁版嵁闆嗗悎
-	private LayoutInflater 				listContainer;//瑙嗗浘瀹瑰櫒
-	private int 						itemViewResource;//鑷畾涔夐」瑙嗗浘婧�
+	private Context 					context;//鏉╂劘顢戞稉濠佺瑓閺傦拷
+	private List<Comment> 				listItems;//閺佺増宓侀梿鍡楁値
+	private LayoutInflater 				listContainer;//鐟欏棗娴樼�鐟版珤
+	private int 						itemViewResource;//閼奉亜鐣炬稊澶愩�鐟欏棗娴樺┃锟�
 	private BitmapManager 				bmpManager;
-	static class ListItemView{				//鑷畾涔夋帶浠堕泦鍚� 
+	static class ListItemView{				//閼奉亜鐣炬稊澶嬪付娴犲爼娉﹂崥锟�
 			public ImageView userface1;
 			public ImageView userface2;
 			public LinkView username;  
@@ -41,14 +41,14 @@ public class ListViewMessageDetailAdapter extends BaseAdapter {
 	 }  
 
 	/**
-	 * 瀹炰緥鍖朅dapter
+	 * 鐎圭偘绶ラ崠鏈卍apter
 	 * @param context
 	 * @param data
 	 * @param resource
 	 */
 	public ListViewMessageDetailAdapter(Context context, List<Comment> data,int resource) {
 		this.context = context;			
-		this.listContainer = LayoutInflater.from(context);	//鍒涘缓瑙嗗浘瀹瑰櫒骞惰缃笂涓嬫枃
+		this.listContainer = LayoutInflater.from(context);	//閸掓稑缂撶憴鍡楁禈鐎圭懓娅掗獮鎯邦啎缂冾喕绗傛稉瀣瀮
 		this.itemViewResource = resource;
 		this.listItems = data;
 		this.bmpManager = new BitmapManager(BitmapFactory.decodeResource(context.getResources(), R.drawable.widget_dface_loading));
@@ -67,43 +67,42 @@ public class ListViewMessageDetailAdapter extends BaseAdapter {
 	}
 	   
 	/**
-	 * ListView Item璁剧疆
+	 * ListView Item鐠佸墽鐤�
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//Log.d("method", "getView");
 		
-		//鑷畾涔夎鍥�
+		//閼奉亜鐣炬稊澶庮瀰閸ワ拷
 		ListItemView  listItemView = null;
 		
 		if (convertView == null) {
-			//鑾峰彇list_item甯冨眬鏂囦欢鐨勮鍥�
-			convertView = listContainer.inflate(this.itemViewResource, null);
+			//閼惧嘲褰噇ist_item鐢啫鐪弬鍥︽閻ㄥ嫯顬呴崶锟�			convertView = listContainer.inflate(this.itemViewResource, null);
 			
 			listItemView = new ListItemView();
-			//鑾峰彇鎺т欢瀵硅薄
+			//閼惧嘲褰囬幒褌娆㈢�纭呰杽
 			listItemView.userface1 = (ImageView)convertView.findViewById(R.id.messagedetail_listitem_userface1);
 			listItemView.userface2 = (ImageView)convertView.findViewById(R.id.messagedetail_listitem_userface2);
 			listItemView.username = (LinkView)convertView.findViewById(R.id.messagedetail_listitem_username);
 			listItemView.date = (TextView)convertView.findViewById(R.id.messagedetail_listitem_date);
 			listItemView.contentll = (LinearLayout)convertView.findViewById(R.id.messagedetail_listitem_contentll);
 			
-			//璁剧疆鎺т欢闆嗗埌convertView
+			//鐠佸墽鐤嗛幒褌娆㈤梿鍡楀煂convertView
 			convertView.setTag(listItemView);
 		}else {
 			listItemView = (ListItemView)convertView.getTag();
 		}
 		
-		//璁剧疆鏂囧瓧鍜屽浘鐗�
+		//鐠佸墽鐤嗛弬鍥х摟閸滃苯娴橀悧锟�	
 		Comment msg = listItems.get(position);
-		listItemView.username.setLinkText("<font color='#0e5986'><b>" + msg.getAuthor() + "</b></font>锛�" + msg.getContent());
+		listItemView.username.setLinkText("<font color='#0e5986'><b>" + msg.getAuthor() + "</b></font>閿涳拷" + msg.getContent());
 		//listItemView.username.setText(UIHelper.parseMessageSpan(msg.getAuthor(), msg.getContent(), ""));
 		//listItemView.username.parseLinkText();
-		listItemView.username.setTag(msg);//璁剧疆闅愯棌鍙傛暟(瀹炰綋绫�
+		listItemView.username.setTag(msg);//鐠佸墽鐤嗛梾鎰閸欏倹鏆�鐎圭偘缍嬬猾锟�
 		listItemView.date.setText(StringUtils.friendly_time(msg.getPubDate()));
 		
 		String faceURL = msg.getFace();
 		AppContext ac = (AppContext)context.getApplicationContext();
-		//鍙戠暀瑷��鏄垜
+		//閸欐垹鏆�懛锟斤拷閺勵垱鍨�
 		if(msg.getAuthorId() == ac.getLoginUid())
 		{
 			if(faceURL.endsWith("portrait.gif") || StringUtils.isEmpty(faceURL)){

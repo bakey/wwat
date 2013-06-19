@@ -35,7 +35,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 /**
- * 鐣欒█璇︽儏
+ * 閻ｆ瑨鈻堢拠锔藉剰
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -86,7 +86,7 @@ public class MessageDetail extends Activity{
     }
     
     /**
-     * 澶撮儴鍔犺浇灞曠ず
+     * 婢舵挳鍎撮崝鐘烘祰鐏炴洜銇�
      * @param type
      */
     private void headButtonSwitch(int type) {
@@ -102,7 +102,7 @@ public class MessageDetail extends Activity{
 		}
     }
     
-    //鍒濆鍖栬鍥炬帶浠�
+    //閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟� 
     private void initView()
     {
 		curFriendId = getIntent().getIntExtra("friend_id", 0);
@@ -154,10 +154,10 @@ public class MessageDetail extends Activity{
 				return false;
 			}
 		});
-    	//缂栬緫鍣ㄦ坊鍔犳枃鏈洃鍚�
+    	//缂傛牞绶崳銊﹀潑閸旂姵鏋冮張顒傛磧閸氾拷
     	mFootEditer.addTextChangedListener(UIHelper.getTextWatcher(this, tempMessageKey));
     	
-    	//鏄剧ず涓存椂缂栬緫鍐呭
+    	//閺勫墽銇氭稉瀛樻缂傛牞绶崘鍛啇
     	UIHelper.showTempEditContent(this, mFootEditer, tempMessageKey);
     	
     	mHeadTitle.setText(getString(R.string.message_detail_head_title,curFriendName));
@@ -171,16 +171,15 @@ public class MessageDetail extends Activity{
     	lvCommentAdapter = new ListViewMessageDetailAdapter(this, lvCommentData, R.layout.message_detail_listitem); 
     	mLvComment = (PullToRefreshListView)findViewById(R.id.message_list_listview);
     	
-        mLvComment.addFooterView(lvComment_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        mLvComment.addFooterView(lvComment_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         mLvComment.setAdapter(lvCommentAdapter); 
         mLvComment.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				mLvComment.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvCommentData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvCommentData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvComment_footer) == view.getLastVisiblePosition())
@@ -193,7 +192,7 @@ public class MessageDetail extends Activity{
 				{
 					lvComment_foot_more.setText(R.string.load_ing);
 					lvComment_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvSumData/20;
 					loadLvCommentData(curFriendId, curCatalog, pageIndex, mHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -204,13 +203,13 @@ public class MessageDetail extends Activity{
 		});
         mLvComment.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
         	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+				//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvComment_footer) return false;
 				
         		TextView username = (TextView)view.findViewById(R.id.messagedetail_listitem_username);
         		final Comment com = (Comment)username.getTag();
 				
-        		//鎿嶄綔--鍒犻櫎         		
+        		//閹垮秳缍�-閸掔娀娅�        		
         		final Handler handler = new Handler(){
 					@Override
 					public void handleMessage(Message msg) {
@@ -227,7 +226,7 @@ public class MessageDetail extends Activity{
 						}
 					}        			
         		};
-        		//鐣欒█--褰撴垚璇勮鏉ュ垹闄�
+        		//閻ｆ瑨鈻�-瑜版挻鍨氱拠鍕啈閺夈儱鍨归梽锟�        	
         		final Thread thread = new Thread(){
 					public void run() {
 						Message msg = new Message();
@@ -255,8 +254,8 @@ public class MessageDetail extends Activity{
         });
     }
     
-    //鍒濆鍖栨帶浠舵暟鎹�
-	private void initData()
+    //閸掓繂顬婇崠鏍ㄥ付娴犺埖鏆熼幑锟�	
+private void initData()
 	{			
     	mHandler = new Handler()
 		{
@@ -267,13 +266,12 @@ public class MessageDetail extends Activity{
 				if(msg.what >= 0){						
 					CommentList list = (CommentList)msg.obj;
 					Notice notice = list.getNotice();
-					//澶勭悊listview鏁版嵁
+					//婢跺嫮鎮妉istview閺佺増宓�
 					switch (msg.arg1) {
 					case UIHelper.LISTVIEW_ACTION_INIT:
 					case UIHelper.LISTVIEW_ACTION_REFRESH:
 						lvSumData = msg.what;
-						lvCommentData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvCommentData.addAll(list.getCommentlist());
+						lvCommentData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvCommentData.addAll(list.getCommentlist());
 						break;
 					case UIHelper.LISTVIEW_ACTION_SCROLL:
 						lvSumData += msg.what;
@@ -303,13 +301,13 @@ public class MessageDetail extends Activity{
 						lvCommentAdapter.notifyDataSetChanged();
 						lvComment_foot_more.setText(R.string.load_more);
 					}
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(notice != null){
 						UIHelper.sendBroadCast(MessageDetail.this, notice);
 					}
 				}
 				else if(msg.what == -1){
-					//鏈夊紓甯�-涔熸樉绀烘洿澶�& 寮瑰嚭閿欒娑堟伅
+					//閺堝绱撶敮锟�娑旂喐妯夌粈鐑樻纯婢讹拷& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 					curLvDataState = UIHelper.LISTVIEW_DATA_MORE;
 					lvComment_foot_more.setText(R.string.load_more);
 					((AppException)msg.obj).makeToast(MessageDetail.this);
@@ -326,12 +324,11 @@ public class MessageDetail extends Activity{
 		this.loadLvCommentData(curFriendId,curCatalog,0,mHandler,UIHelper.LISTVIEW_ACTION_INIT);
     }
     /**
-     * 绾跨▼鍔犺浇璇勮鏁版嵁
-     * @param id 褰撳墠鏂囩珷id
-     * @param catalog 鍒嗙被
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰鐠囧嫯顔戦弫鐗堝祦
+     * @param id 瑜版挸澧犻弬鍥╃彿id
+     * @param catalog 閸掑棛琚�
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvCommentData(final int id,final int catalog,final int pageIndex,final Handler handler,final int action){  
 		
@@ -352,7 +349,7 @@ public class MessageDetail extends Activity{
 	            	msg.what = -1;
 	            	msg.obj = e;
 	            }
-				msg.arg1 = action;//鍛婄煡handler褰撳墠action
+				msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
                 handler.sendMessage(msg);
 			}
 		}.start();
@@ -394,11 +391,11 @@ public class MessageDetail extends Activity{
 			
 			_content = mFootEditer.getText().toString();
 			if(StringUtils.isEmpty(_content)){
-				UIHelper.ToastMessage(v.getContext(), "璇疯緭鍏ョ暀瑷�唴瀹�");
+				UIHelper.ToastMessage(v.getContext(), "鐠囩柉绶崗銉ф殌鐟凤拷鍞寸�锟�");
 				return;
 			}
 			
-			mProgress = ProgressDialog.show(v.getContext(), null, "鍙戦�涓仿仿�",true,true); 
+			mProgress = ProgressDialog.show(v.getContext(), null, "閸欐垿锟芥稉顒讳豢浠匡拷",true,true); 
 			
 			final Handler handler = new Handler(){
 				public void handleMessage(Message msg) {
@@ -409,21 +406,19 @@ public class MessageDetail extends Activity{
 						Result res = (Result)msg.obj;
 						UIHelper.ToastMessage(MessageDetail.this, res.getErrorMessage());
 						if(res.OK()){
-							//鍙戦�閫氱煡骞挎挱
+							//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 							if(res.getNotice() != null){
 								UIHelper.sendBroadCast(MessageDetail.this, res.getNotice());
 							}
-							//鎭㈠鍒濆搴曢儴鏍�
-							mFootViewSwitcher.setDisplayedChild(0);
+							//閹垹顦鹃崚婵嗩瀶鎼存洟鍎撮弽锟�							mFootViewSwitcher.setDisplayedChild(0);
 							mFootEditer.clearFocus();
 							mFootEditer.setText("");
 							mFootEditer.setVisibility(View.GONE);
-							//鏄剧ず鍒氬垰鍙戦�鐨勭暀瑷�
+							//閺勫墽銇氶崚姘灠閸欐垿锟介惃鍕殌鐟凤拷
 				        	lvCommentData.add(0, res.getComment());
 				        	lvCommentAdapter.notifyDataSetChanged();
 				        	mLvComment.setSelection(0);
-				        	//娓呴櫎涔嬪墠淇濆瓨鐨勭紪杈戝唴瀹�
-							ac.removeProperty(tempMessageKey);
+				        	//濞撳懘娅庢稊瀣娣囨繂鐡ㄩ惃鍕椽鏉堟垵鍞寸�锟�							ac.removeProperty(tempMessageKey);
 						}
 					}
 					else {

@@ -50,7 +50,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * 鍙戣〃鍔ㄥ脊
+ * 閸欐垼銆冮崝銊ヨ剨
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -84,9 +84,9 @@ public class TweetPub extends Activity{
 	public static LinearLayout mMessage;
 	public static Context mContext;
 	
-	private static final int MAX_TEXT_LENGTH = 160;//鏈�ぇ杈撳叆瀛楁暟
-	private static final String TEXT_ATME = "@璇疯緭鍏ョ敤鎴峰悕 ";
-	private static final String TEXT_SOFTWARE = "#璇疯緭鍏ヨ蒋浠跺悕#";
+	private static final int MAX_TEXT_LENGTH = 160;//閺堬拷銇囨潏鎾冲弳鐎涙鏆�
+	private static final String TEXT_ATME = "@鐠囩柉绶崗銉ф暏閹村嘲鎮�";
+	private static final String TEXT_SOFTWARE = "#鐠囩柉绶崗銉ㄨ拫娴犺泛鎮�";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +94,11 @@ public class TweetPub extends Activity{
 		setContentView(R.layout.tweet_pub);
 		
 		mContext = this;
-		//杞敭鐩樼鐞嗙被
+		//鏉烆垶鏁惄妯碱吀閻炲棛琚�
 		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 		
-		//鍒濆鍖栧熀鏈鍥�
-		this.initView();
-		//鍒濆鍖栬〃鎯呰鍥�
-		this.initGridView();
+		//閸掓繂顬婇崠鏍х唨閺堫剝顬呴崶锟�		this.initView();
+		//閸掓繂顬婇崠鏍�閹懓顬呴崶锟�		this.initGridView();
 	}
 	
     @Override
@@ -113,7 +111,7 @@ public class TweetPub extends Activity{
     protected void onResume() {
     	super.onResume();
     	if(mGridView.getVisibility() == View.VISIBLE){
-    		//闅愯棌琛ㄦ儏
+    		//闂呮劘妫岀悰銊﹀剰
     		hideFace();
     	}
     }
@@ -122,7 +120,7 @@ public class TweetPub extends Activity{
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	if(keyCode == KeyEvent.KEYCODE_BACK) {
     		if(mGridView.getVisibility() == View.VISIBLE) {
-    			//闅愯棌琛ㄦ儏
+    			//闂呮劘妫岀悰銊﹀剰
     			hideFace();
     		}else{
     			return super.onKeyDown(keyCode, event);
@@ -131,7 +129,7 @@ public class TweetPub extends Activity{
     	return true;
     }
     
-	//鍒濆鍖栬鍥炬帶浠�
+	//閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�  
     private void initView()
     {    	
     	mForm = (FrameLayout)findViewById(R.id.tweet_pub_form);
@@ -156,7 +154,7 @@ public class TweetPub extends Activity{
     	mSoftware.setOnClickListener(softwareClickListener);
     	mClearwords.setOnClickListener(clearwordsClickListener);
     	
-    	//@鏌愪汉
+    	//@閺屾劒姹�
     	String atme = getIntent().getStringExtra("at_me");
     	int atuid = getIntent().getIntExtra("at_uid",0);
     	if(atuid > 0){
@@ -164,32 +162,32 @@ public class TweetPub extends Activity{
     		tempTweetImageKey = AppConfig.TEMP_TWEET_IMAGE + "_" + atuid;
     	}
     	
-    	//缂栬緫鍣ㄦ坊鍔犳枃鏈洃鍚�
+    	//缂傛牞绶崳銊﹀潑閸旂姵鏋冮張顒傛磧閸氾拷
     	mContent.addTextChangedListener(new TextWatcher() {		
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				//淇濆瓨褰撳墠EditText姝ｅ湪缂栬緫鐨勫唴瀹�
+				//娣囨繂鐡ㄨぐ鎾冲EditText濮濓絽婀紓鏍帆閻ㄥ嫬鍞寸�锟�			
 				((AppContext)getApplication()).setProperty(tempTweetKey, s.toString());
-				//鏄剧ず鍓╀綑鍙緭鍏ョ殑瀛楁暟
+				//閺勫墽銇氶崜鈺�稇閸欘垵绶崗銉ф畱鐎涙鏆�
 				mNumberwords.setText((MAX_TEXT_LENGTH - s.length()) + "");
 			}		
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}		
 			public void afterTextChanged(Editable s) {}
 		});
-    	//缂栬緫鍣ㄧ偣鍑讳簨浠�
+    	//缂傛牞绶崳銊у仯閸戣绨ㄦ禒锟�    	
     	mContent.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				//鏄剧ず杞敭鐩�
+				//閺勫墽銇氭潪顖炴暛閻╋拷
 				showIMM();
 			}
 		});
-    	//璁剧疆鏈�ぇ杈撳叆瀛楁暟
+    	//鐠佸墽鐤嗛張锟姐亣鏉堟挸鍙嗙�妤佹殶
     	InputFilter[] filters = new InputFilter[1];  
     	filters[0] = new InputFilter.LengthFilter(MAX_TEXT_LENGTH);
     	mContent.setFilters(filters);
     	
-    	//鏄剧ず涓存椂缂栬緫鍐呭
+    	//閺勫墽銇氭稉瀛樻缂傛牞绶崘鍛啇
 		UIHelper.showTempEditContent(this, mContent, tempTweetKey);
-		//鏄剧ず涓存椂淇濆瓨鍥剧墖
+		//閺勫墽銇氭稉瀛樻娣囨繂鐡ㄩ崶鍓у
 		String tempImage = ((AppContext)getApplication()).getProperty(tempTweetImageKey);
 		if(!StringUtils.isEmpty(tempImage)) {
     		Bitmap bitmap = ImageUtils.loadImgThumbnail(tempImage, 100, 100);
@@ -202,24 +200,24 @@ public class TweetPub extends Activity{
 		
 		if(atuid > 0 && mContent.getText().length() == 0){
 			mContent.setText(atme);
-    		mContent.setSelection(atme.length());//璁剧疆鍏夋爣浣嶇疆
+    		mContent.setSelection(atme.length());//鐠佸墽鐤嗛崗澶嬬垼娴ｅ秶鐤�
 		}
     }
     
-    //鍒濆鍖栬〃鎯呮帶浠�
+    //閸掓繂顬婇崠鏍�閹懏甯舵禒锟�  
     private void initGridView() {
     	mGVFaceAdapter = new GridViewFaceAdapter(this);
     	mGridView = (GridView)findViewById(R.id.tweet_pub_faces);
     	mGridView.setAdapter(mGVFaceAdapter);
     	mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				//鎻掑叆鐨勮〃鎯�
+				//閹绘帒鍙嗛惃鍕�閹拷
 				SpannableString ss = new SpannableString(view.getTag().toString());
 				Drawable d = getResources().getDrawable((int)mGVFaceAdapter.getItemId(position));
-				d.setBounds(0, 0, 35, 35);//璁剧疆琛ㄦ儏鍥剧墖鐨勬樉绀哄ぇ灏�
+				d.setBounds(0, 0, 35, 35);//鐠佸墽鐤嗙悰銊﹀剰閸ュ墽澧栭惃鍕▔缁�搫銇囩亸锟�			
 				ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
 				ss.setSpan(span, 0, view.getTag().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);				 
-				//鍦ㄥ厜鏍囨墍鍦ㄥ鎻掑叆琛ㄦ儏
+				//閸︺劌鍘滈弽鍥ㄥ閸︺劌顦甸幓鎺戝弳鐞涖劍鍎�
 				mContent.getText().insert(mContent.getSelectionStart(), ss);				
 			}    		
     	});
@@ -241,14 +239,14 @@ public class TweetPub extends Activity{
     }
     private void showOrHideIMM() {
     	if(mFace.getTag() == null){
-			//闅愯棌杞敭鐩�
+			//闂呮劘妫屾潪顖炴暛閻╋拷
 			imm.hideSoftInputFromWindow(mFace.getWindowToken(), 0);
-			//鏄剧ず琛ㄦ儏
+			//閺勫墽銇氱悰銊﹀剰
 			showFace();				
 		}else{
-			//鏄剧ず杞敭鐩�
+			//閺勫墽銇氭潪顖炴暛閻╋拷
 			imm.showSoftInput(mContent, 0);
-			//闅愯棌琛ㄦ儏
+			//闂呮劘妫岀悰銊﹀剰
 			hideFace();
 		}
     }
@@ -261,9 +259,9 @@ public class TweetPub extends Activity{
     
 	private View.OnClickListener pickClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
-			//闅愯棌杞敭鐩�
+			//闂呮劘妫屾潪顖炴暛閻╋拷
 			imm.hideSoftInputFromWindow(v.getWindowToken(), 0);  
-			//闅愯棌琛ㄦ儏
+			//闂呮劘妫岀悰銊﹀剰
 			hideFace();		
 			
 			CharSequence[] items = {
@@ -276,10 +274,10 @@ public class TweetPub extends Activity{
 	
 	private View.OnClickListener atmeClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
-			//鏄剧ず杞敭鐩�
+			//閺勫墽銇氭潪顖炴暛閻╋拷
 			showIMM();			
 				
-    		//鍦ㄥ厜鏍囨墍鍦ㄥ鎻掑叆鈥淍鐢ㄦ埛鍚嶁�
+    		//閸︺劌鍘滈弽鍥ㄥ閸︺劌顦甸幓鎺戝弳閳ユ穽閻劍鍩涢崥宥侊拷
 			int curTextLength = mContent.getText().length();
 			if(curTextLength < MAX_TEXT_LENGTH) {
 				String atme = TEXT_ATME;
@@ -300,17 +298,17 @@ public class TweetPub extends Activity{
 					end = MAX_TEXT_LENGTH;
 				}
 				mContent.getText().insert(mContent.getSelectionStart(), atme);
-				mContent.setSelection(start, end);//璁剧疆閫変腑鏂囧瓧
+				mContent.setSelection(start, end);//鐠佸墽鐤嗛柅澶夎厬閺傚洤鐡�
 			}
 		}
 	};
 	
 	private View.OnClickListener softwareClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
-			//鏄剧ず杞敭鐩�
+			//閺勫墽銇氭潪顖炴暛閻╋拷
 			showIMM();
 			
-			//鍦ㄥ厜鏍囨墍鍦ㄥ鎻掑叆鈥�杞欢鍚�鈥�
+			//閸︺劌鍘滈弽鍥ㄥ閸︺劌顦甸幓鎺戝弳閳ワ拷鏉烆垯娆㈤崥锟介垾锟�			
 			int curTextLength = mContent.getText().length();
 			if(curTextLength < MAX_TEXT_LENGTH) {
 				String software = TEXT_SOFTWARE;
@@ -331,7 +329,7 @@ public class TweetPub extends Activity{
 					end = MAX_TEXT_LENGTH;
 				}
 				mContent.getText().insert(mContent.getSelectionStart(), software);
-	    		mContent.setSelection(start, end);//璁剧疆閫変腑鏂囧瓧
+	    		mContent.setSelection(start, end);//鐠佸墽鐤嗛柅澶夎厬閺傚洤鐡�
 			}
 		}
 	};
@@ -347,7 +345,7 @@ public class TweetPub extends Activity{
 	
 	private View.OnLongClickListener imageLongClickListener = new View.OnLongClickListener() {
 		public boolean onLongClick(View v) {
-			//闅愯棌杞敭鐩�
+			//闂呮劘妫屾潪顖炴暛閻╋拷
 			imm.hideSoftInputFromWindow(v.getWindowToken(), 0);  
 			
 			new AlertDialog.Builder(v.getContext())
@@ -355,8 +353,7 @@ public class TweetPub extends Activity{
 			.setTitle(getString(R.string.delete_image))
 			.setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					//娓呴櫎涔嬪墠淇濆瓨鐨勭紪杈戝浘鐗�
-					((AppContext)getApplication()).removeProperty(tempTweetImageKey);
+					//濞撳懘娅庢稊瀣娣囨繂鐡ㄩ惃鍕椽鏉堟垵娴橀悧锟�					((AppContext)getApplication()).removeProperty(tempTweetImageKey);
 					
 					imgFile = null;
 					mImage.setVisibility(View.GONE);
@@ -375,7 +372,7 @@ public class TweetPub extends Activity{
 	};
 	
 	/**
-	 * 鎿嶄綔閫夋嫨
+	 * 閹垮秳缍旈柅澶嬪
 	 * @param items
 	 */
 	public void imageChooseItem(CharSequence[] items )
@@ -384,40 +381,40 @@ public class TweetPub extends Activity{
 			new DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int item)
 				{
-					//鎵嬫満閫夊浘
+					//閹靛婧�柅澶婃禈
 					if( item == 0 )
 					{
 						Intent intent = new Intent(Intent.ACTION_GET_CONTENT); 
 						intent.addCategory(Intent.CATEGORY_OPENABLE); 
 						intent.setType("image/*"); 
-						startActivityForResult(Intent.createChooser(intent, "閫夋嫨鍥剧墖"),ImageUtils.REQUEST_CODE_GETIMAGE_BYSDCARD); 
+						startActivityForResult(Intent.createChooser(intent, "闁瀚ㄩ崶鍓у"),ImageUtils.REQUEST_CODE_GETIMAGE_BYSDCARD); 
 					}
-					//鎷嶇収
+					//閹峰秶鍙�
 					else if( item == 1 )
 					{	
 						String savePath = "";
-						//鍒ゆ柇鏄惁鎸傝浇浜哠D鍗�
+						//閸掋倖鏌囬弰顖氭儊閹稿倽娴囨禍鍝燚閸楋拷
 						String storageState = Environment.getExternalStorageState();		
 						if(storageState.equals(Environment.MEDIA_MOUNTED)){
-							savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/OSChina/Camera/";//瀛樻斁鐓х墖鐨勬枃浠跺す
+							savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/OSChina/Camera/";//鐎涙ɑ鏂侀悡褏澧栭惃鍕瀮娴犺泛銇�
 							File savedir = new File(savePath);
 							if (!savedir.exists()) {
 								savedir.mkdirs();
 							}
 						}
 						
-						//娌℃湁鎸傝浇SD鍗★紝鏃犳硶淇濆瓨鏂囦欢
+						//濞屸剝婀侀幐鍌濇祰SD閸椻槄绱濋弮鐘崇《娣囨繂鐡ㄩ弬鍥︽
 						if(StringUtils.isEmpty(savePath)){
-							UIHelper.ToastMessage(TweetPub.this, "鏃犳硶淇濆瓨鐓х墖锛岃妫�煡SD鍗℃槸鍚︽寕杞�");
+							UIHelper.ToastMessage(TweetPub.this, "閺冪姵纭舵穱婵嗙摠閻撗呭閿涘矁顕Λ锟界叀SD閸椻剝妲搁崥锔藉瘯鏉烇拷");
 							return;
 						}
 
 						String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-						String fileName = "osc_" + timeStamp + ".jpg";//鐓х墖鍛藉悕
+						String fileName = "osc_" + timeStamp + ".jpg";//閻撗呭閸涜棄鎮�
 						File out = new File(savePath, fileName);
 						Uri uri = Uri.fromFile(out);
 						
-						theLarge = savePath + fileName;//璇ョ収鐗囩殑缁濆璺緞
+						theLarge = savePath + fileName;//鐠囥儳鍙庨悧鍥╂畱缂佹繂顕捄顖氱窞
 						
 						Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 						intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -436,7 +433,7 @@ public class TweetPub extends Activity{
 		final Handler handler = new Handler(){
 			public void handleMessage(Message msg) {
 				if(msg.what == 1 && msg.obj != null){
-					//鏄剧ず鍥剧墖
+					//閺勫墽銇氶崶鍓у
 					mImage.setImageBitmap((Bitmap)msg.obj);
 					mImage.setVisibility(View.VISIBLE);
 				}
@@ -455,7 +452,7 @@ public class TweetPub extends Activity{
 		        	Uri thisUri = data.getData();
 		        	String thePath = ImageUtils.getAbsolutePathFromNoStandardUri(thisUri);
 		        	
-		        	//濡傛灉鏄爣鍑哢ri
+		        	//婵″倹鐏夐弰顖涚垼閸戝摙ri
 		        	if(StringUtils.isEmpty(thePath))
 		        	{
 		        		theLarge = ImageUtils.getAbsoluteImagePath(TweetPub.this,thisUri);
@@ -472,7 +469,7 @@ public class TweetPub extends Activity{
 		        		return;
 		        	}
 		        	
-		        	//鑾峰彇鍥剧墖缂╃暐鍥�鍙湁Android2.1浠ヤ笂鐗堟湰鏀寔
+		        	//閼惧嘲褰囬崶鍓у缂傗晝鏆愰崶锟介崣顏呮箒Android2.1娴犮儰绗傞悧鍫熸拱閺�垱瀵�
 		    		if(AppContext.isMethodsCompat(android.os.Build.VERSION_CODES.ECLAIR_MR1)){
 		    			String imgName = FileUtils.getFileName(theLarge);
 		    			bitmap = ImageUtils.loadImgThumbnail(TweetPub.this, imgName, MediaStore.Images.Thumbnails.MICRO_KIND);
@@ -483,7 +480,7 @@ public class TweetPub extends Activity{
 		        		bitmap = ImageUtils.loadImgThumbnail(theLarge, 100, 100);
 		        	}
 		        }
-		        //鎷嶆憚鍥剧墖
+		        //閹峰秵鎲氶崶鍓у
 		        else if(requestCode == ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA)
 		        {	
 		        	if(bitmap == null && !StringUtils.isEmpty(theLarge))
@@ -494,7 +491,7 @@ public class TweetPub extends Activity{
 		        
 				if(bitmap!=null)
 				{
-					//瀛樻斁鐓х墖鐨勬枃浠跺す
+					//鐎涙ɑ鏂侀悡褏澧栭惃鍕瀮娴犺泛銇�
 					String savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/OSChina/Camera/";
 					File savedir = new File(savePath);
 					if (!savedir.exists()) {
@@ -503,7 +500,7 @@ public class TweetPub extends Activity{
 					
 					String largeFileName = FileUtils.getFileName(theLarge);
 					String largeFilePath = savePath + largeFileName;
-					//鍒ゆ柇鏄惁宸插瓨鍦ㄧ缉鐣ュ浘
+					//閸掋倖鏌囬弰顖氭儊瀹告彃鐡ㄩ崷銊х級閻ｃ儱娴�
 					if(largeFileName.startsWith("thumb_") && new File(largeFilePath).exists()) 
 					{
 						theThumbnail = largeFilePath;
@@ -511,7 +508,7 @@ public class TweetPub extends Activity{
 					} 
 					else 
 					{
-						//鐢熸垚涓婁紶鐨�00瀹藉害鍥剧墖
+						//閻㈢喐鍨氭稉濠佺炊閻拷00鐎硅棄瀹抽崶鍓у
 						String thumbFileName = "thumb_" + largeFileName;
 						theThumbnail = savePath + thumbFileName;
 						if(new File(theThumbnail).exists())
@@ -521,7 +518,7 @@ public class TweetPub extends Activity{
 						else
 						{
 							try {
-								//鍘嬬缉涓婁紶鐨勫浘鐗�
+								//閸樺缂夋稉濠佺炊閻ㄥ嫬娴橀悧锟�					
 								ImageUtils.createImageThumbnail(TweetPub.this, theLarge, theThumbnail, 800, 80);
 								imgFile = new File(theThumbnail);
 							} catch (IOException e) {
@@ -529,7 +526,7 @@ public class TweetPub extends Activity{
 							}	
 						}						
 					}					
-					//淇濆瓨鍔ㄥ脊涓存椂鍥剧墖
+					//娣囨繂鐡ㄩ崝銊ヨ剨娑撳瓨妞傞崶鍓у
 					((AppContext)getApplication()).setProperty(tempTweetImageKey, theThumbnail);
 					
 					Message msg = new Message();
@@ -543,12 +540,12 @@ public class TweetPub extends Activity{
 	
 	private View.OnClickListener publishClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
-			//闅愯棌杞敭鐩�
+			//闂呮劘妫屾潪顖炴暛閻╋拷
 			imm.hideSoftInputFromWindow(v.getWindowToken(), 0);  
 			
 			String content = mContent.getText().toString();
 			if(StringUtils.isEmpty(content)){
-				UIHelper.ToastMessage(v.getContext(), "璇疯緭鍏ュ姩寮瑰唴瀹�");
+				UIHelper.ToastMessage(v.getContext(), "鐠囩柉绶崗銉ュЗ瀵懓鍞寸�锟�");
 				return;
 			}
 			
@@ -570,8 +567,7 @@ public class TweetPub extends Activity{
 				public void handleMessage(Message msg) {
 					mMessage.setVisibility(View.GONE);
 					if(msg.what == 1){
-						//娓呴櫎涔嬪墠淇濆瓨鐨勭紪杈戝唴瀹�
-						ac.removeProperty(tempTweetKey,tempTweetImageKey);						
+						//濞撳懘娅庢稊瀣娣囨繂鐡ㄩ惃鍕椽鏉堟垵鍞寸�锟�						ac.removeProperty(tempTweetKey,tempTweetImageKey);						
 						finish();
 					}else{
 						mMessage.setVisibility(View.GONE);

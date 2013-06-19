@@ -49,7 +49,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 /**
- * 鏂伴椈璇︽儏
+ * 閺備即妞堢拠锔藉剰
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -100,7 +100,7 @@ public class NewsDetail extends Activity {
     private int curId;
 	private int curCatalog;	
 	private int curLvDataState;
-	private int curLvPosition;//褰撳墠listview閫変腑鐨刬tem浣嶇疆
+	private int curLvPosition;//瑜版挸澧爈istview闁鑵戦惃鍒瑃em娴ｅ秶鐤�
 	
 	private ViewSwitcher mFootViewSwitcher;
 	private ImageView mFootEditebox;
@@ -129,15 +129,15 @@ public class NewsDetail extends Activity {
         this.initView();        
         this.initData();
         
-    	//鍔犺浇璇勮瑙嗗浘&鏁版嵁
+    	//閸旂姾娴囩拠鍕啈鐟欏棗娴�閺佺増宓�
     	this.initCommentView();
     	this.initCommentData();
     	
-    	//娉ㄥ唽鍙屽嚮鍏ㄥ睆浜嬩欢
+    	//濞夈劌鍞介崣灞藉毊閸忋劌鐫嗘禍瀣╂
     	this.regOnDoubleEvent();
     }
     
-    //鍒濆鍖栬鍥炬帶浠�
+    //閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�   
     private void initView()
     {
 		newsId = getIntent().getIntExtra("news_id", 0);
@@ -224,15 +224,15 @@ public class NewsDetail extends Activity {
 				return false;
 			}
 		});
-    	//缂栬緫鍣ㄦ坊鍔犳枃鏈洃鍚�
+    	//缂傛牞绶崳銊﹀潑閸旂姵鏋冮張顒傛磧閸氾拷
     	mFootEditer.addTextChangedListener(UIHelper.getTextWatcher(this, tempCommentKey));
     	
-    	//鏄剧ず涓存椂缂栬緫鍐呭
+    	//閺勫墽銇氭稉瀛樻缂傛牞绶崘鍛啇
     	UIHelper.showTempEditContent(this, mFootEditer, tempCommentKey);
     }
     
-    //鍒濆鍖栨帶浠舵暟鎹�
-	private void initData()
+    //閸掓繂顬婇崠鏍ㄥ付娴犺埖鏆熼幑锟�	
+    private void initData()
 	{		
 		mHandler = new Handler()
 		{
@@ -247,13 +247,13 @@ public class NewsDetail extends Activity {
 					mPubDate.setText(StringUtils.friendly_time(newsDetail.getPubDate()));
 					mCommentCount.setText(String.valueOf(newsDetail.getCommentCount()));
 					
-					//鏄惁鏀惰棌
+					//閺勵垰鎯侀弨鎯版
 					if(newsDetail.getFavorite() == 1)
 						mFavorite.setImageResource(R.drawable.widget_bar_favorite2);
 					else
 						mFavorite.setImageResource(R.drawable.widget_bar_favorite);
 					
-					//鏄剧ず璇勮鏁�
+					//閺勫墽銇氱拠鍕啈閺侊拷
 					if(newsDetail.getCommentCount() > 0){
 						bv_comment.setText(newsDetail.getCommentCount()+"");
 						bv_comment.show();
@@ -263,7 +263,7 @@ public class NewsDetail extends Activity {
 					}
 					
 					String body = newsDetail.getBody();					
-					//璇诲彇鐢ㄦ埛璁剧疆锛氭槸鍚﹀姞杞芥枃绔犲浘鐗�-榛樿鏈墂ifi涓嬪缁堝姞杞藉浘鐗�
+					//鐠囪褰囬悽銊﹀煕鐠佸墽鐤嗛敍姘Ц閸氾箑濮炴潪鑺ユ瀮缁旂姴娴橀悧锟�姒涙顓婚張澧俰fi娑撳顬婄紒鍫濆鏉炶棄娴橀悧锟�	
 					boolean isLoadImage;
 					AppContext ac = (AppContext)getApplication();
 					if(AppContext.NETTYPE_WIFI == ac.getNetworkType()){
@@ -272,11 +272,11 @@ public class NewsDetail extends Activity {
 						isLoadImage = ac.isLoadImage();
 					}
 					if(isLoadImage){
-						//杩囨护鎺�img鏍囩鐨剋idth,height灞炴�
+						//鏉╁洦鎶ら幒锟絠mg閺嶅洨顒烽惃鍓媔dth,height鐏炵偞锟�
 						body = body.replaceAll("(<img[^>]*?)\\s+width\\s*=\\s*\\S+","$1");
 						body = body.replaceAll("(<img[^>]*?)\\s+height\\s*=\\s*\\S+","$1");
 					}else{
-						//杩囨护鎺�img鏍囩
+						//鏉╁洦鎶ら幒锟絠mg閺嶅洨顒�
 						body = body.replaceAll("<\\s*img\\s+([^>]*)\\s*>","");
 					}
 					if(!body.trim().startsWith("<style>")){
@@ -284,20 +284,20 @@ public class NewsDetail extends Activity {
 						body = html + body;
 					}
 					
-					//鏇村鍏充簬***杞欢鐨勪俊鎭�
+					//閺囨潙顧嬮崗鍏呯艾***鏉烆垯娆㈤惃鍕繆閹拷
 					String softwareName = newsDetail.getSoftwareName(); 
 					String softwareLink = newsDetail.getSoftwareLink(); 
 					if(!StringUtils.isEmpty(softwareName) && !StringUtils.isEmpty(softwareLink))
-						body += String.format("<div id='oschina_software' style='margin-top:8px;color:#FF0000;font-weight:bold'>鏇村鍏充簬:&nbsp;<a href='%s'>%s</a>&nbsp;鐨勮缁嗕俊鎭�/div>", softwareLink, softwareName);
+						body += String.format("<div id='oschina_software' style='margin-top:8px;color:#FF0000;font-weight:bold'>閺囨潙顧嬮崗鍏呯艾:&nbsp;<a href='%s'>%s</a>&nbsp;閻ㄥ嫯顕涚紒鍡曚繆閹拷/div>", softwareLink, softwareName);
 					
-					//鐩稿叧鏂伴椈
+					//閻╃鍙ч弬浼存
 					if(newsDetail.getRelatives().size() > 0)
 					{
 						String strRelative = "";
 						for(Relative relative : newsDetail.getRelatives()){
 							strRelative += String.format("<a href='%s' style='text-decoration:none'>%s</a><p/>", relative.url, relative.title);
 						}
-						body += String.format("<p/><hr/><b>鐩稿叧璧勮</b><div><p/>%s</div>", strRelative);
+						body += String.format("<p/><hr/><b>閻╃鍙х挧鍕唵</b><div><p/>%s</div>", strRelative);
 					}
 					
 					body += "<div style='margin-bottom: 80px'/>";					
@@ -305,7 +305,7 @@ public class NewsDetail extends Activity {
 					mWebView.loadDataWithBaseURL(null, body, "text/html", "utf-8",null);
 					mWebView.setWebViewClient(UIHelper.getWebViewClient());	
 					
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(msg.obj != null){
 						UIHelper.sendBroadCast(NewsDetail.this, (Notice)msg.obj);
 					}
@@ -338,7 +338,7 @@ public class NewsDetail extends Activity {
 				try {
 					newsDetail = ((AppContext)getApplication()).getNews(news_id, isRefresh);
 	                msg.what = (newsDetail!=null && newsDetail.getId()>0) ? 1 : 0;
-	                msg.obj = (newsDetail!=null) ? newsDetail.getNotice() : null;//閫氱煡淇℃伅
+	                msg.obj = (newsDetail!=null) ? newsDetail.getNotice() : null;//闁氨鐓℃穱鈩冧紖
 	            } catch (AppException e) {
 	                e.printStackTrace();
 	            	msg.what = -1;
@@ -350,7 +350,7 @@ public class NewsDetail extends Activity {
     }
     
     /**
-     * 搴曢儴鏍忓垏鎹�
+     * 鎼存洟鍎撮弽蹇撳瀼閹癸拷
      * @param type
      */
     private void viewSwitch(int type) {
@@ -371,7 +371,7 @@ public class NewsDetail extends Activity {
     }
     
     /**
-     * 澶撮儴鎸夐挳灞曠ず
+     * 婢舵挳鍎撮幐澶愭尦鐏炴洜銇�
      * @param type
      */
     private void headButtonSwitch(int type) {
@@ -419,8 +419,7 @@ public class NewsDetail extends Activity {
 				UIHelper.ToastMessage(v.getContext(), R.string.msg_read_detail_fail);
 				return;
 			}
-			//鍒嗕韩鍒�
-			UIHelper.showShareDialog(NewsDetail.this, newsDetail.getTitle(), newsDetail.getUrl());
+			//閸掑棔闊╅崚锟�			UIHelper.showShareDialog(NewsDetail.this, newsDetail.getTitle(), newsDetail.getUrl());
 		}
 	};
 	
@@ -429,7 +428,7 @@ public class NewsDetail extends Activity {
 			if(newsId == 0){
 				return;
 			}
-			//鍒囨崲鍒拌鎯�
+			//閸掑洦宕查崚鎷岊嚊閹拷
 			viewSwitch(VIEWSWITCH_TYPE_DETAIL);
 		}
 	};	
@@ -439,7 +438,7 @@ public class NewsDetail extends Activity {
 			if(newsId == 0){
 				return;
 			}
-			//鍒囨崲鍒拌瘎璁�
+			//閸掑洦宕查崚鎷岀槑鐠侊拷
 			viewSwitch(VIEWSWITCH_TYPE_COMMENTS);
 		}
 	};
@@ -499,8 +498,8 @@ public class NewsDetail extends Activity {
 		}
 	};
 	
-    //鍒濆鍖栬鍥炬帶浠�
-    private void initCommentView()
+    //閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�   
+	private void initCommentView()
     {    	
     	lvComment_footer = getLayoutInflater().inflate(R.layout.listview_footer, null);
     	lvComment_foot_more = (TextView)lvComment_footer.findViewById(R.id.listview_foot_more);
@@ -509,15 +508,15 @@ public class NewsDetail extends Activity {
     	lvCommentAdapter = new ListViewCommentAdapter(this, lvCommentData, R.layout.comment_listitem); 
     	mLvComment = (PullToRefreshListView)findViewById(R.id.comment_list_listview);
     	
-        mLvComment.addFooterView(lvComment_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        mLvComment.addFooterView(lvComment_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         mLvComment.setAdapter(lvCommentAdapter); 
         mLvComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvComment_footer) return;
         		
         		Comment com = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			com = (Comment)view.getTag();
         		}else{
@@ -526,7 +525,7 @@ public class NewsDetail extends Activity {
         		} 
         		if(com == null) return;
         		
-        		//璺宠浆--鍥炲璇勮鐣岄潰
+        		//鐠哄疇娴�-閸ョ偛顦剧拠鍕啈閻ｅ矂娼�
         		UIHelper.showCommentReply(NewsDetail.this,curId, curCatalog, com.getId(), com.getAuthorId(), com.getAuthor(), com.getContent());
         	}
 		});
@@ -534,10 +533,9 @@ public class NewsDetail extends Activity {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				mLvComment.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvCommentData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvCommentData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvComment_footer) == view.getLastVisiblePosition())
@@ -550,7 +548,7 @@ public class NewsDetail extends Activity {
 				{
 					lvComment_foot_more.setText(R.string.load_ing);
 					lvComment_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvSumData/20;
 					loadLvCommentData(curId, curCatalog, pageIndex, mCommentHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -561,11 +559,11 @@ public class NewsDetail extends Activity {
 		});
         mLvComment.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+				//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvComment_footer) return false;				
 				
         		Comment _com = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			_com = (Comment)view.getTag();
         		}else{
@@ -579,9 +577,9 @@ public class NewsDetail extends Activity {
         		curLvPosition = lvCommentData.indexOf(com);
         		
         		final AppContext ac = (AppContext)getApplication();
-				//鎿嶄綔--鍥炲 & 鍒犻櫎
+				//閹垮秳缍�-閸ョ偛顦�& 閸掔娀娅�
         		int uid = ac.getLoginUid();
-        		//鍒ゆ柇璇ヨ瘎璁烘槸鍚︽槸褰撳墠鐧诲綍鐢ㄦ埛鍙戣〃鐨勶細true--鏈夊垹闄ゆ搷浣� false--娌℃湁鍒犻櫎鎿嶄綔
+        		//閸掋倖鏌囩拠銉ㄧ槑鐠佺儤妲搁崥锔芥Ц瑜版挸澧犻惂璇茬秿閻劍鍩涢崣鎴ｃ�閻ㄥ嫸绱皌rue--閺堝鍨归梽銈嗘惙娴ｏ拷 false--濞屸剝婀侀崚鐘绘珟閹垮秳缍�
         		if(uid == com.getAuthorId())
         		{
 	        		final Handler handler = new Handler(){
@@ -632,7 +630,7 @@ public class NewsDetail extends Activity {
         });
     }
     
-    //鍒濆鍖栬瘎璁烘暟鎹�
+    //閸掓繂顬婇崠鏍槑鐠佺儤鏆熼幑锟�	
 	private void initCommentData()
 	{
 		curId = newsId;
@@ -645,13 +643,12 @@ public class NewsDetail extends Activity {
 				if(msg.what >= 0){						
 					CommentList list = (CommentList)msg.obj;
 					Notice notice = list.getNotice();
-					//澶勭悊listview鏁版嵁
+					//婢跺嫮鎮妉istview閺佺増宓�
 					switch (msg.arg1) {
 					case UIHelper.LISTVIEW_ACTION_INIT:
 					case UIHelper.LISTVIEW_ACTION_REFRESH:
 						lvSumData = msg.what;
-						lvCommentData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvCommentData.addAll(list.getCommentlist());
+						lvCommentData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvCommentData.addAll(list.getCommentlist());
 						break;
 					case UIHelper.LISTVIEW_ACTION_SCROLL:
 						lvSumData += msg.what;
@@ -672,7 +669,7 @@ public class NewsDetail extends Activity {
 						break;
 					}	
 					
-					//璇勮鏁版洿鏂�
+					//鐠囧嫯顔戦弫鐗堟纯閺傦拷
 					if(newsDetail != null && lvCommentData.size() > newsDetail.getCommentCount()){
 						newsDetail.setCommentCount(lvCommentData.size());
 						bv_comment.setText(lvCommentData.size()+"");
@@ -688,13 +685,13 @@ public class NewsDetail extends Activity {
 						lvCommentAdapter.notifyDataSetChanged();
 						lvComment_foot_more.setText(R.string.load_more);
 					}
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(notice != null){
 						UIHelper.sendBroadCast(NewsDetail.this, notice);
 					}
 				}
 				else if(msg.what == -1){
-					//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+					//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 					curLvDataState = UIHelper.LISTVIEW_DATA_MORE;
 					lvComment_foot_more.setText(R.string.load_error);
 					((AppException)msg.obj).makeToast(NewsDetail.this);
@@ -713,12 +710,11 @@ public class NewsDetail extends Activity {
 		this.loadLvCommentData(curId,curCatalog,0,mCommentHandler,UIHelper.LISTVIEW_ACTION_INIT);
     }
     /**
-     * 绾跨▼鍔犺浇璇勮鏁版嵁
-     * @param id 褰撳墠鏂囩珷id
-     * @param catalog 鍒嗙被
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰鐠囧嫯顔戦弫鐗堝祦
+     * @param id 瑜版挸澧犻弬鍥╃彿id
+     * @param catalog 閸掑棛琚�
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvCommentData(final int id,final int catalog,final int pageIndex,final Handler handler,final int action){  
 		new Thread(){
@@ -736,7 +732,7 @@ public class NewsDetail extends Activity {
 	            	msg.what = -1;
 	            	msg.obj = e;
 	            }
-				msg.arg1 = action;//鍛婄煡handler褰撳墠action
+				msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
                 handler.sendMessage(msg);
 			}
 		}.start();
@@ -748,7 +744,7 @@ public class NewsDetail extends Activity {
 		if (resultCode != RESULT_OK) return;   
     	if (data == null) return;
     	
-    	viewSwitch(VIEWSWITCH_TYPE_COMMENTS);//璺冲埌璇勮鍒楄〃
+    	viewSwitch(VIEWSWITCH_TYPE_COMMENTS);//鐠哄啿鍩岀拠鍕啈閸掓銆�
     	
         if (requestCode == UIHelper.REQUEST_CODE_FOR_RESULT) 
         { 
@@ -756,7 +752,7 @@ public class NewsDetail extends Activity {
         	lvCommentData.add(0,comm);
         	lvCommentAdapter.notifyDataSetChanged();
         	mLvComment.setSelection(0);        	
-    		//鏄剧ず璇勮鏁�
+    		//閺勫墽銇氱拠鍕啈閺侊拷
             int count = newsDetail.getCommentCount() + 1;
             newsDetail.setCommentCount(count);
     		bv_comment.setText(count+"");
@@ -782,7 +778,7 @@ public class NewsDetail extends Activity {
 			
 			_content = mFootEditer.getText().toString();
 			if(StringUtils.isEmpty(_content)){
-				UIHelper.ToastMessage(v.getContext(), "璇疯緭鍏ヨ瘎璁哄唴瀹�");
+				UIHelper.ToastMessage(v.getContext(), "鐠囩柉绶崗銉ㄧ槑鐠佸搫鍞寸�锟�");
 				return;
 			}
 			
@@ -797,7 +793,7 @@ public class NewsDetail extends Activity {
 				
 			_uid = ac.getLoginUid();
 			
-			mProgress = ProgressDialog.show(v.getContext(), null, "鍙戣〃涓仿仿�",true,true); 			
+			mProgress = ProgressDialog.show(v.getContext(), null, "閸欐垼銆冩稉顒讳豢浠匡拷",true,true); 			
 			
 			final Handler handler = new Handler(){
 				public void handleMessage(Message msg) {
@@ -808,28 +804,26 @@ public class NewsDetail extends Activity {
 						Result res = (Result)msg.obj;
 						UIHelper.ToastMessage(NewsDetail.this, res.getErrorMessage());
 						if(res.OK()){
-							//鍙戦�閫氱煡骞挎挱
+							//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 							if(res.getNotice() != null){
 								UIHelper.sendBroadCast(NewsDetail.this, res.getNotice());
 							}
-							//鎭㈠鍒濆搴曢儴鏍�
-							mFootViewSwitcher.setDisplayedChild(0);
+							//閹垹顦鹃崚婵嗩瀶鎼存洟鍎撮弽锟�							mFootViewSwitcher.setDisplayedChild(0);
 							mFootEditer.clearFocus();
 							mFootEditer.setText("");
 							mFootEditer.setVisibility(View.GONE);
-							//璺冲埌璇勮鍒楄〃
+							//鐠哄啿鍩岀拠鍕啈閸掓銆�
 					    	viewSwitch(VIEWSWITCH_TYPE_COMMENTS);
-					    	//鏇存柊璇勮鍒楄〃
+					    	//閺囧瓨鏌婄拠鍕啈閸掓銆�
 					    	lvCommentData.add(0,res.getComment());
 					    	lvCommentAdapter.notifyDataSetChanged();
 					    	mLvComment.setSelection(0);        	
-							//鏄剧ず璇勮鏁�
+							//閺勫墽銇氱拠鍕啈閺侊拷
 					        int count = newsDetail.getCommentCount() + 1;
 					        newsDetail.setCommentCount(count);
 							bv_comment.setText(count+"");
 							bv_comment.show();
-							//娓呴櫎涔嬪墠淇濆瓨鐨勭紪杈戝唴瀹�
-							ac.removeProperty(tempCommentKey);
+							//濞撳懘娅庢稊瀣娣囨繂鐡ㄩ惃鍕椽鏉堟垵鍞寸�锟�							ac.removeProperty(tempCommentKey);
 						}
 					}
 					else {
@@ -842,7 +836,7 @@ public class NewsDetail extends Activity {
 					Message msg = new Message();
 					Result res = new Result();
 					try {
-						//鍙戣〃璇勮
+						//閸欐垼銆冪拠鍕啈
 						res = ac.pubComment(_catalog, _id, _uid, _content, _isPostToMyZone);
 						msg.what = 1;
 						msg.obj = res;
@@ -858,7 +852,7 @@ public class NewsDetail extends Activity {
 	};
 	
 	/**
-	 * 娉ㄥ唽鍙屽嚮鍏ㄥ睆浜嬩欢
+	 * 濞夈劌鍞介崣灞藉毊閸忋劌鐫嗘禍瀣╂
 	 */
 	private void regOnDoubleEvent(){
 		gd = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener(){

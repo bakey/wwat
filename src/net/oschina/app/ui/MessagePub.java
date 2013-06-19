@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * 鍙戣〃鐣欒█
+ * 閸欐垼銆冮悾娆掆枅
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -49,8 +49,8 @@ public class MessagePub extends Activity{
 		this.initView();
 	}
 	
-    //鍒濆鍖栬鍥炬帶浠�
-    private void initView()
+    //閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�  
+	private void initView()
     {
     	imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
     	
@@ -67,23 +67,23 @@ public class MessagePub extends Activity{
     	
     	mBack.setOnClickListener(UIHelper.finish(this));
     	mPublish.setOnClickListener(publishClickListener);
-    	//缂栬緫鍣ㄦ坊鍔犳枃鏈洃鍚�
+    	//缂傛牞绶崳銊﹀潑閸旂姵鏋冮張顒傛磧閸氾拷
     	mContent.addTextChangedListener(UIHelper.getTextWatcher(this, tempMessageKey));
     	
-    	//鏄剧ず涓存椂缂栬緫鍐呭
+    	//閺勫墽銇氭稉瀛樻缂傛牞绶崘鍛啇
     	UIHelper.showTempEditContent(this, mContent, tempMessageKey);
     	
-    	mReceiver.setText("鍙戦�鐣欒█缁� "+_friendname);
+    	mReceiver.setText("閸欐垿锟介悾娆掆枅缂侊拷 "+_friendname);
     }    
 	
 	private View.OnClickListener publishClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
-			//闅愯棌杞敭鐩�
+			//闂呮劘妫屾潪顖炴暛閻╋拷
 			imm.hideSoftInputFromWindow(v.getWindowToken(), 0);  
 			
 			_content = mContent.getText().toString();
 			if(StringUtils.isEmpty(_content)){
-				UIHelper.ToastMessage(v.getContext(), "璇疯緭鍏ョ暀瑷�唴瀹�");
+				UIHelper.ToastMessage(v.getContext(), "鐠囩柉绶崗銉ф殌鐟凤拷鍞寸�锟�");
 				return;
 			}
 			
@@ -93,7 +93,7 @@ public class MessagePub extends Activity{
 				return;
 			}
 			
-			mProgress = ProgressDialog.show(v.getContext(), null, "鍙戦�涓仿仿�",true,true); 
+			mProgress = ProgressDialog.show(v.getContext(), null, "閸欐垿锟芥稉顒讳豢浠匡拷",true,true); 
 			
 			final Handler handler = new Handler(){
 				public void handleMessage(Message msg) {
@@ -104,13 +104,12 @@ public class MessagePub extends Activity{
 						Result res = (Result)msg.obj;
 						UIHelper.ToastMessage(MessagePub.this, res.getErrorMessage());
 						if(res.OK()){
-							//鍙戦�閫氱煡骞挎挱
+							//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 							if(res.getNotice() != null){
 								UIHelper.sendBroadCast(MessagePub.this, res.getNotice());
 							}
-							//娓呴櫎涔嬪墠淇濆瓨鐨勭紪杈戝唴瀹�
-							ac.removeProperty(tempMessageKey);
-							//杩斿洖鍒氬垰鍙戣〃鐨勮瘎璁�
+							//濞撳懘娅庢稊瀣娣囨繂鐡ㄩ惃鍕椽鏉堟垵鍞寸�锟�							ac.removeProperty(tempMessageKey);
+							//鏉╂柨娲栭崚姘灠閸欐垼銆冮惃鍕槑鐠侊拷
 							Intent intent = new Intent();
 							intent.putExtra("COMMENT_SERIALIZABLE", res.getComment());
 							setResult(RESULT_OK, intent);

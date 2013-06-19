@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * 鍏充簬鎴戜滑
+ * 閸忓厖绨幋鎴滄粦
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -26,11 +26,11 @@ public class About extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
 		
-		//鑾峰彇瀹㈡埛绔増鏈俊鎭�
+		//閼惧嘲褰囩�銏″煕缁旑垳澧楅張顑夸繆閹拷
         try { 
         	PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
         	mVersion = (TextView)findViewById(R.id.about_version);
-    		mVersion.setText("鐗堟湰锛�"+info.versionName);
+    		mVersion.setText("閻楀牊婀伴敍锟�"+info.versionName);
         } catch (NameNotFoundException e) {    
 			e.printStackTrace(System.err);
 		} 

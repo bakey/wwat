@@ -18,16 +18,16 @@ import android.os.Environment;
 import android.widget.Toast;
 
 /**
- * 搴旂敤绋嬪簭寮傚父绫伙細鐢ㄤ簬鎹曡幏寮傚父鍜屾彁绀洪敊璇俊鎭�
+ * 鎼存梻鏁ょ粙瀣碍瀵倸鐖剁猾浼欑窗閻劋绨幑鏇″箯瀵倸鐖堕崪灞惧絹缁�椽鏁婄拠顖欎繆閹拷
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
  */
 public class AppException extends Exception {
 
-	private final static boolean Debug = false;//鏄惁淇濆瓨閿欒鏃ュ織
+	private final static boolean Debug = false;//閺勵垰鎯佹穱婵嗙摠闁挎瑨顕ら弮銉ョ箶
 	
-	/** 瀹氫箟寮傚父绫诲瀷 */
+	/** 鐎规矮绠熷鍌氱埗缁鐎�*/
 	public final static byte TYPE_NETWORK 	= 0x01;
 	public final static byte TYPE_SOCKET	= 0x02;
 	public final static byte TYPE_HTTP_CODE	= 0x03;
@@ -55,7 +55,7 @@ public class AppException extends Exception {
 	}
 	
 	/**
-	 * 鎻愮ず鍙嬪ソ鐨勯敊璇俊鎭�
+	 * 閹绘劗銇氶崣瀣偨閻ㄥ嫰鏁婄拠顖欎繆閹拷
 	 * @param ctx
 	 */
 	public void makeToast(Context ctx){
@@ -86,7 +86,7 @@ public class AppException extends Exception {
 	}
 	
 	/**
-	 * 淇濆瓨寮傚父鏃ュ織
+	 * 娣囨繂鐡ㄥ鍌氱埗閺冦儱绻�
 	 * @param excp
 	 */
 	public void saveErrorLog(Exception excp) {
@@ -96,7 +96,7 @@ public class AppException extends Exception {
 		FileWriter fw = null;
 		PrintWriter pw = null;
 		try {
-			//鍒ゆ柇鏄惁鎸傝浇浜哠D鍗�
+			//閸掋倖鏌囬弰顖氭儊閹稿倽娴囨禍鍝燚閸楋拷
 			String storageState = Environment.getExternalStorageState();		
 			if(storageState.equals(Environment.MEDIA_MOUNTED)){
 				savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/OSChina/Log/";
@@ -106,7 +106,7 @@ public class AppException extends Exception {
 				}
 				logFilePath = savePath + errorlog;
 			}
-			//娌℃湁鎸傝浇SD鍗★紝鏃犳硶鍐欐枃浠�
+			//濞屸剝婀侀幐鍌濇祰SD閸椻槄绱濋弮鐘崇《閸愭瑦鏋冩禒锟�		
 			if(logFilePath == ""){
 				return;
 			}

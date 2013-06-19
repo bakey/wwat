@@ -48,6 +48,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -65,7 +66,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 /**
- * 搴旂敤绋嬪簭棣栭〉
+ * 鎼存梻鏁ょ粙瀣碍妫ｆ牠銆�
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -174,13 +175,13 @@ public class Main extends Activity {
 	public static BadgeView bv_atme;
 	public static BadgeView bv_review;
 	
-    private QuickActionWidget mGrid;//蹇嵎鏍忔帶浠�
+    private QuickActionWidget mGrid;//韫囶偅宓庨弽蹇斿付娴狅拷
 	
 	private boolean isClearNotice = false;
 	private int curClearNoticeType = 0;
 	
-	private TweetReceiver tweetReceiver;//鍔ㄥ脊鍙戝竷鎺ユ敹鍣�
-	private AppContext appContext;//鍏ㄥ眬Context
+	private TweetReceiver tweetReceiver;//閸斻劌鑴婇崣鎴濈閹恒儲鏁归崳锟�
+	private AppContext appContext;//閸忋劌鐪珻ontext
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -189,32 +190,40 @@ public class Main extends Activity {
         
         AppManager.getAppManager().addActivity(this);
         
-        //娉ㄥ唽骞挎挱鎺ユ敹鍣�
-    	tweetReceiver = new TweetReceiver();
+        //濞夈劌鍞介獮鎸庢尡閹恒儲鏁归崳锟�    	
+        tweetReceiver = new TweetReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction("net.oschina.app.action.APP_TWEETPUB");
         registerReceiver(tweetReceiver, filter);
         
         appContext = (AppContext)getApplication();
-        //缃戠粶杩炴帴鍒ゆ柇
+        //缂冩垹绮舵潻鐐村复閸掋倖鏌�
         if(!appContext.isNetworkConnected())
         	UIHelper.ToastMessage(this, R.string.network_not_connected);
-        //鍒濆鍖栫櫥褰�
-        appContext.initLoginInfo();
+        //閸掓繂顬婇崠鏍瑜帮拷
+       // appContext.initLoginInfo();
+        
+        Log.d("bakey" , "start init");
 		
 		this.initHeadView();
+		Log.d("bakey" , "init head view success");
         this.initFootBar();
-        this.initPageScroll();        
+        Log.d("bakey" , "init foot bar success");
+        this.initPageScroll();
+        Log.d("bakey" , "init page scroll success");
         this.initFrameButton();
+        Log.d("bakey" , "init frame button success");
         this.initBadgeView();
+        Log.d("bakey" , "init badgeview success");
         this.initQuickActionGrid();
         this.initFrameListView();
+        Log.d("bakey" , "init all success");
         
-        //妫�煡鏂扮増鏈�
-        UpdateManager.getUpdateManager().checkAppUpdate(this, false);
+        //濡拷鐓￠弬鎵閺堬拷
+        //UpdateManager.getUpdateManager().checkAppUpdate(this, false);
         
-        //鍚姩杞閫氱煡淇℃伅
-        this.foreachUserNotice();
+        //閸氼垰濮╂潪顔款嚄闁氨鐓℃穱鈩冧紖
+        //this.foreachUserNotice();
         
     }
     
@@ -228,7 +237,7 @@ public class Main extends Activity {
     		fbTweet.setChecked(false);
     		fbactive.setChecked(false);
     	}
-    	//璇诲彇宸﹀彸婊戝姩閰嶇疆
+    	//鐠囪褰囧锕�礁濠婃垵濮╅柊宥囩枂
     	if(appContext.isScroll())
     		mScrollLayout.setIsScroll(true);
     	else
@@ -240,7 +249,7 @@ public class Main extends Activity {
 		super.onNewIntent(intent);
 		
 		if(intent.getBooleanExtra("LOGIN", false)){
-			//鍔犺浇鍔ㄥ脊銆佸姩鎬佸強鐣欒█(褰撳墠鍔ㄥ脊鐨刢atalog澶т簬0琛ㄧず鐢ㄦ埛鐨剈id)
+			//閸旂姾娴囬崝銊ヨ剨閵嗕礁濮╅幀浣稿挤閻ｆ瑨鈻�瑜版挸澧犻崝銊ヨ剨閻ㄥ垻atalog婢堆傜艾0鐞涖劎銇氶悽銊﹀煕閻ㄥ増id)
 			if(lvTweetData.size() == 0 && curTweetCatalog > 0) {
 				this.loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
 			}
@@ -251,7 +260,7 @@ public class Main extends Activity {
 				this.loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
 			}			
 		}else if(intent.getBooleanExtra("NOTICE", false)){
-			//鏌ョ湅鏈�柊淇℃伅 - 闃叉褰撳墠瑙嗗浘宸插湪鈥樻垜鐨勭┖闂粹�鑰屼笉瑙﹀彂OnViewChange浜嬩欢
+			//閺屻儳婀呴張锟芥煀娣団剝浼�- 闂冨弶顒涜ぐ鎾冲鐟欏棗娴樺鎻掓躬閳ユɑ鍨滈惃鍕敄闂傜补锟介懓灞肩瑝鐟欙箑褰侽nViewChange娴滃娆�
 			if(mScrollLayout.getCurScreen() != 3){
 				mScrollLayout.scrollToScreen(3);
 			}else{
@@ -268,11 +277,11 @@ public class Main extends Activity {
 				Result res = (Result)intent.getSerializableExtra("RESULT");
 				UIHelper.ToastMessage(context, res.getErrorMessage(), 1000);
 				if(res.OK()){
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(res.getNotice() != null){
 						UIHelper.sendBroadCast(context, res.getNotice());
 					}
-					//鍙戝畬鍔ㄥ脊鍚�鍒锋柊鏈�柊銆佹垜鐨勫姩寮�鏈�柊鍔ㄦ�
+					//閸欐垵鐣崝銊ヨ剨閸氾拷閸掗攱鏌婇張锟芥煀閵嗕焦鍨滈惃鍕З瀵拷閺堬拷鏌婇崝銊︼拷
 					if(curTweetCatalog >= 0) {
 						loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
 					}	
@@ -288,11 +297,11 @@ public class Main extends Activity {
 							Result res = (Result)msg.obj;
 							UIHelper.ToastMessage(context, res.getErrorMessage(), 1000);
 							if(res.OK()){
-								//鍙戦�閫氱煡骞挎挱
+								//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 								if(res.getNotice() != null){
 									UIHelper.sendBroadCast(context, res.getNotice());
 								}
-								//鍙戝畬鍔ㄥ脊鍚�鍒锋柊鏈�柊銆佹垜鐨勫姩寮�鏈�柊鍔ㄦ�
+								//閸欐垵鐣崝銊ヨ剨閸氾拷閸掗攱鏌婇張锟芥煀閵嗕焦鍨滈惃鍕З瀵拷閺堬拷鏌婇崝銊︼拷
 								if(curTweetCatalog >= 0) {
 									loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
 								}	
@@ -334,7 +343,7 @@ public class Main extends Activity {
     }
     
     /**
-     * 鍒濆鍖栧揩鎹锋爮
+     * 閸掓繂顬婇崠鏍ф彥閹归攱鐖�
      */
     private void initQuickActionGrid() {
         mGrid = new QuickActionGrid(this);
@@ -349,27 +358,27 @@ public class Main extends Activity {
     }
     
     /**
-     * 蹇嵎鏍廼tem鐐瑰嚮浜嬩欢
+     * 韫囶偅宓庨弽寤紅em閻愮懓鍤禍瀣╂
      */
     private OnQuickActionClickListener mActionListener = new OnQuickActionClickListener() {
         public void onQuickActionClicked(QuickActionWidget widget, int position) {
     		switch (position) {
-    		case 0://鐢ㄦ埛鐧诲綍-娉ㄩ攢
+    		case 0://閻劍鍩涢惂璇茬秿-濞夈劑鏀�
     			UIHelper.loginOrLogout(Main.this);
     			break;
-    		case 1://鎴戠殑璧勬枡
+    		case 1://閹存垹娈戠挧鍕灐
     			UIHelper.showUserInfo(Main.this);
     			break;
-    		case 2://寮�簮杞欢
+    		case 2://瀵拷绨潪顖欐
     			UIHelper.showSoftware(Main.this);
     			break;
-    		case 3://鎼滅储
+    		case 3://閹兼粎鍌�
     			UIHelper.showSearch(Main.this);
     			break;
-    		case 4://璁剧疆
+    		case 4://鐠佸墽鐤�
     			UIHelper.showSetting(Main.this);
     			break;
-    		case 5://閫�嚭
+    		case 5://闁拷鍤�
     			UIHelper.Exit(Main.this);
     			break;
     		}
@@ -377,26 +386,26 @@ public class Main extends Activity {
     };
     
     /**
-     * 鍒濆鍖栨墍鏈塋istView
+     * 閸掓繂顬婇崠鏍ㄥ閺堝istView
      */
     private void initFrameListView()
     {
-    	//鍒濆鍖杔istview鎺т欢
+    	//閸掓繂顬婇崠鏉攊stview閹貉傛
 		this.initNewsListView();
 		this.initBlogListView();
 		this.initQuestionListView();
 		this.initTweetListView();
 		this.initActiveListView();
 		this.initMsgListView();
-		//鍔犺浇listview鏁版嵁
+		//閸旂姾娴噇istview閺佺増宓�
 		this.initFrameListViewData();
     }
     /**
-     * 鍒濆鍖栨墍鏈塋istView鏁版嵁
+     * 閸掓繂顬婇崠鏍ㄥ閺堝istView閺佺増宓�
      */
     private void initFrameListViewData()
     {
-        //鍒濆鍖朒andler
+        //閸掓繂顬婇崠鏈抋ndler
         lvNewsHandler = this.getLvHandler(lvNews, lvNewsAdapter, lvNews_foot_more, lvNews_foot_progress, AppContext.PAGE_SIZE);
         lvBlogHandler = this.getLvHandler(lvBlog, lvBlogAdapter, lvBlog_foot_more, lvBlog_foot_progress, AppContext.PAGE_SIZE);
         lvQuestionHandler = this.getLvHandler(lvQuestion, lvQuestionAdapter, lvQuestion_foot_more, lvQuestion_foot_progress, AppContext.PAGE_SIZE);  
@@ -404,7 +413,7 @@ public class Main extends Activity {
         lvActiveHandler = this.getLvHandler(lvActive, lvActiveAdapter, lvActive_foot_more, lvActive_foot_progress, AppContext.PAGE_SIZE); 
         lvMsgHandler = this.getLvHandler(lvMsg, lvMsgAdapter, lvMsg_foot_more, lvMsg_foot_progress, AppContext.PAGE_SIZE);      	
     	
-        //鍔犺浇鏁版嵁				
+        //閸旂姾娴囬弫鐗堝祦				
 		if(lvNewsData.size() == 0) {
 			loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}
@@ -419,8 +428,7 @@ public class Main extends Activity {
 		}
     }
     /**
-     * 鍒濆鍖栨柊闂诲垪琛�
-     */
+     * 閸掓繂顬婇崠鏍ㄦ煀闂傝鍨悰锟�     */
     private void initNewsListView()
     {
         lvNewsAdapter = new ListViewNewsAdapter(this, lvNewsData, R.layout.news_listitem);        
@@ -428,15 +436,15 @@ public class Main extends Activity {
         lvNews_foot_more = (TextView)lvNews_footer.findViewById(R.id.listview_foot_more);
         lvNews_foot_progress = (ProgressBar)lvNews_footer.findViewById(R.id.listview_foot_progress);
         lvNews = (PullToRefreshListView)findViewById(R.id.frame_listview_news);
-        lvNews.addFooterView(lvNews_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        lvNews.addFooterView(lvNews_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         lvNews.setAdapter(lvNewsAdapter); 
         lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvNews_footer) return;
         		
         		News news = null;        		
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			news = (News)view.getTag();
         		}else{
@@ -445,18 +453,16 @@ public class Main extends Activity {
         		}
         		if(news == null) return;
         		
-        		//璺宠浆鍒版柊闂昏鎯�
-        		UIHelper.showNewsRedirect(view.getContext(), news);
+        		//鐠哄疇娴嗛崚鐗堟煀闂傛槒顕涢幆锟�        		UIHelper.showNewsRedirect(view.getContext(), news);
         	}        	
 		});
         lvNews.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvNews.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvNewsData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvNewsData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvNews_footer) == view.getLastVisiblePosition())
@@ -470,7 +476,7 @@ public class Main extends Activity {
 				{
 					lvNews_foot_more.setText(R.string.load_ing);
 					lvNews_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvNewsSumData/AppContext.PAGE_SIZE;
 					loadLvNewsData(curNewsCatalog, pageIndex, lvNewsHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -486,8 +492,7 @@ public class Main extends Activity {
         });					
     }
     /**
-     * 鍒濆鍖栧崥瀹㈠垪琛�
-     */
+     * 閸掓繂顬婇崠鏍у触鐎广垹鍨悰锟�     */
 	private void initBlogListView()
     {
         lvBlogAdapter = new ListViewBlogAdapter(this, BlogList.CATALOG_LATEST, lvBlogData, R.layout.blog_listitem);        
@@ -495,15 +500,15 @@ public class Main extends Activity {
         lvBlog_foot_more = (TextView)lvBlog_footer.findViewById(R.id.listview_foot_more);
         lvBlog_foot_progress = (ProgressBar)lvBlog_footer.findViewById(R.id.listview_foot_progress);
         lvBlog = (PullToRefreshListView)findViewById(R.id.frame_listview_blog);
-        lvBlog.addFooterView(lvBlog_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        lvBlog.addFooterView(lvBlog_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         lvBlog.setAdapter(lvBlogAdapter); 
         lvBlog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvBlog_footer) return;
         		
         		Blog blog = null;        		
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			blog = (Blog)view.getTag();
         		}else{
@@ -512,18 +517,16 @@ public class Main extends Activity {
         		}
         		if(blog == null) return;
         		
-        		//璺宠浆鍒板崥瀹㈣鎯�
-        		UIHelper.showUrlRedirect(view.getContext(), blog.getUrl());
+        		//鐠哄疇娴嗛崚鏉垮触鐎广垼顕涢幆锟�        		UIHelper.showUrlRedirect(view.getContext(), blog.getUrl());
         	}        	
 		});
         lvBlog.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvBlog.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvBlogData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvBlogData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvBlog_footer) == view.getLastVisiblePosition())
@@ -537,7 +540,7 @@ public class Main extends Activity {
 				{
 					lvBlog_foot_more.setText(R.string.load_ing);
 					lvBlog_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvBlogSumData/AppContext.PAGE_SIZE;
 					loadLvBlogData(curNewsCatalog, pageIndex, lvBlogHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -553,8 +556,7 @@ public class Main extends Activity {
         });					
     }
     /**
-     * 鍒濆鍖栧笘瀛愬垪琛�
-     */
+     * 閸掓繂顬婇崠鏍х瑯鐎涙劕鍨悰锟�     */
     private void initQuestionListView()
     {    	
         lvQuestionAdapter = new ListViewQuestionAdapter(this, lvQuestionData, R.layout.question_listitem);        
@@ -562,15 +564,15 @@ public class Main extends Activity {
         lvQuestion_foot_more = (TextView)lvQuestion_footer.findViewById(R.id.listview_foot_more);
         lvQuestion_foot_progress = (ProgressBar)lvQuestion_footer.findViewById(R.id.listview_foot_progress);
         lvQuestion = (PullToRefreshListView)findViewById(R.id.frame_listview_question);
-        lvQuestion.addFooterView(lvQuestion_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        lvQuestion.addFooterView(lvQuestion_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         lvQuestion.setAdapter(lvQuestionAdapter); 
         lvQuestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvQuestion_footer) return;
         		
         		Post post = null;		
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			post = (Post)view.getTag();
         		}else{
@@ -579,18 +581,16 @@ public class Main extends Activity {
         		}
         		if(post == null) return;
         		
-        		//璺宠浆鍒版柊闂昏鎯�
-        		UIHelper.showQuestionDetail(view.getContext(), post.getId());
+        		//鐠哄疇娴嗛崚鐗堟煀闂傛槒顕涢幆锟�        		UIHelper.showQuestionDetail(view.getContext(), post.getId());
         	}        	
 		});
         lvQuestion.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvQuestion.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvQuestionData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvQuestionData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvQuestion_footer) == view.getLastVisiblePosition())
@@ -604,7 +604,7 @@ public class Main extends Activity {
 				{
 					lvQuestion_foot_more.setText(R.string.load_ing);
 					lvQuestion_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvQuestionSumData/AppContext.PAGE_SIZE;
 					loadLvQuestionData(curQuestionCatalog, pageIndex, lvQuestionHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -620,8 +620,7 @@ public class Main extends Activity {
         });			
     }
     /**
-     * 鍒濆鍖栧姩寮瑰垪琛�
-     */
+     * 閸掓繂顬婇崠鏍уЗ瀵懓鍨悰锟�     */
     private void initTweetListView()
     {   
         lvTweetAdapter = new ListViewTweetAdapter(this, lvTweetData, R.layout.tweet_listitem);        
@@ -629,15 +628,15 @@ public class Main extends Activity {
         lvTweet_foot_more = (TextView)lvTweet_footer.findViewById(R.id.listview_foot_more);
         lvTweet_foot_progress = (ProgressBar)lvTweet_footer.findViewById(R.id.listview_foot_progress);
         lvTweet = (PullToRefreshListView)findViewById(R.id.frame_listview_tweet);
-        lvTweet.addFooterView(lvTweet_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        lvTweet.addFooterView(lvTweet_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         lvTweet.setAdapter(lvTweetAdapter); 
         lvTweet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvTweet_footer) return;
         		
         		Tweet tweet = null;	
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			tweet = (Tweet)view.getTag();
         		}else{
@@ -646,7 +645,7 @@ public class Main extends Activity {
         		}
         		if(tweet == null) return;        		
         		
-        		//璺宠浆鍒板姩寮硅鎯�璇勮椤甸潰
+        		//鐠哄疇娴嗛崚鏉垮З瀵顕涢幆锟界拠鍕啈妞ょ敻娼�
         		UIHelper.showTweetDetail(view.getContext(), tweet.getId());
         	}        	
 		});
@@ -654,10 +653,9 @@ public class Main extends Activity {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvTweet.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvTweetData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvTweetData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvTweet_footer) == view.getLastVisiblePosition())
@@ -671,7 +669,7 @@ public class Main extends Activity {
 				{
 					lvTweet_foot_more.setText(R.string.load_ing);
 					lvTweet_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvTweetSumData/AppContext.PAGE_SIZE;
 					loadLvTweetData(curTweetCatalog, pageIndex, lvTweetHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -682,11 +680,11 @@ public class Main extends Activity {
 		});
         lvTweet.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+				//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvTweet_footer) return false;
 				
 				Tweet _tweet = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			_tweet = (Tweet)view.getTag();
         		}else{
@@ -697,7 +695,7 @@ public class Main extends Activity {
         		
         		final Tweet tweet = _tweet;				
 				
-				//鍒犻櫎鎿嶄綔
+				//閸掔娀娅庨幙宥勭稊
         		if(appContext.getLoginUid() == tweet.getAuthorId()) {
 					final Handler handler = new Handler(){
 						public void handleMessage(Message msg) {
@@ -742,8 +740,7 @@ public class Main extends Activity {
         });			
     }
     /**
-     * 鍒濆鍖栧姩鎬佸垪琛�
-     */
+     * 閸掓繂顬婇崠鏍уЗ閹礁鍨悰锟�     */
     private void initActiveListView()
     {   
         lvActiveAdapter = new ListViewActiveAdapter(this, lvActiveData, R.layout.active_listitem);        
@@ -751,15 +748,15 @@ public class Main extends Activity {
         lvActive_foot_more = (TextView)lvActive_footer.findViewById(R.id.listview_foot_more);
         lvActive_foot_progress = (ProgressBar)lvActive_footer.findViewById(R.id.listview_foot_progress);
         lvActive = (PullToRefreshListView)findViewById(R.id.frame_listview_active);
-        lvActive.addFooterView(lvActive_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        lvActive.addFooterView(lvActive_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         lvActive.setAdapter(lvActiveAdapter); 
         lvActive.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvActive_footer) return;        		
         		
         		Active active = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			active = (Active)view.getTag();
         		}else{
@@ -768,7 +765,7 @@ public class Main extends Activity {
         		}
         		if(active == null) return;  
         		
-        		//璺宠浆
+        		//鐠哄疇娴�
         		UIHelper.showActiveRedirect(view.getContext(), active);
         	}        	
 		});
@@ -776,10 +773,9 @@ public class Main extends Activity {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvActive.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvActiveData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvActiveData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvActive_footer) == view.getLastVisiblePosition())
@@ -793,7 +789,7 @@ public class Main extends Activity {
 				{
 					lvActive_foot_more.setText(R.string.load_ing);
 					lvActive_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvActiveSumData/AppContext.PAGE_SIZE;
 					loadLvActiveData(curActiveCatalog, pageIndex, lvActiveHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -804,7 +800,7 @@ public class Main extends Activity {
 		});
         lvActive.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
             public void onRefresh() {
-        		//澶勭悊閫氱煡淇℃伅
+        		//婢跺嫮鎮婇柅姘辩叀娣団剝浼�
         		if(curActiveCatalog==ActiveList.CATALOG_ATME && bv_atme.isShown()){
         			isClearNotice = true;
         			curClearNoticeType = Notice.TYPE_ATME;
@@ -812,14 +808,13 @@ public class Main extends Activity {
         			isClearNotice = true;
         			curClearNoticeType = Notice.TYPE_COMMENT;
         		}
-        		//鍒锋柊鏁版嵁
+        		//閸掗攱鏌婇弫鐗堝祦
             	loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
             }
         });					
     }
     /**
-     * 鍒濆鍖栫暀瑷�垪琛�
-     */
+     * 閸掓繂顬婇崠鏍殌鐟凤拷鍨悰锟�     */
     private void initMsgListView()
     {   
         lvMsgAdapter = new ListViewMessageAdapter(this, lvMsgData, R.layout.message_listitem);        
@@ -827,15 +822,15 @@ public class Main extends Activity {
         lvMsg_foot_more = (TextView)lvMsg_footer.findViewById(R.id.listview_foot_more);
         lvMsg_foot_progress = (ProgressBar)lvMsg_footer.findViewById(R.id.listview_foot_progress);
         lvMsg = (PullToRefreshListView)findViewById(R.id.frame_listview_message);
-        lvMsg.addFooterView(lvMsg_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        lvMsg.addFooterView(lvMsg_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         lvMsg.setAdapter(lvMsgAdapter); 
         lvMsg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvMsg_footer) return;        		
         		
         		Messages msg = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			msg = (Messages)view.getTag();
         		}else{
@@ -844,18 +839,16 @@ public class Main extends Activity {
         		}
         		if(msg == null) return;  
         		
-        		//璺宠浆鍒版柊闂昏鎯�
-        		UIHelper.showMessageDetail(view.getContext(), msg.getFriendId(), msg.getFriendName());
+        		//鐠哄疇娴嗛崚鐗堟煀闂傛槒顕涢幆锟�        		UIHelper.showMessageDetail(view.getContext(), msg.getFriendId(), msg.getFriendName());
         	}        	
 		});
         lvMsg.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvMsg.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvMsgData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvMsgData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvMsg_footer) == view.getLastVisiblePosition())
@@ -869,7 +862,7 @@ public class Main extends Activity {
 				{
 					lvMsg_foot_more.setText(R.string.load_ing);
 					lvMsg_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvMsgSumData/AppContext.PAGE_SIZE;
 					loadLvMsgData(pageIndex, lvMsgHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -880,11 +873,11 @@ public class Main extends Activity {
 		});
         lvMsg.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {				
-				//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+				//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvMsg_footer) return false;
 				
         		Messages _msg = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			_msg = (Messages)view.getTag();
         		}else{
@@ -895,7 +888,7 @@ public class Main extends Activity {
         		
         		final Messages message = _msg;
         		
-				//閫夋嫨鎿嶄綔
+				//闁瀚ㄩ幙宥勭稊
 				final Handler handler = new Handler(){
 					public void handleMessage(Message msg) {
 						if(msg.what == 1){
@@ -931,19 +924,18 @@ public class Main extends Activity {
 		});
         lvMsg.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
             public void onRefresh() {
-            	//娓呴櫎閫氱煡淇℃伅
+            	//濞撳懘娅庨柅姘辩叀娣団剝浼�
             	if(bv_message.isShown()){
             		isClearNotice = true;
             		curClearNoticeType = Notice.TYPE_MESSAGE;
             	}
-				//鍒锋柊鏁版嵁
+				//閸掗攱鏌婇弫鐗堝祦
             	loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
             }
         });			
     }
     /**
-     * 鍒濆鍖栧ご閮ㄨ鍥�
-     */
+     * 閸掓繂顬婇崠鏍с仈闁劏顬呴崶锟�     */
     private void initHeadView()
     {
     	mHeadLogo = (ImageView)findViewById(R.id.main_head_logo);
@@ -970,7 +962,7 @@ public class Main extends Activity {
 		});
     }
     /**
-     * 鍒濆鍖栧簳閮ㄦ爮
+     * 閸掓繂顬婇崠鏍х俺闁劍鐖�
      */
     private void initFootBar()
     {
@@ -982,15 +974,14 @@ public class Main extends Activity {
     	fbSetting = (ImageView)findViewById(R.id.main_footbar_setting);
     	fbSetting.setOnClickListener(new View.OnClickListener() {
     		public void onClick(View v) {    			
-    			//灞曠ず蹇嵎鏍�鍒ゆ柇鏄惁鐧诲綍&鏄惁鍔犺浇鏂囩珷鍥剧墖
+    			//鐏炴洜銇氳箛顐ｅ祹閺嶏拷閸掋倖鏌囬弰顖氭儊閻ц缍�閺勵垰鎯侀崝鐘烘祰閺傚洨鐝烽崶鍓у
     			UIHelper.showSettingLoginOrLogout(Main.this, mGrid.getQuickAction(0));
     			mGrid.show(v);
     		}
     	});    	
     }
     /**
-     * 鍒濆鍖栭�鐭ヤ俊鎭爣绛炬帶浠�
-     */
+     * 閸掓繂顬婇崠鏍拷閻儰淇婇幁顖涚垼缁涚偓甯舵禒锟�     */
     private void initBadgeView()
     {
     	bv_active = new BadgeView(this, fbactive);
@@ -1022,7 +1013,7 @@ public class Main extends Activity {
     	bv_message.setTextColor(Color.WHITE);
     }    
 	/**
-     * 鍒濆鍖栨按骞虫粴鍔ㄧ炕椤�
+     * 閸掓繂顬婇崠鏍ㄦ寜楠炶櫕绮撮崝銊х倳妞わ拷
      */
     private void initPageScroll()
     {
@@ -1041,19 +1032,19 @@ public class Main extends Activity {
     		mButtons[i].setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					int pos = (Integer)(v.getTag());
-					//褰撳墠椤圭偣鍑诲埛鏂�
-	    			if(mCurSel == pos) {
+					//瑜版挸澧犳い鍦仯閸戣鍩涢弬锟�	    		
+					if(mCurSel == pos) {
 		    			switch (pos) {
-						case 0://璧勮
+						case 0://鐠у嫯顔�
 							lvNews.clickRefresh();
 							break;	
-						case 1://闂瓟
+						case 1://闂傤喚鐡�
 							lvQuestion.clickRefresh();
 							break;
-						case 2://鍔ㄥ脊
+						case 2://閸斻劌鑴�
 							lvTweet.clickRefresh();
 							break;
-						case 3://鍔ㄦ�
+						case 3://閸斻劍锟�
 							if(lvActive.getVisibility() == View.VISIBLE)
 								lvActive.clickRefresh();
 							else
@@ -1067,7 +1058,7 @@ public class Main extends Activity {
 			});
     	}
     	
-    	//璁剧疆绗竴鏄剧ず灞�
+    	//鐠佸墽鐤嗙粭顑跨閺勫墽銇氱仦锟�    	
     	mCurSel = 0;
     	mButtons[mCurSel].setChecked(true);
     	
@@ -1078,7 +1069,7 @@ public class Main extends Activity {
 		});
     }
     /**
-     * 璁剧疆搴曢儴鏍忓綋鍓嶇劍鐐�
+     * 鐠佸墽鐤嗘惔鏇㈠劥閺嶅繐缍嬮崜宥囧妽閻愶拷
      * @param index
      */
     private void setCurPoint(int index)
@@ -1094,7 +1085,7 @@ public class Main extends Activity {
     	mHead_search.setVisibility(View.GONE);
     	mHeadPub_post.setVisibility(View.GONE);
     	mHeadPub_tweet.setVisibility(View.GONE);
-		//澶撮儴logo銆佸彂甯栥�鍙戝姩寮规寜閽樉绀�
+		//婢舵挳鍎磍ogo閵嗕礁褰傜敮鏍ワ拷閸欐垵濮╁瑙勫瘻闁筋喗妯夌粈锟�    
     	if(index == 0){
     		mHeadLogo.setImageResource(R.drawable.frame_logo_news);
     		mHead_search.setVisibility(View.VISIBLE);
@@ -1107,12 +1098,12 @@ public class Main extends Activity {
     		mHeadLogo.setImageResource(R.drawable.frame_logo_tweet);
     		mHeadPub_tweet.setVisibility(View.VISIBLE);
     	}
-    	//澶勭悊閫氱煡淇℃伅
+    	//婢跺嫮鎮婇柅姘辩叀娣団剝浼�
     	else if(index == 3){
     		mHeadLogo.setImageResource(R.drawable.frame_logo_active);
     		mHeadPub_tweet.setVisibility(View.VISIBLE);
     		
-    		//鍒ゆ柇鐧诲綍
+    		//閸掋倖鏌囬惂璇茬秿
 			int uid = appContext.getLoginUid();
 			if(uid == 0){
 				UIHelper.showLoginDialog(Main.this);
@@ -1128,11 +1119,11 @@ public class Main extends Activity {
 		}
     }
     /**
-     * 鍒濆鍖栧悇涓富椤电殑鎸夐挳(璧勮銆侀棶绛斻�鍔ㄥ脊銆佸姩鎬併�鐣欒█)
+     * 閸掓繂顬婇崠鏍ф倗娑擃亙瀵屾い鐢垫畱閹稿鎸�鐠у嫯顔嗛妴渚�６缁涙柣锟介崝銊ヨ剨閵嗕礁濮╅幀浣碉拷閻ｆ瑨鈻�
      */
     private void initFrameButton()
     {
-    	//鍒濆鍖栨寜閽帶浠�
+    	//閸掓繂顬婇崠鏍ㄥ瘻闁筋喗甯舵禒锟�    	
     	framebtn_News_lastest = (Button)findViewById(R.id.frame_btn_news_lastest);
     	framebtn_News_blog = (Button)findViewById(R.id.frame_btn_news_blog);
     	framebtn_News_recommend = (Button)findViewById(R.id.frame_btn_news_recommend);
@@ -1149,27 +1140,27 @@ public class Main extends Activity {
     	framebtn_Active_comment = (Button)findViewById(R.id.frame_btn_active_comment);
     	framebtn_Active_myself = (Button)findViewById(R.id.frame_btn_active_myself);
     	framebtn_Active_message = (Button)findViewById(R.id.frame_btn_active_message);
-    	//璁剧疆棣栭�鎷╅」
+    	//鐠佸墽鐤嗘＃鏍拷閹封晠銆�
     	framebtn_News_lastest.setEnabled(false);
     	framebtn_Question_ask.setEnabled(false);
     	framebtn_Tweet_lastest.setEnabled(false);
     	framebtn_Active_lastest.setEnabled(false);
-    	//璧勮
+    	//鐠у嫯顔�
     	framebtn_News_lastest.setOnClickListener(frameNewsBtnClick(framebtn_News_lastest,NewsList.CATALOG_ALL));
     	framebtn_News_blog.setOnClickListener(frameNewsBtnClick(framebtn_News_blog,BlogList.CATALOG_LATEST));
     	framebtn_News_recommend.setOnClickListener(frameNewsBtnClick(framebtn_News_recommend,BlogList.CATALOG_RECOMMEND));
-    	//闂瓟
+    	//闂傤喚鐡�
     	framebtn_Question_ask.setOnClickListener(frameQuestionBtnClick(framebtn_Question_ask,PostList.CATALOG_ASK));
     	framebtn_Question_share.setOnClickListener(frameQuestionBtnClick(framebtn_Question_share,PostList.CATALOG_SHARE));
     	framebtn_Question_other.setOnClickListener(frameQuestionBtnClick(framebtn_Question_other,PostList.CATALOG_OTHER));
     	framebtn_Question_job.setOnClickListener(frameQuestionBtnClick(framebtn_Question_job,PostList.CATALOG_JOB));
     	framebtn_Question_site.setOnClickListener(frameQuestionBtnClick(framebtn_Question_site,PostList.CATALOG_SITE));
-    	//鍔ㄥ脊
+    	//閸斻劌鑴�
     	framebtn_Tweet_lastest.setOnClickListener(frameTweetBtnClick(framebtn_Tweet_lastest,TweetList.CATALOG_LASTEST));
     	framebtn_Tweet_hot.setOnClickListener(frameTweetBtnClick(framebtn_Tweet_hot,TweetList.CATALOG_HOT));
     	framebtn_Tweet_my.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				//鍒ゆ柇鐧诲綍
+				//閸掋倖鏌囬惂璇茬秿
 				int uid = appContext.getLoginUid();
 				if(uid == 0){
 					UIHelper.showLoginDialog(Main.this);
@@ -1187,13 +1178,13 @@ public class Main extends Activity {
 				loadLvTweetData(uid, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 			}
 		});
-    	//鍔ㄦ�
+    	//閸斻劍锟�
     	framebtn_Active_lastest.setOnClickListener(frameActiveBtnClick(framebtn_Active_lastest,ActiveList.CATALOG_LASTEST));
     	framebtn_Active_atme.setOnClickListener(frameActiveBtnClick(framebtn_Active_atme,ActiveList.CATALOG_ATME));
     	framebtn_Active_comment.setOnClickListener(frameActiveBtnClick(framebtn_Active_comment,ActiveList.CATALOG_COMMENT));
     	framebtn_Active_myself.setOnClickListener(frameActiveBtnClick(framebtn_Active_myself,ActiveList.CATALOG_MYSELF));
     	framebtn_Active_message.setOnClickListener(frameActiveBtnClick(framebtn_Active_message,0));
-    	//鐗规畩澶勭悊
+    	//閻楄鐣╂径鍕倞
     	framebtn_Active_atme.setText("@"+getString(R.string.frame_title_active_atme));
     }
     private View.OnClickListener frameNewsBtnClick(final Button btn,final int catalog){
@@ -1217,7 +1208,7 @@ public class Main extends Activity {
 
 		    	curNewsCatalog = catalog;
 		    	
-				//闈炴柊闂诲垪琛�
+				//闂堢偞鏌婇梻璇插灙鐞涳拷
 		    	if(btn == framebtn_News_lastest)
 		    	{
 		    		lvNews.setVisibility(View.VISIBLE);
@@ -1304,7 +1295,7 @@ public class Main extends Activity {
     private View.OnClickListener frameActiveBtnClick(final Button btn,final int catalog){
     	return new View.OnClickListener() {
 			public void onClick(View v) {
-				//鍒ゆ柇鐧诲綍
+				//閸掋倖鏌囬惂璇茬秿
 				int uid = appContext.getLoginUid();
 				if(uid == 0){
 					UIHelper.showLoginDialog(Main.this);
@@ -1340,7 +1331,7 @@ public class Main extends Activity {
     	else
     		framebtn_Active_message.setEnabled(true);
     	
-		//鏄惁澶勭悊閫氱煡淇℃伅
+		//閺勵垰鎯佹径鍕倞闁氨鐓℃穱鈩冧紖
 		if(btn == framebtn_Active_atme && bv_atme.isShown()){
 			this.isClearNotice = true;
 			this.curClearNoticeType = Notice.TYPE_ATME;
@@ -1352,7 +1343,7 @@ public class Main extends Activity {
 			this.curClearNoticeType = Notice.TYPE_MESSAGE;
 		}
     	
-    	//闈炵暀瑷�睍绀哄姩鎬佸垪琛�
+    	//闂堢偟鏆�懛锟界潔缁�搫濮╅幀浣稿灙鐞涳拷
     	if(btn != framebtn_Active_message)
     	{
     		lvActive.setVisibility(View.VISIBLE);
@@ -1380,7 +1371,7 @@ public class Main extends Activity {
     	}
     }
     /**
-     * 鑾峰彇listview鐨勫垵濮嬪寲Handler
+     * 閼惧嘲褰噇istview閻ㄥ嫬鍨垫慨瀣Handler
      * @param lv
      * @param adapter
      * @return
@@ -1389,7 +1380,7 @@ public class Main extends Activity {
     	return new Handler(){
 			public void handleMessage(Message msg) {
 				if(msg.what >= 0){
-					//listview鏁版嵁澶勭悊
+					//listview閺佺増宓佹径鍕倞
 					Notice notice = handleLvData(msg.what, msg.obj, msg.arg2, msg.arg1);
 					
 					if(msg.what < pageSize){
@@ -1401,7 +1392,7 @@ public class Main extends Activity {
 						adapter.notifyDataSetChanged();
 						more.setText(R.string.load_more);
 						
-						//鐗规畩澶勭悊-鐑棬鍔ㄥ脊涓嶈兘缈婚〉
+						//閻楄鐣╂径鍕倞-閻戭參妫崝銊ヨ剨娑撳秷鍏樼紙濠氥�
 						if(lv == lvTweet) {
 							TweetList tlist = (TweetList)msg.obj;
 							if(lvTweetData.size() == tlist.getTweetCount()){
@@ -1410,19 +1401,19 @@ public class Main extends Activity {
 							}
 						}
 					}
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(notice != null){
 						UIHelper.sendBroadCast(lv.getContext(), notice);
 					}
-					//鏄惁娓呴櫎閫氱煡淇℃伅
+					//閺勵垰鎯佸〒鍛存珟闁氨鐓℃穱鈩冧紖
 					if(isClearNotice){
 						ClearNotice(curClearNoticeType);
-						isClearNotice = false;//閲嶇疆
+						isClearNotice = false;//闁插秶鐤�
 						curClearNoticeType = 0;
 					}
 				}
 				else if(msg.what == -1){
-					//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+					//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 					lv.setTag(UIHelper.LISTVIEW_DATA_MORE);
 					more.setText(R.string.load_error);
 					((AppException)msg.obj).makeToast(Main.this);
@@ -1444,12 +1435,12 @@ public class Main extends Activity {
 		};
     }
     /**
-     * listview鏁版嵁澶勭悊
-     * @param what 鏁伴噺
-     * @param obj 鏁版嵁
-     * @param objtype 鏁版嵁绫诲瀷
-     * @param actiontype 鎿嶄綔绫诲瀷
-     * @return notice 閫氱煡淇℃伅
+     * listview閺佺増宓佹径鍕倞
+     * @param what 閺佷即鍣�
+     * @param obj 閺佺増宓�
+     * @param objtype 閺佺増宓佺猾璇茬�
+     * @param actiontype 閹垮秳缍旂猾璇茬�
+     * @return notice 闁氨鐓℃穱鈩冧紖
      */
     private Notice handleLvData(int what,Object obj,int objtype,int actiontype){
     	Notice notice = null;
@@ -1462,43 +1453,37 @@ public class Main extends Activity {
 						NewsList nlist = (NewsList)obj;
 						notice = nlist.getNotice();
 						lvNewsSumData = what;
-						lvNewsData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvNewsData.addAll(nlist.getNewslist());
+						lvNewsData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvNewsData.addAll(nlist.getNewslist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_BLOG:
 						BlogList blist = (BlogList)obj;
 						notice = blist.getNotice();
 						lvBlogSumData = what;
-						lvBlogData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvBlogData.addAll(blist.getBloglist());
+						lvBlogData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvBlogData.addAll(blist.getBloglist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_POST:
 						PostList plist = (PostList)obj;
 						notice = plist.getNotice();
 						lvQuestionSumData = what;
-						lvQuestionData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvQuestionData.addAll(plist.getPostlist());
+						lvQuestionData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvQuestionData.addAll(plist.getPostlist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_TWEET:
 						TweetList tlist = (TweetList)obj;
 						notice = tlist.getNotice();
 						lvTweetSumData = what;
-						lvTweetData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvTweetData.addAll(tlist.getTweetlist());
+						lvTweetData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvTweetData.addAll(tlist.getTweetlist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_ACTIVE:
 						ActiveList alist = (ActiveList)obj;
 						notice = alist.getNotice();
 						lvActiveSumData = what;
-						lvActiveData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvActiveData.addAll(alist.getActivelist());
+						lvActiveData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvActiveData.addAll(alist.getActivelist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_MESSAGE:
 						MessageList mlist = (MessageList)obj;
 						notice = mlist.getNotice();
 						lvMsgSumData = what;
-						lvMsgData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvMsgData.addAll(mlist.getMessagelist());
+						lvMsgData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvMsgData.addAll(mlist.getMessagelist());
 						break;
 				}
 				break;
@@ -1624,11 +1609,10 @@ public class Main extends Activity {
 		return notice;
     }
     /**
-     * 绾跨▼鍔犺浇鏂伴椈鏁版嵁
-     * @param catalog 鍒嗙被
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰閺備即妞堥弫鐗堝祦
+     * @param catalog 閸掑棛琚�
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvNewsData(final int catalog,final int pageIndex,final Handler handler,final int action){ 
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);		
@@ -1655,11 +1639,10 @@ public class Main extends Activity {
 		}.start();
 	} 
     /**
-     * 绾跨▼鍔犺浇鍗氬鏁版嵁
-     * @param catalog 鍒嗙被
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰閸楁艾顓归弫鐗堝祦
+     * @param catalog 閸掑棛琚�
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvBlogData(final int catalog,final int pageIndex,final Handler handler,final int action){ 
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
@@ -1695,11 +1678,10 @@ public class Main extends Activity {
 		}.start();
 	} 
     /**
-     * 绾跨▼鍔犺浇甯栧瓙鏁版嵁
-     * @param catalog 鍒嗙被
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰鐢牕鐡欓弫鐗堝祦
+     * @param catalog 閸掑棛琚�
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvQuestionData(final int catalog,final int pageIndex,final Handler handler,final int action){  
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
@@ -1726,11 +1708,10 @@ public class Main extends Activity {
 		}.start();
 	}
     /**
-     * 绾跨▼鍔犺浇鍔ㄥ脊鏁版嵁
-     * @param catalog -1 鐑棬锛� 鏈�柊锛屽ぇ浜� 鏌愮敤鎴风殑鍔ㄥ脊(uid)
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰閸斻劌鑴婇弫鐗堝祦
+     * @param catalog -1 閻戭參妫敍锟�閺堬拷鏌婇敍灞姐亣娴滐拷 閺屾劗鏁ら幋椋庢畱閸斻劌鑴�uid)
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvTweetData(final int catalog,final int pageIndex,final Handler handler,final int action){  
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
@@ -1757,9 +1738,9 @@ public class Main extends Activity {
 		}.start();
 	}
 	/**
-	 * 绾跨▼鍔犺浇鍔ㄦ�鏁版嵁
+	 * 缁捐法鈻奸崝鐘烘祰閸斻劍锟介弫鐗堝祦
 	 * @param catalog
-	 * @param pageIndex 褰撳墠椤垫暟
+	 * @param pageIndex 瑜版挸澧犳い鍨殶
 	 * @param handler
 	 * @param action
 	 */
@@ -1788,8 +1769,8 @@ public class Main extends Activity {
 		}.start();
 	}
 	/**
-	 * 绾跨▼鍔犺浇鐣欒█鏁版嵁
-	 * @param pageIndex 褰撳墠椤垫暟
+	 * 缁捐法鈻奸崝鐘烘祰閻ｆ瑨鈻堥弫鐗堝祦
+	 * @param pageIndex 瑜版挸澧犳い鍨殶
 	 * @param handler
 	 * @param action
 	 */
@@ -1818,7 +1799,7 @@ public class Main extends Activity {
 	}
 	
 	/**
-	 * 杞閫氱煡淇℃伅
+	 * 鏉烆喛顕楅柅姘辩叀娣団剝浼�
 	 */
 	private void foreachUserNotice(){
 		final int uid = appContext.getLoginUid();
@@ -1827,7 +1808,7 @@ public class Main extends Activity {
 				if(msg.what==1){
 					UIHelper.sendBroadCast(Main.this, (Notice)msg.obj);
 				}
-				foreachUserNotice();//鍥炶皟
+				foreachUserNotice();//閸ョ偠鐨�
 			}
 		};
 		new Thread(){
@@ -1855,8 +1836,8 @@ public class Main extends Activity {
 	}
 	
 	/**
-	 * 閫氱煡淇℃伅澶勭悊
-	 * @param type 1:@鎴戠殑淇℃伅 2:鏈娑堟伅 3:璇勮涓暟 4:鏂扮矇涓濅釜鏁�
+	 * 闁氨鐓℃穱鈩冧紖婢跺嫮鎮�
+	 * @param type 1:@閹存垹娈戞穱鈩冧紖 2:閺堫亣顕板☉鍫熶紖 3:鐠囧嫯顔戞稉顏呮殶 4:閺傛壆鐭囨稉婵呴嚋閺侊拷
 	 */
 	private void ClearNotice(final int type)
 	{
@@ -1891,7 +1872,7 @@ public class Main extends Activity {
 	}
 	
 	/**
-	 * 鍒涘缓menu TODO 鍋滅敤鍘熺敓鑿滃崟
+	 * 閸掓稑缂搈enu TODO 閸嬫粎鏁ら崢鐔烘晸閼挎粌宕�
 	 */
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return false;
@@ -1901,7 +1882,7 @@ public class Main extends Activity {
 	}
 	
 	/**
-	 * 鑿滃崟琚樉绀轰箣鍓嶇殑浜嬩欢
+	 * 閼挎粌宕熺悮顐ｆ▔缁�桨绠ｉ崜宥囨畱娴滃娆�
 	 */
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		UIHelper.showMenuLoginOrLogout(this, menu);
@@ -1909,8 +1890,7 @@ public class Main extends Activity {
 	}
 
 	/**
-	 * 澶勭悊menu鐨勪簨浠�
-	 */
+	 * 婢跺嫮鎮妋enu閻ㄥ嫪绨ㄦ禒锟�	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int item_id = item.getItemId();
 		switch (item_id) {
@@ -1931,18 +1911,18 @@ public class Main extends Activity {
 	}
 	
 	/**
-	 * 鐩戝惉杩斿洖--鏄惁閫�嚭绋嬪簭
+	 * 閻╂垵鎯夋潻鏂挎礀--閺勵垰鎯侀柅锟藉毉缁嬪绨�
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK) {
-			//鏄惁閫�嚭搴旂敤
+			//閺勵垰鎯侀柅锟藉毉鎼存梻鏁�
 			UIHelper.Exit(this);
 		}else if(keyCode == KeyEvent.KEYCODE_MENU){
-			//灞曠ず蹇嵎鏍�鍒ゆ柇鏄惁鐧诲綍
+			//鐏炴洜銇氳箛顐ｅ祹閺嶏拷閸掋倖鏌囬弰顖氭儊閻ц缍�
 			UIHelper.showSettingLoginOrLogout(Main.this, mGrid.getQuickAction(0));
 			mGrid.show(fbSetting, true);
 		}else if(keyCode == KeyEvent.KEYCODE_SEARCH){
-			//灞曠ず鎼滅储椤�
+			//鐏炴洜銇氶幖婊呭偍妞わ拷
 			UIHelper.showSearch(Main.this);
 		}
 		return true;

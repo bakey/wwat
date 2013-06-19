@@ -33,8 +33,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
- * 杞欢搴�
- * @author liux (http://my.oschina.net/liux)
+ * 鏉烆垯娆㈡惔锟� * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
  */
@@ -70,11 +69,11 @@ public class SoftwareLib extends Activity{
 	private List<SoftwareType> lvSoftwareTagData = new ArrayList<SoftwareType>();
     private Handler mSoftwareTagHandler;
     
-	private int curHeadTag = HEAD_TAG_CATALOG;//榛樿鍒濆澶撮儴鏍囩
-	private int curScreen = SCREEN_CATALOG;//榛樿褰撳墠灞忓箷
-	private int curSearchTag;//褰撳墠浜岀骇鍒嗙被鐨凾ag
+	private int curHeadTag = HEAD_TAG_CATALOG;//姒涙顓婚崚婵嗩瀶婢舵挳鍎撮弽鍥╊劮
+	private int curScreen = SCREEN_CATALOG;//姒涙顓昏ぐ鎾冲鐏炲繐绠�
+	private int curSearchTag;//瑜版挸澧犳禍宀�獓閸掑棛琚惃鍑綼g
 	private int curLvSoftwareDataState;
-	private String curTitleLV1;//褰撳墠涓�骇鍒嗙被鏍囬
+	private String curTitleLV1;//瑜版挸澧犳稉锟介獓閸掑棛琚弽鍥暯
     
 	private final static int HEAD_TAG_CATALOG = 0x001;
 	private final static int HEAD_TAG_RECOMMEND = 0x002;
@@ -99,8 +98,8 @@ public class SoftwareLib extends Activity{
         this.initData();
 	}
 	
-	//鍒濆鍖栬鍥炬帶浠�
-    private void initView()
+	//閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�  
+	private void initView()
     {
     	mBack = (ImageView)findViewById(R.id.frame_software_head_back);
     	mTitle = (TextView)findViewById(R.id.frame_software_head_title);
@@ -109,7 +108,7 @@ public class SoftwareLib extends Activity{
     	
     	mBack.setOnClickListener(backClickListener);
     	
-    	//绂佺敤婊戝姩
+    	//缁備胶鏁ゅ鎴濆З
         mScrollLayout.setIsScroll(false);
     	
     	software_catalog = (Button)findViewById(R.id.frame_btn_software_catalog);
@@ -118,11 +117,11 @@ public class SoftwareLib extends Activity{
     	software_hot = (Button)findViewById(R.id.frame_btn_software_hot);
     	software_china = (Button)findViewById(R.id.frame_btn_software_china);
     	
-    	software_catalog.setOnClickListener(this.softwareBtnClick(software_catalog,HEAD_TAG_CATALOG,"寮�簮杞欢搴�"));
-    	software_recommend.setOnClickListener(this.softwareBtnClick(software_recommend,HEAD_TAG_RECOMMEND,"姣忓懆鎺ㄨ崘杞欢"));
-    	software_lastest.setOnClickListener(this.softwareBtnClick(software_lastest,HEAD_TAG_LASTEST,"鏈�柊杞欢鍒楄〃"));
-    	software_hot.setOnClickListener(this.softwareBtnClick(software_hot,HEAD_TAG_HOT,"鐑棬杞欢鍒楄〃"));
-    	software_china.setOnClickListener(this.softwareBtnClick(software_china,HEAD_TAG_CHINA,"鍥戒骇杞欢鍒楄〃"));
+    	software_catalog.setOnClickListener(this.softwareBtnClick(software_catalog,HEAD_TAG_CATALOG,"瀵拷绨潪顖欐鎼达拷"));
+    	software_recommend.setOnClickListener(this.softwareBtnClick(software_recommend,HEAD_TAG_RECOMMEND,"濮ｅ繐鎳嗛幒銊ㄥ礃鏉烆垯娆�"));
+    	software_lastest.setOnClickListener(this.softwareBtnClick(software_lastest,HEAD_TAG_LASTEST,"閺堬拷鏌婃潪顖欐閸掓銆�"));
+    	software_hot.setOnClickListener(this.softwareBtnClick(software_hot,HEAD_TAG_HOT,"閻戭參妫潪顖欐閸掓銆�"));
+    	software_china.setOnClickListener(this.softwareBtnClick(software_china,HEAD_TAG_CHINA,"閸ユ垝楠囨潪顖欐閸掓銆�"));
     	
     	software_catalog.setEnabled(false);
     	
@@ -131,7 +130,7 @@ public class SoftwareLib extends Activity{
     	this.initSoftwareListView();
     }
     
-    //鍒濆鍖栧垎绫籰istview
+    //閸掓繂顬婇崠鏍у瀻缁卑istview
     private void initSoftwareCatalogListView()
     {
     	lvSoftwareCatalogAdapter = new ListViewSoftwareCatalogAdapter(this, lvSoftwareCatalogData, R.layout.softwarecatalog_listitem); 
@@ -147,7 +146,7 @@ public class SoftwareLib extends Activity{
         		if(type.tag > 0){
         			curTitleLV1 = type.name;
         			mTitle.setText(curTitleLV1);
-        			//鍔犺浇浜岀骇鍒嗙被
+        			//閸旂姾娴囨禍宀�獓閸掑棛琚�
         			curScreen = SCREEN_TAG;
         			mScrollLayout.scrollToScreen(curScreen);
         			loadLvSoftwareCatalogData(type.tag, mSoftwareTagHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
@@ -164,13 +163,12 @@ public class SoftwareLib extends Activity{
 				if(msg.what >= 0){						
 					SoftwareCatalogList list = (SoftwareCatalogList)msg.obj;
 					Notice notice = list.getNotice();
-					//澶勭悊listview鏁版嵁
+					//婢跺嫮鎮妉istview閺佺増宓�
 					switch (msg.arg1) {
 					case UIHelper.LISTVIEW_ACTION_INIT:
 					case UIHelper.LISTVIEW_ACTION_REFRESH:
 					case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
-						lvSoftwareCatalogData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvSoftwareCatalogData.addAll(list.getSoftwareTypelist());
+						lvSoftwareCatalogData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvSoftwareCatalogData.addAll(list.getSoftwareTypelist());
 						break;
 					case UIHelper.LISTVIEW_ACTION_SCROLL:
 						break;
@@ -178,20 +176,20 @@ public class SoftwareLib extends Activity{
 					
 					lvSoftwareCatalogAdapter.notifyDataSetChanged();
 
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(notice != null){
 						UIHelper.sendBroadCast(SoftwareLib.this, notice);
 					}
 				}
 				else if(msg.what == -1){
-					//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+					//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 					((AppException)msg.obj).makeToast(SoftwareLib.this);
 				}
 			}
 		};
     }
     
-    //鍒濆鍖栦簩绾у垎绫籰istview
+    //閸掓繂顬婇崠鏍︾癌缁狙冨瀻缁卑istview
     private void initSoftwareTagListView()
     {
     	lvSoftwareTagAdapter = new ListViewSoftwareCatalogAdapter(this, lvSoftwareTagData, R.layout.softwarecatalog_listitem); 
@@ -206,7 +204,7 @@ public class SoftwareLib extends Activity{
         		
         		if(type.tag > 0){
         			mTitle.setText(type.name);
-        			//鍔犺浇杞欢鍒楄〃
+        			//閸旂姾娴囨潪顖欐閸掓銆�
         			curScreen = SCREEN_SOFTWARE;
         			mScrollLayout.scrollToScreen(curScreen);
         			curSearchTag = type.tag;
@@ -224,13 +222,12 @@ public class SoftwareLib extends Activity{
 				if(msg.what >= 0){						
 					SoftwareCatalogList list = (SoftwareCatalogList)msg.obj;
 					Notice notice = list.getNotice();
-					//澶勭悊listview鏁版嵁
+					//婢跺嫮鎮妉istview閺佺増宓�
 					switch (msg.arg1) {
 					case UIHelper.LISTVIEW_ACTION_INIT:
 					case UIHelper.LISTVIEW_ACTION_REFRESH:
 					case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
-						lvSoftwareTagData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvSoftwareTagData.addAll(list.getSoftwareTypelist());
+						lvSoftwareTagData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvSoftwareTagData.addAll(list.getSoftwareTypelist());
 						break;
 					case UIHelper.LISTVIEW_ACTION_SCROLL:
 						break;
@@ -238,20 +235,20 @@ public class SoftwareLib extends Activity{
 					
 					lvSoftwareTagAdapter.notifyDataSetChanged();
 
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(notice != null){
 						UIHelper.sendBroadCast(SoftwareLib.this, notice);
 					}
 				}
 				else if(msg.what == -1){
-					//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+					//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 					((AppException)msg.obj).makeToast(SoftwareLib.this);
 				}
 			}
 		};
     }
     
-    //鍒濆鍖栬蒋浠秎istview
+    //閸掓繂顬婇崠鏍拫娴犵istview
     private void initSoftwareListView()
     {
     	lvSoftware_footer = getLayoutInflater().inflate(R.layout.listview_footer, null);
@@ -261,11 +258,11 @@ public class SoftwareLib extends Activity{
     	lvSoftwareAdapter = new ListViewSoftwareAdapter(this, lvSoftwareData, R.layout.software_listitem); 
     	mlvSoftware = (PullToRefreshListView)findViewById(R.id.frame_software_listview);
     	
-    	mlvSoftware.addFooterView(lvSoftware_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+    	mlvSoftware.addFooterView(lvSoftware_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
     	mlvSoftware.setAdapter(lvSoftwareAdapter); 
     	mlvSoftware.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvSoftware_footer) return;
         		        		
     			TextView name = (TextView)view.findViewById(R.id.software_listitem_name);
@@ -273,7 +270,7 @@ public class SoftwareLib extends Activity{
 
         		if(sw == null) return;
         		
-        		//璺宠浆
+        		//鐠哄疇娴�
         		UIHelper.showUrlRedirect(view.getContext(), sw.url);
         	}
 		});
@@ -281,10 +278,9 @@ public class SoftwareLib extends Activity{
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				mlvSoftware.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvSoftwareData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvSoftwareData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvSoftware_footer) == view.getLastVisiblePosition())
@@ -297,7 +293,7 @@ public class SoftwareLib extends Activity{
 				{
 					lvSoftware_foot_more.setText(R.string.load_ing);
 					lvSoftware_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠pageIndex
+					//瑜版挸澧爌ageIndex
 					int pageIndex = lvSumData/20;
 					if(curHeadTag == HEAD_TAG_CATALOG)
 						loadLvSoftwareTagData(curSearchTag, pageIndex, mSoftwareHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
@@ -327,14 +323,13 @@ public class SoftwareLib extends Activity{
 				if(msg.what >= 0){						
 					SoftwareList list = (SoftwareList)msg.obj;
 					Notice notice = list.getNotice();
-					//澶勭悊listview鏁版嵁
+					//婢跺嫮鎮妉istview閺佺増宓�
 					switch (msg.arg1) {
 					case UIHelper.LISTVIEW_ACTION_INIT:
 					case UIHelper.LISTVIEW_ACTION_REFRESH:
 					case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
 						lvSumData = msg.what;
-						lvSoftwareData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-						lvSoftwareData.addAll(list.getSoftwarelist());
+						lvSoftwareData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvSoftwareData.addAll(list.getSoftwarelist());
 						break;
 					case UIHelper.LISTVIEW_ACTION_SCROLL:
 						lvSumData += msg.what;
@@ -364,13 +359,13 @@ public class SoftwareLib extends Activity{
 						lvSoftwareAdapter.notifyDataSetChanged();
 						lvSoftware_foot_more.setText(R.string.load_more);
 					}
-					//鍙戦�閫氱煡骞挎挱
+					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 					if(notice != null){
 						UIHelper.sendBroadCast(SoftwareLib.this, notice);
 					}
 				}
 				else if(msg.what == -1){
-					//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+					//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 					curLvSoftwareDataState = UIHelper.LISTVIEW_DATA_MORE;
 					lvSoftware_foot_more.setText(R.string.load_error);
 					((AppException)msg.obj).makeToast(SoftwareLib.this);
@@ -391,14 +386,14 @@ public class SoftwareLib extends Activity{
 		};
     }
     
-    //鍒濆鍖栨帶浠舵暟鎹�
-  	private void initData()
+    //閸掓繂顬婇崠鏍ㄥ付娴犺埖鏆熼幑锟�
+ 	private void initData()
   	{
   		this.loadLvSoftwareCatalogData(0, mSoftwareCatalogHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
   	}
   	
   	/**
-     * 澶撮儴鎸夐挳灞曠ず
+     * 婢舵挳鍎撮幐澶愭尦鐏炴洜銇�
      * @param type
      */
     private void headButtonSwitch(int type) {
@@ -457,10 +452,9 @@ public class SoftwareLib extends Activity{
     }
 	
   	/**
-     * 绾跨▼鍔犺浇杞欢鍒嗙被鍒楄〃鏁版嵁
-     * @param tag 绗竴绾�0 绗簩绾�tag
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰鏉烆垯娆㈤崚鍡欒閸掓銆冮弫鐗堝祦
+     * @param tag 缁楊兛绔寸痪锟� 缁楊兛绨╃痪锟絫ag
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvSoftwareCatalogData(final int tag,final Handler handler,final int action){  
 		headButtonSwitch(DATA_LOAD_ING);
@@ -476,17 +470,16 @@ public class SoftwareLib extends Activity{
 	            	msg.what = -1;
 	            	msg.obj = e;
 	            }
-				msg.arg1 = action;//鍛婄煡handler褰撳墠action
+				msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
                 handler.sendMessage(msg);
 			}
 		}.start();
 	}
 	
   	/**
-     * 绾跨▼鍔犺浇杞欢鍒嗙被浜岀骇鍒楄〃鏁版嵁
-     * @param tag 绗竴绾�0 绗簩绾�tag
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰鏉烆垯娆㈤崚鍡欒娴滃瞼楠囬崚妤勩�閺佺増宓�
+     * @param tag 缁楊兛绔寸痪锟� 缁楊兛绨╃痪锟絫ag
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvSoftwareTagData(final int searchTag,final int pageIndex,final Handler handler,final int action){  
 		headButtonSwitch(DATA_LOAD_ING);
@@ -505,18 +498,17 @@ public class SoftwareLib extends Activity{
 	            	msg.what = -1;
 	            	msg.obj = e;
 	            }
-				msg.arg1 = action;//鍛婄煡handler褰撳墠action
+				msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
                 handler.sendMessage(msg);
 			}
 		}.start();
 	}
 	
   	/**
-     * 绾跨▼鍔犺浇杞欢鍒楄〃鏁版嵁
-     * @param searchTag 杞欢鍒嗙被 鎺ㄨ崘:recommend 鏈�柊:time 鐑棬:view 鍥戒骇:list_cn
-     * @param pageIndex 褰撳墠椤垫暟
-     * @param handler 澶勭悊鍣�
-     * @param action 鍔ㄤ綔鏍囪瘑
+     * 缁捐法鈻奸崝鐘烘祰鏉烆垯娆㈤崚妤勩�閺佺増宓�
+     * @param searchTag 鏉烆垯娆㈤崚鍡欒 閹恒劏宕�recommend 閺堬拷鏌�time 閻戭參妫�view 閸ユ垝楠�list_cn
+     * @param pageIndex 瑜版挸澧犳い鍨殶
+     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
      */
 	private void loadLvSoftwareData(final int tag,final int pageIndex,final Handler handler,final int action){  
 		
@@ -558,7 +550,7 @@ public class SoftwareLib extends Activity{
 	            	msg.what = -1;
 	            	msg.obj = e;
 	            }
-				msg.arg1 = action;//鍛婄煡handler褰撳墠action
+				msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
 				if(curHeadTag == tag)
 					handler.sendMessage(msg);
 			}
@@ -566,7 +558,7 @@ public class SoftwareLib extends Activity{
 	} 
 	
 	/**
-	 * 杩斿洖浜嬩欢
+	 * 鏉╂柨娲栨禍瀣╂
 	 */
 	private void back() {
 		if(curHeadTag == HEAD_TAG_CATALOG) {
@@ -577,7 +569,7 @@ public class SoftwareLib extends Activity{
 				mScrollLayout.scrollToScreen(SCREEN_TAG);
 				break;
 			case SCREEN_TAG:
-				mTitle.setText("寮�簮杞欢搴�");
+				mTitle.setText("瀵拷绨潪顖欐鎼达拷");
 				curScreen = SCREEN_CATALOG;
 				mScrollLayout.scrollToScreen(SCREEN_CATALOG);
 				break;

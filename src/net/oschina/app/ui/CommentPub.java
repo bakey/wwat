@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 /**
- * 鍙戣〃璇勮
+ * 閸欐垼銆冪拠鍕啈
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -32,7 +32,7 @@ public class CommentPub extends Activity{
 	public final static int CATALOG_POST = 2;
 	public final static int CATALOG_TWEET = 3;
 	public final static int CATALOG_ACTIVE = 4;
-	public final static int CATALOG_MESSAGE = 4;//鍔ㄦ�涓庣暀瑷�兘灞炰簬娑堟伅涓績
+	public final static int CATALOG_MESSAGE = 4;//閸斻劍锟芥稉搴ｆ殌鐟凤拷鍏樼仦鐐扮艾濞戝牊浼呮稉顓炵妇
 	public final static int CATALOG_BLOG = 5;
 	
 	private ImageView mBack;
@@ -48,9 +48,9 @@ public class CommentPub extends Activity{
 	private String _content;
 	private int _isPostToMyZone;
 	
-	//-------瀵硅瘎璁哄洖澶嶈繕闇�姞2鍙橀噺------
-	private int _replyid;//琚洖澶嶇殑鍗曚釜璇勮id
-	private int _authorid;//璇ヨ瘎璁虹殑鍘熷浣滆�id
+	//-------鐎电鐦庣拋鍝勬礀婢跺秷绻曢棁锟藉2閸欐﹢鍣�-----
+	private int _replyid;//鐞氼偄娲栨径宥囨畱閸楁洑閲滅拠鍕啈id
+	private int _authorid;//鐠囥儴鐦庣拋铏规畱閸樼喎顬婃担婊嗭拷id
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +61,8 @@ public class CommentPub extends Activity{
 		
 	}
 	
-    //鍒濆鍖栬鍥炬帶浠�
-    private void initView()
+    //閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�   
+	private void initView()
     {
 		_id = getIntent().getIntExtra("id", 0);
 		_catalog = getIntent().getIntExtra("catalog", 0);
@@ -89,7 +89,7 @@ public class CommentPub extends Activity{
 		public void onClick(View v) {	
 			_content = mContent.getText().toString();
 			if(StringUtils.isEmpty(_content)){
-				UIHelper.ToastMessage(v.getContext(), "璇疯緭鍏ヨ瘎璁哄唴瀹�");
+				UIHelper.ToastMessage(v.getContext(), "鐠囩柉绶崗銉ㄧ槑鐠佸搫鍞寸�锟�");
 				return;
 			}
 			
@@ -104,7 +104,7 @@ public class CommentPub extends Activity{
 				
 			_uid = ac.getLoginUid();
 			
-	    	mProgress = ProgressDialog.show(v.getContext(), null, "鍙戣〃涓仿仿�",true,true); 			
+	    	mProgress = ProgressDialog.show(v.getContext(), null, "閸欐垼銆冩稉顒讳豢浠匡拷",true,true); 			
 			
 			final Handler handler = new Handler(){
 				public void handleMessage(Message msg) {
@@ -113,16 +113,15 @@ public class CommentPub extends Activity{
 						Result res = (Result)msg.obj;
 						UIHelper.ToastMessage(CommentPub.this, res.getErrorMessage());
 						if(res.OK()){
-							//鍙戦�閫氱煡骞挎挱
+							//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 							if(res.getNotice() != null){
 								UIHelper.sendBroadCast(CommentPub.this, res.getNotice());
 							}
-							//杩斿洖鍒氬垰鍙戣〃鐨勮瘎璁�
+							//鏉╂柨娲栭崚姘灠閸欐垼銆冮惃鍕槑鐠侊拷
 							Intent intent = new Intent();
 							intent.putExtra("COMMENT_SERIALIZABLE", res.getComment());
 							setResult(RESULT_OK, intent);
-							//璺宠浆鍒版枃绔犺鎯�
-							finish();
+							//鐠哄疇娴嗛崚鐗堟瀮缁旂姾顕涢幆锟�							finish();
 						}
 					}
 					else {
@@ -135,11 +134,11 @@ public class CommentPub extends Activity{
 					Message msg = new Message();
 					Result res = new Result();
 					try {
-						//鍙戣〃璇勮
+						//閸欐垼銆冪拠鍕啈
 						if(_replyid == 0){
 							res = ac.pubComment(_catalog, _id, _uid, _content, _isPostToMyZone);
 						}
-						//瀵硅瘎璁鸿繘琛屽洖澶�
+						//鐎电鐦庣拋楦跨箻鐞涘苯娲栨径锟�					
 						else if(_replyid > 0){
 							if(_catalog == CATALOG_BLOG)
 								res = ac.replyBlogComment(_id, _uid, _content, _replyid, _authorid);

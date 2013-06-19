@@ -37,8 +37,8 @@ public class Oauth2AccessToken extends Token {
 	                setExpiresIn(json.optInt("expires_in"));
 	                setRefreshToken(json.optString("refresh_token"));
 	            } catch (JSONException e) {
-	                //不处理
-	            }
+	                //不处理	    
+	           }
 	        }
 	    }
 	}

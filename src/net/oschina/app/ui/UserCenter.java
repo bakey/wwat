@@ -36,7 +36,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 /**
- * 鐢ㄦ埛涓撻〉
+ * 閻劍鍩涙稉鎾汇�
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -106,8 +106,8 @@ public class UserCenter extends Activity{
 		this.initData();
 	}
 	
-    //鍒濆鍖栬鍥炬帶浠�
-    private void initView()
+    //閸掓繂顬婇崠鏍瀰閸ョ偓甯舵禒锟�  
+	private void initView()
     {
     	_hisuid = getIntent().getIntExtra("his_id", 0);
     	_hisname = getIntent().getStringExtra("his_name");
@@ -135,8 +135,8 @@ public class UserCenter extends Activity{
     	mExpertise = (TextView)mUserinfoDialog.findViewById(R.id.user_center_expertise);
     	mLatestonline = (TextView)mUserinfoDialog.findViewById(R.id.user_center_latestonline);
     	
-    	mHeadTitle.setText(_username + " 鈻�");
-    	//璁剧疆绗竴閫変腑椤�
+    	mHeadTitle.setText(_username + " 閳伙拷");
+    	//鐠佸墽鐤嗙粭顑跨闁鑵戞い锟�    
     	mTabActive.setEnabled(false);
     	mTabActive.setOnClickListener(tabBtnClick(mTabActive));
     	mTabBlog.setOnClickListener(tabBtnClick(mTabBlog));
@@ -152,7 +152,7 @@ public class UserCenter extends Activity{
     	this.initLvBlog();
     }    
     
-    //鍒濆鍖栧姩鎬佸垪琛ㄦ帶浠�
+    //閸掓繂顬婇崠鏍уЗ閹礁鍨悰銊﹀付娴狅拷
     private void initLvActive() {
     	lvActive_footer = getLayoutInflater().inflate(R.layout.listview_footer, null);
     	lvActive_foot_more = (TextView)lvActive_footer.findViewById(R.id.listview_foot_more);
@@ -161,16 +161,16 @@ public class UserCenter extends Activity{
     	lvActiveAdapter = new ListViewActiveAdapter(this, lvActiveData, R.layout.active_listitem); 
     	mLvActive = (PullToRefreshListView)findViewById(R.id.user_center_activelist);
     	
-        mLvActive.addFooterView(lvActive_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        mLvActive.addFooterView(lvActive_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         mLvActive.setAdapter(lvActiveAdapter); 
         mLvActive.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvActive_footer) return;
         		
         		ImageView img = (ImageView)view.findViewById(R.id.active_listitem_userface);
         		Active active = (Active)img.getTag();
-        		//璺宠浆
+        		//鐠哄疇娴�
         		UIHelper.showActiveRedirect(view.getContext(), active);
         	}
 		});
@@ -178,10 +178,9 @@ public class UserCenter extends Activity{
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				mLvActive.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvActiveData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvActiveData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvActive_footer) == view.getLastVisiblePosition())
@@ -194,7 +193,7 @@ public class UserCenter extends Activity{
 				{
 					lvActive_foot_more.setText(R.string.load_ing);
 					lvActive_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠椤垫暟
+					//瑜版挸澧犳い鍨殶
 					int pageIndex = lvActiveSumData/_pageSize;
 					loadLvActiveData(mActiveHandler, pageIndex, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -210,7 +209,7 @@ public class UserCenter extends Activity{
         });
     }
     
-    //鍒濆鍖栧崥瀹㈠垪琛ㄦ帶浠�
+    //閸掓繂顬婇崠鏍у触鐎广垹鍨悰銊﹀付娴狅拷
     private void initLvBlog() {
     	lvBlog_footer = getLayoutInflater().inflate(R.layout.listview_footer, null);
     	lvBlog_foot_more = (TextView)lvBlog_footer.findViewById(R.id.listview_foot_more);
@@ -219,16 +218,16 @@ public class UserCenter extends Activity{
     	lvBlogAdapter = new ListViewBlogAdapter(this, BlogList.CATALOG_USER, lvBlogData, R.layout.blog_listitem); 
     	mLvBlog = (PullToRefreshListView)findViewById(R.id.user_center_bloglist);
     	
-        mLvBlog.addFooterView(lvBlog_footer);//娣诲姞搴曢儴瑙嗗浘  蹇呴』鍦╯etAdapter鍓�
+        mLvBlog.addFooterView(lvBlog_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
         mLvBlog.setAdapter(lvBlogAdapter); 
         mLvBlog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvBlog_footer) return;
         		
         		TextView txt = (TextView)view.findViewById(R.id.blog_listitem_title);
         		Blog blog = (Blog)txt.getTag();
-        		//璺宠浆
+        		//鐠哄疇娴�
         		UIHelper.showUrlRedirect(view.getContext(), blog.getUrl());
         	}
 		});
@@ -236,10 +235,9 @@ public class UserCenter extends Activity{
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				mLvBlog.onScrollStateChanged(view, scrollState);
 				
-				//鏁版嵁涓虹┖--涓嶇敤缁х画涓嬮潰浠ｇ爜浜�
-				if(lvBlogData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvBlogData.size() == 0) return;
 				
-				//鍒ゆ柇鏄惁婊氬姩鍒板簳閮�
+				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvBlog_footer) == view.getLastVisiblePosition())
@@ -252,7 +250,7 @@ public class UserCenter extends Activity{
 				{
 					lvBlog_foot_more.setText(R.string.load_ing);
 					lvBlog_foot_progress.setVisibility(View.VISIBLE);
-					//褰撳墠椤垫暟
+					//瑜版挸澧犳い鍨殶
 					int pageIndex = lvBlogSumData/_pageSize;
 					loadLvBlogData(mBlogHandler, pageIndex, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -263,11 +261,11 @@ public class UserCenter extends Activity{
 		});
         mLvBlog.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				//鐐瑰嚮澶撮儴銆佸簳閮ㄦ爮鏃犳晥
+				//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
         		if(position == 0 || view == lvBlog_footer) return false;				
 				
         		Blog _blog = null;
-        		//鍒ゆ柇鏄惁鏄疶extView
+        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
         		if(view instanceof TextView){
         			_blog = (Blog)view.getTag();
         		}else{
@@ -279,9 +277,9 @@ public class UserCenter extends Activity{
         		final Blog blog = _blog;
         		
         		final AppContext ac = (AppContext)getApplication();
-				//鎿嶄綔--鍒犻櫎
+				//閹垮秳缍�-閸掔娀娅�
         		final int uid = ac.getLoginUid();
-        		//鍒ゆ柇璇ュ崥瀹㈡槸鍚︽槸褰撳墠鐧诲綍鐢ㄦ埛鍙戣〃鐨�
+        		//閸掋倖鏌囩拠銉ュ触鐎广垺妲搁崥锔芥Ц瑜版挸澧犻惂璇茬秿閻劍鍩涢崣鎴ｃ�閻拷
         		if(uid == blog.getAuthorId())
         		{
 	        		final Handler handler = new Handler(){
@@ -329,8 +327,8 @@ public class UserCenter extends Activity{
         });
     }
     
-    //鍒濆鍖栨帶浠舵暟鎹�
-	private void initData()
+    //閸掓繂顬婇崠鏍ㄥ付娴犺埖鏆熼幑锟�
+    private void initData()
 	{    	
     	mActiveHandler = new Handler()
 		{
@@ -353,7 +351,7 @@ public class UserCenter extends Activity{
 				headButtonSwitch(DATA_LOAD_COMPLETE);
 				if(mUser != null){
 					_username = mUser.getName();
-					mHeadTitle.setText(_username + " 鈻�");
+					mHeadTitle.setText(_username + " 閳伙拷");
 					mUsername.setText(mUser.getName());
 					mFrom.setText(mUser.getLocation());
 					mGender.setText(mUser.getGender());
@@ -362,10 +360,10 @@ public class UserCenter extends Activity{
 					mExpertise.setText(mUser.getExpertise());
 					mLatestonline.setText(StringUtils.friendly_time(mUser.getLatestonline()));
 					
-					//鍒濆鍖栫敤鎴峰叧绯�& 鐐瑰嚮浜嬩欢
+					//閸掓繂顬婇崠鏍暏閹村嘲鍙х化锟� 閻愮懓鍤禍瀣╂
 					loadUserRelation(mUser.getRelation());
 					
-					//鍔犺浇鐢ㄦ埛澶村儚
+					//閸旂姾娴囬悽銊﹀煕婢舵潙鍎�
 					UIHelper.showUserFace(mUserface, mUser.getFace());
 				}
 				lvActiveHandleMessage(msg);
@@ -376,7 +374,7 @@ public class UserCenter extends Activity{
 		this.loadLvBlogData(mBlogHandler, 0, UIHelper.LISTVIEW_ACTION_INIT);
 	}
 
-	//鍔犺浇鍔ㄦ�鍒楄〃
+	//閸旂姾娴囬崝銊︼拷閸掓銆�
 	private void loadLvActiveData(final Handler handler, final int pageIndex, final int action){  
 		headButtonSwitch(DATA_LOAD_ING);
 		new Thread(){
@@ -395,13 +393,13 @@ public class UserCenter extends Activity{
 	            	msg.what = -1;
 	            	msg.obj = e;
 	            }
-				msg.arg1 = action;//鍛婄煡handler褰撳墠action
+				msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
                 handler.sendMessage(msg);
 			}
 		}.start();
 	}
 	
-	//鍔犺浇鍗氬鍒楄〃
+	//閸旂姾娴囬崡姘吂閸掓銆�
 	private void loadLvBlogData(final Handler handler, final int pageIndex, final int action){  
 		headButtonSwitch(DATA_LOAD_ING);
 		new Thread(){
@@ -419,7 +417,7 @@ public class UserCenter extends Activity{
 		            	msg.what = -1;
 		            	msg.obj = e;
 		            }
-					msg.arg1 = action;//鍛婄煡handler褰撳墠action
+					msg.arg1 = action;//閸涘﹦鐓andler瑜版挸澧燼ction
 	                handler.sendMessage(msg);
 				}
 			}.start();
@@ -429,19 +427,19 @@ public class UserCenter extends Activity{
 		switch (relation) {
 			case User.RELATION_TYPE_BOTH:
 				mRelation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.widget_bar_relation_del, 0, 0, 0);
-				mRelation.setText("鍙栨秷浜掔矇");
+				mRelation.setText("閸欐牗绉锋禍鎺旂焽");
 				break;
 			case User.RELATION_TYPE_FANS_HIM:
 				mRelation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.widget_bar_relation_del, 0, 0, 0);
-				mRelation.setText("鍙栨秷鍏虫敞");
+				mRelation.setText("閸欐牗绉烽崗铏暈");
 				break;
 			case User.RELATION_TYPE_FANS_ME:
 				mRelation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.widget_bar_relation_add, 0, 0, 0);
-				mRelation.setText("鍔犲叧娉�");
+				mRelation.setText("閸旂姴鍙у▔锟�");
 				break;
 			case User.RELATION_TYPE_NULL:
 				mRelation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.widget_bar_relation_add, 0, 0, 0);
-				mRelation.setText("鍔犲叧娉�");
+				mRelation.setText("閸旂姴鍙у▔锟�");
 				break;
 		}
 		if(relation > 0)
@@ -452,14 +450,13 @@ public class UserCenter extends Activity{
 		if(msg.what >= 0){
 			UserInformation uinfo = (UserInformation)msg.obj;
 			Notice notice = uinfo.getNotice();
-			//澶勭悊listview鏁版嵁			
+			//婢跺嫮鎮妉istview閺佺増宓�		
 			switch (msg.arg1) {
 			case UIHelper.LISTVIEW_ACTION_INIT:
 			case UIHelper.LISTVIEW_ACTION_REFRESH:
 			case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
 				lvActiveSumData = msg.what;
-				lvActiveData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-				lvActiveData.addAll(uinfo.getActivelist());
+				lvActiveData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�				lvActiveData.addAll(uinfo.getActivelist());
 				break;
 			case UIHelper.LISTVIEW_ACTION_SCROLL:
 				lvActiveSumData += msg.what;
@@ -489,13 +486,13 @@ public class UserCenter extends Activity{
 				lvActiveAdapter.notifyDataSetChanged();
 				lvActive_foot_more.setText(R.string.load_more);
 			}
-			//鍙戦�閫氱煡骞挎挱
+			//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 			if(msg.obj != null){
 				UIHelper.sendBroadCast(UserCenter.this, notice);
 			}
 		}
 		else if(msg.what == -1){
-			//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+			//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 			curLvActiveDataState = UIHelper.LISTVIEW_DATA_MORE;
 			lvActive_foot_more.setText(R.string.load_error);
 			((AppException)msg.obj).makeToast(UserCenter.this);
@@ -517,17 +514,16 @@ public class UserCenter extends Activity{
 		if(msg.what >= 0){
 			BlogList bloglist = (BlogList)msg.obj;
 			Notice notice = bloglist.getNotice();
-			//鏄剧ず鐢ㄦ埛鍗氬鏁伴噺
-			String tabBlogText = String.format("鍗氬(%d)", bloglist.getBlogsCount());
+			//閺勫墽銇氶悽銊﹀煕閸楁艾顓归弫浼村櫤
+			String tabBlogText = String.format("閸楁艾顓�%d)", bloglist.getBlogsCount());
 			mTabBlog.setText(tabBlogText);
-			//澶勭悊listview鏁版嵁			
+			//婢跺嫮鎮妉istview閺佺増宓�		
 			switch (msg.arg1) {
 			case UIHelper.LISTVIEW_ACTION_INIT:
 			case UIHelper.LISTVIEW_ACTION_REFRESH:
 			case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
 				lvBlogSumData = msg.what;
-				lvBlogData.clear();//鍏堟竻闄ゅ師鏈夋暟鎹�
-				lvBlogData.addAll(bloglist.getBloglist());
+				lvBlogData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�				lvBlogData.addAll(bloglist.getBloglist());
 				break;
 			case UIHelper.LISTVIEW_ACTION_SCROLL:
 				lvBlogSumData += msg.what;
@@ -557,13 +553,13 @@ public class UserCenter extends Activity{
 				lvBlogAdapter.notifyDataSetChanged();
 				lvBlog_foot_more.setText(R.string.load_more);
 			}
-			//鍙戦�閫氱煡骞挎挱
+			//閸欐垿锟介柅姘辩叀楠炴寧鎸�
 			if(msg.obj != null){
 				UIHelper.sendBroadCast(UserCenter.this, notice);
 			}
 		}
 		else if(msg.what == -1){
-			//鏈夊紓甯�-鏄剧ず鍔犺浇鍑洪敊 & 寮瑰嚭閿欒娑堟伅
+			//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
 			curLvBlogDataState = UIHelper.LISTVIEW_DATA_MORE;
 			lvBlog_foot_more.setText(R.string.load_error);
 			((AppException)msg.obj).makeToast(UserCenter.this);
@@ -582,7 +578,7 @@ public class UserCenter extends Activity{
 	}
 	
     /**
-     * 澶撮儴鎸夐挳灞曠ず
+     * 婢舵挳鍎撮幐澶愭尦鐏炴洜銇�
      * @param type
      */
     private void headButtonSwitch(int type) {
@@ -638,17 +634,17 @@ public class UserCenter extends Activity{
 	private View.OnClickListener headTitleClickListener = new View.OnClickListener() {
 		public void onClick(View v) {
 			if(mUserinfoDialog != null && mUserinfoDialog.isShowing()){
-				mHeadTitle.setText(_username + " 鈻�");
+				mHeadTitle.setText(_username + " 閳伙拷");
 				mUserinfoDialog.hide();
 			}else{
-				mHeadTitle.setText(_username + " 鈻�");				
+				mHeadTitle.setText(_username + " 閳伙拷");				
 				mUserinfoDialog.show();
 			}
 		}
 	};
 	private DialogInterface.OnCancelListener dialogCancelListener = new DialogInterface.OnCancelListener(){
 		public void onCancel(DialogInterface dialog) {
-			mHeadTitle.setText(_username + " 鈻�");
+			mHeadTitle.setText(_username + " 閳伙拷");
 		}		
 	};	
 	private View.OnClickListener messageClickListener = new View.OnClickListener() {
@@ -663,7 +659,7 @@ public class UserCenter extends Activity{
 	};
 	private View.OnClickListener relationClickListener = new View.OnClickListener() {
 		public void onClick(View v) {	
-			//鍒ゆ柇鐧诲綍
+			//閸掋倖鏌囬惂璇茬秿
 			final AppContext ac = (AppContext)getApplication();
 			if(!ac.isLogin()){
 				UIHelper.showLoginDialog(UserCenter.this);
@@ -678,22 +674,22 @@ public class UserCenter extends Activity{
 							switch (mUser.getRelation()) {
 								case User.RELATION_TYPE_BOTH:
 									mRelation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.widget_bar_relation_add, 0, 0, 0);
-									mRelation.setText("鍔犲叧娉�");
+									mRelation.setText("閸旂姴鍙у▔锟�");
 									mUser.setRelation(User.RELATION_TYPE_FANS_ME);
 									break;
 								case User.RELATION_TYPE_FANS_HIM:
 									mRelation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.widget_bar_relation_add, 0, 0, 0);
-									mRelation.setText("鍔犲叧娉�");
+									mRelation.setText("閸旂姴鍙у▔锟�");
 									mUser.setRelation(User.RELATION_TYPE_NULL);
 									break;
 								case User.RELATION_TYPE_FANS_ME:
 									mRelation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.widget_bar_relation_del, 0, 0, 0);
-									mRelation.setText("鍙栨秷浜掔矇");
+									mRelation.setText("閸欐牗绉锋禍鎺旂焽");
 									mUser.setRelation(User.RELATION_TYPE_BOTH);
 									break;
 								case User.RELATION_TYPE_NULL:
 									mRelation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.widget_bar_relation_del, 0, 0, 0);
-									mRelation.setText("鍙栨秷鍏虫敞");
+									mRelation.setText("閸欐牗绉烽崗铏暈");
 									mUser.setRelation(User.RELATION_TYPE_FANS_HIM);
 									break;
 							}
@@ -722,19 +718,19 @@ public class UserCenter extends Activity{
 			String dialogTitle = "";
 			switch (mUser.getRelation()) {
 				case User.RELATION_TYPE_BOTH:
-					dialogTitle = "纭畾鍙栨秷浜掔矇鍚楋紵";
+					dialogTitle = "绾喖鐣鹃崣鏍ㄧХ娴滄帞鐭囬崥妤嬬吹";
 					relationAction = User.RELATION_ACTION_DELETE;
 					break;
 				case User.RELATION_TYPE_FANS_HIM:
-					dialogTitle = "纭畾鍙栨秷鍏虫敞鍚楋紵";
+					dialogTitle = "绾喖鐣鹃崣鏍ㄧХ閸忚櫕鏁為崥妤嬬吹";
 					relationAction = User.RELATION_ACTION_DELETE;
 					break;
 				case User.RELATION_TYPE_FANS_ME:
-					dialogTitle = "纭畾鍏虫敞浠栧悧锛�";
+					dialogTitle = "绾喖鐣鹃崗铏暈娴犳牕鎮ч敍锟�";
 					relationAction = User.RELATION_ACTION_ADD;
 					break;
 				case User.RELATION_TYPE_NULL:
-					dialogTitle = "纭畾鍏虫敞浠栧悧锛�";
+					dialogTitle = "绾喖鐣鹃崗铏暈娴犳牕鎮ч敍锟�";
 					relationAction = User.RELATION_ACTION_ADD;
 					break;
 			}
