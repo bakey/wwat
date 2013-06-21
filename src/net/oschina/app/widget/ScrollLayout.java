@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Scroller;
 
 /**
- * å®¸ï¹€å½¸å©Šæˆå§©é’å›¨å´²çå¿“ç®·éºÑ‚æ¬¢
+ * ×óÓÒ»¬¶¯ÇĞ»»ÆÁÄ»¿Ø¼ş
  * @author Yao.GUET date: 2011-05-04
  * @modify liux (http://my.oschina.net/liux)
  */
@@ -31,7 +31,8 @@ public class ScrollLayout extends ViewGroup {
     private OnViewChangeListener mOnViewChangeListener;
 
     /**
-     * ç’å‰§ç–†é„îˆšæƒé™îˆšä¹é™è™«ç²¦é”ï¿½     * @author liux
+     * ÉèÖÃÊÇ·ñ¿É×óÓÒ»¬¶¯
+     * @author liux
      */
     private boolean isScroll = true;
     public void setIsScroll(boolean b) {
@@ -100,7 +101,7 @@ public class ScrollLayout extends ViewGroup {
 	}
 
 	public void snapToScreen(int whichScreen) {
-		//é„îˆšæƒé™îˆ›ç²¦é”ï¿½		
+		//ÊÇ·ñ¿É»¬¶¯
 		if(!isScroll) {
 			this.setToScreen(whichScreen);
 			return;
@@ -115,7 +116,7 @@ public class ScrollLayout extends ViewGroup {
 		if (getScrollX() != (whichScreen * getWidth())) {
 			final int delta = whichScreen * getWidth() - getScrollX();
 			mScroller.startScroll(getScrollX(), 0, delta, 0,
-					Math.abs(delta) * 1);//é¸ä½ºç”»å©Šæ°¬å§©éƒå •æ£¿ æµ ãƒ¦î‡ ç»‰æè´Ÿé—æ›šç¶…
+					Math.abs(delta) * 1);//³ÖĞø¹ö¶¯Ê±¼ä ÒÔºÁÃëÎªµ¥Î»
 			mCurScreen = whichScreen;
 			invalidate(); // Redraw the layout
             
@@ -151,7 +152,7 @@ public class ScrollLayout extends ViewGroup {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		//é„îˆšæƒé™îˆ›ç²¦é”ï¿½		
+		//ÊÇ·ñ¿É»¬¶¯
 		if(!isScroll) {
 			return false;
 		}
@@ -254,7 +255,8 @@ public class ScrollLayout extends ViewGroup {
 	}
 	
 	/**
-	 * ç’å‰§ç–†çå¿“ç®·é’å›¨å´²é©æˆæƒ‰é£ï¿½	 * @param listener
+	 * ÉèÖÃÆÁÄ»ÇĞ»»¼àÌıÆ÷
+	 * @param listener
 	 */
 	public void SetOnViewChangeListener(OnViewChangeListener listener)
 	{
@@ -262,7 +264,8 @@ public class ScrollLayout extends ViewGroup {
 	}
 
 	/**
-	 * çå¿“ç®·é’å›¨å´²é©æˆæƒ‰é£ï¿½	 * @author liux
+	 * ÆÁÄ»ÇĞ»»¼àÌıÆ÷
+	 * @author liux
 	 */
 	public interface OnViewChangeListener {
 		public void OnViewChange(int view);

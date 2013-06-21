@@ -32,35 +32,29 @@
 		<activity android:name="RecommendTabActivity" />
 		<activity android:name="NewestTabActivity" />
 		<activity android:name="RankingTabActivity" />
-		<activity android:name=".ui.About" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-		<activity android:name=".ui.FeedBack" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-		<activity android:name=".ui.Main" android:theme="@style/Theme.NoTitleBar" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-		<activity android:name="net.oschina.app.ui.LoginDialog" 
-		    android:theme="@style/Theme.HalfTranslucent" 
-		    android:screenOrientation="portrait" 
-		    android:configChanges="keyboardHidden|orientation" 
-		    android:launchMode="singleTask" 
-		    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-		<activity android:name=".ui.NewsDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
-		<activity android:name=".ui.SoftwareLib" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-		<activity android:name=".ui.SoftwareDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
-		<activity android:name=".ui.BlogDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
-		<activity android:name=".ui.QuestionDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
-		<activity android:name=".ui.QuestionPub" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
-		<activity android:name=".ui.TweetDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
-		<activity android:name=".ui.TweetPub" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
-		<activity android:name=".ui.MessageDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
-		<activity android:name=".ui.MessagePub" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
-		<activity android:name=".ui.MessageForward" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
-		<activity android:name=".ui.CommentPub" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
-		<activity android:name=".ui.Setting" android:theme="@style/Theme.Preference" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-		<activity android:name=".ui.Search" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateVisible|adjustResize"/>
-		<activity android:name=".ui.UserInfo" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-		<activity android:name=".ui.UserCenter" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
-		<activity android:name=".ui.UserFavorite" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-		<activity android:name=".ui.UserFriend" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-		<activity android:name=".ui.ImageDialog" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-		<activity android:name=".ui.ImageZoomDialog" android:theme="@style/Theme.ZoomLight.Fullscreen" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name="net.oschina.app.ui.About" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name="net.oschina.app.ui.FeedBack" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+		<activity android:name="net.oschina.app.ui.LoginDialog" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+		<activity android:name="net.oschina.app.ui.NewsDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name="net.oschina.app.ui.SoftwareLib" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name="net.oschina.app.ui.SoftwareDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name="net.oschina.app.ui.BlogDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name="net.oschina.app.ui.QuestionDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name="net.oschina.app.ui.QuestionPub" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name="net.oschina.app.ui.TweetDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name="net.oschina.app.ui.TweetPub" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name="net.oschina.app.ui.MessageDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name="net.oschina.app.ui.MessagePub" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name="net.oschina.app.ui.MessageForward" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name="net.oschina.app.ui.CommentPub" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name="net.oschina.app.ui.Setting" android:theme="@style/Theme.Preference" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name="net.oschina.app.ui.Search" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateVisible|adjustResize"/>
+		<activity android:name="net.oschina.app.ui.UserInfo" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name="net.oschina.app.ui.UserCenter" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
+		<activity android:name="net.oschina.app.ui.UserFavorite" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name="net.oschina.app.ui.UserFriend" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name="net.oschina.app.ui.ImageDialog" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
+		<activity android:name="net.oschina.app.ui.ImageZoomDialog" android:theme="@style/Theme.ZoomLight.Fullscreen" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
     </application>
 </manifest>
 <!-- AndroidBuildingMusicPlayerActivity -->

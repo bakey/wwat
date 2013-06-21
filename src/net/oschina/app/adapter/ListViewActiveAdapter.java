@@ -78,7 +78,8 @@ public class ListViewActiveAdapter extends BaseAdapter {
 		ListItemView  listItemView = null;
 		
 		if (convertView == null) {
-			//閼惧嘲褰噇ist_item鐢啫鐪弬鍥︽閻ㄥ嫯顬呴崶锟�			convertView = listContainer.inflate(this.itemViewResource, null);
+			//閼惧嘲褰噇ist_item鐢啫鐪弬鍥︽閻ㄥ嫯顬呴崶锟�			
+			convertView = listContainer.inflate(this.itemViewResource, null);
 			
 			listItemView = new ListItemView();
 			//閼惧嘲褰囬幒褌娆㈢�纭呰杽

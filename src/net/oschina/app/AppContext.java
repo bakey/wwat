@@ -399,8 +399,8 @@ public class AppContext extends Application {
 			try{
 				Log.d("bakey" , "try get news list ");
 				list = ApiClient.getNewsList(this, catalog, pageIndex, PAGE_SIZE);
-				if(list != null && pageIndex == 0){
-					Log.d("bakey","get list count = " + list.getNewsCount() );
+
+				if(list != null && pageIndex == 0){					
 					Notice notice = list.getNotice();
 					list.setNotice(null);
 					saveObject(list, key);

@@ -653,8 +653,8 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 鑾峰彇鍗氬鍒楄〃
-	 * @param type 鎺ㄨ崘锛歳ecommend 鏈�柊锛歭atest
+	 * 获取博客列表
+	 * @param type 推荐：recommend 最新：latest
 	 * @param pageIndex
 	 * @param pageSize
 	 * @return
@@ -677,7 +677,7 @@ public class ApiClient {
 	}
 	
 	/**
-	 * 鍒犻櫎鏌愮敤鎴风殑鍗氬
+	 * 删除某用户的博客
 	 * @param uid
 	 * @param authoruid
 	 * @param id

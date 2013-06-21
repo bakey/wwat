@@ -11,6 +11,7 @@ import net.oschina.app.common.StringUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.util.Log;
 import android.util.Xml;
 
 /**
@@ -45,14 +46,12 @@ public class NewsList extends Entity{
 	
 	public static NewsList parse(InputStream inputStream) throws IOException, AppException {
 		NewsList newslist = new NewsList();
+
 		News news = null;
-		//获得XmlPullParser解析器
         XmlPullParser xmlParser = Xml.newPullParser();
-        try {        	
-            xmlParser.setInput(inputStream, UTF8);
-            //获得解析到的事件类别，这里有开始文档，结束文档，开始标签，结束标签，文本等等事件。
-            int evtType=xmlParser.getEventType();
-          //一直循环，直到文档结束   
+        try {
+            xmlParser.setInput(inputStream, UTF8);            
+            int evtType=xmlParser.getEventType();			   
 			while(evtType!=XmlPullParser.END_DOCUMENT){ 
 	    		String tag = xmlParser.getName(); 
 			    switch(evtType){ 
@@ -67,7 +66,8 @@ public class NewsList extends Entity{
 			    		}
 			    		else if(tag.equalsIgnoreCase("newsCount")) 
 			    		{
-			    			newslist.newsCount = StringUtils.toInt(xmlParser.nextText(),0);
+			    			int newsCount = StringUtils.toInt(xmlParser.nextText(),0);			 
+			    			newslist.newsCount = newsCount;
 			    		}
 			    		else if (tag.equalsIgnoreCase(News.NODE_START)) 
 			    		{ 
@@ -115,8 +115,10 @@ public class NewsList extends Entity{
 				            {			            	
 				            	news.getNewType().authoruid2 = StringUtils.toInt(xmlParser.nextText(),0); 
 				            }
-			    		}				
-			    		//通知信息
+
+			    		}
+			            
+
 			            else if(tag.equalsIgnoreCase("notice"))
 			    		{
 			            	newslist.setNotice(new Notice());
@@ -141,15 +143,14 @@ public class NewsList extends Entity{
 				            }
 			    		}
 			    		break;
-			    	case XmlPullParser.END_TAG:	
-			    		//如果遇到标签结束，则把对象添加进集合中
+			    	case XmlPullParser.END_TAG:						 
 				       	if (tag.equalsIgnoreCase("news") && news != null) { 
-				    	   newslist.getNewslist().add(news); 
+				    	   newslist.getNewslist().add(news);				    	   
 				           news = null; 
 				       	}
 				       	break; 
 			    }
-			    //如果xml没有结束，则导航到下一个节点
+			    
 			    int a =xmlParser.next();
 			    evtType=a;
 			}		
