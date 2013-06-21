@@ -26,14 +26,7 @@
 		android:drawableTop="@drawable/widget_bar_tweet"/>
 	<ImageView
 		style="@style/main_footbar_cutline"
-		android:src="@drawable/widget_bar_cut_off"/>
-	<RadioButton
-		android:id="@+id/main_footbar_active"
-		style="@style/main_footbar_radio"
-		android:drawableTop="@drawable/widget_bar_active"/>
-	<ImageView
-		style="@style/main_footbar_cutline"
-		android:src="@drawable/widget_bar_cut_off"/>
+		android:src="@drawable/widget_bar_cut_off"/>	
 	<ImageView
 		android:id="@+id/main_footbar_setting"
 		style="@style/main_footbar_image"

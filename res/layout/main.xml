@@ -17,9 +17,7 @@
       
 	  <include layout="@layout/frame_question" />
 	  
-	  <include layout="@layout/frame_tweet" />
-	      
-	  <include layout="@layout/frame_active" />
+	  <include layout="@layout/frame_tweet" />	      
        
 	</net.oschina.app.widget.ScrollLayout> 
     

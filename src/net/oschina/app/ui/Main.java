@@ -190,17 +190,17 @@ public class Main extends Activity {
         
         AppManager.getAppManager().addActivity(this);
         
-        //濞夈劌鍞介獮鎸庢尡閹恒儲鏁归崳锟�    	
+        //注册广播接收器	
         tweetReceiver = new TweetReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction("net.oschina.app.action.APP_TWEETPUB");
         registerReceiver(tweetReceiver, filter);
         
         appContext = (AppContext)getApplication();
-        //缂冩垹绮舵潻鐐村复閸掋倖鏌�
+      //网络连接判断
         if(!appContext.isNetworkConnected())
         	UIHelper.ToastMessage(this, R.string.network_not_connected);
-        //閸掓繂顬婇崠鏍瑜帮拷
+        //初始化登录
        // appContext.initLoginInfo();
         
         Log.d("bakey" , "start init");
@@ -216,6 +216,7 @@ public class Main extends Activity {
         this.initBadgeView();
         Log.d("bakey" , "init badgeview success");
         this.initQuickActionGrid();
+        Log.d("bakey" , "init QuickActionGrid success");
         this.initFrameListView();
         Log.d("bakey" , "init all success");
         
@@ -235,7 +236,7 @@ public class Main extends Activity {
     		fbNews.setChecked(true);
     		fbQuestion.setChecked(false);
     		fbTweet.setChecked(false);
-    		fbactive.setChecked(false);
+    		//fbactive.setChecked(false);
     	}
     	//鐠囪褰囧锕�礁濠婃垵濮╅柊宥囩枂
     	if(appContext.isScroll())
@@ -343,7 +344,7 @@ public class Main extends Activity {
     }
     
     /**
-     * 閸掓繂顬婇崠鏍ф彥閹归攱鐖�
+     * 初始化快捷栏
      */
     private void initQuickActionGrid() {
         mGrid = new QuickActionGrid(this);
@@ -358,7 +359,7 @@ public class Main extends Activity {
     }
     
     /**
-     * 韫囶偅宓庨弽寤紅em閻愮懓鍤禍瀣╂
+     * 快捷栏item点击事件
      */
     private OnQuickActionClickListener mActionListener = new OnQuickActionClickListener() {
         public void onQuickActionClicked(QuickActionWidget widget, int position) {
@@ -386,34 +387,36 @@ public class Main extends Activity {
     };
     
     /**
-     * 閸掓繂顬婇崠鏍ㄥ閺堝istView
+     * 初始化所有ListView
      */
     private void initFrameListView()
     {
-    	//閸掓繂顬婇崠鏉攊stview閹貉傛
+    	//初始化listview控件
 		this.initNewsListView();
+		Log.d("bakey" , "init news list view success");
 		this.initBlogListView();
+		Log.d("bakey" , "init blog list view success");
 		this.initQuestionListView();
+		Log.d("bakey" , "init news question view success");
 		this.initTweetListView();
-		this.initActiveListView();
-		this.initMsgListView();
-		//閸旂姾娴噇istview閺佺増宓�
+		Log.d("bakey" , "init news tweet view success");
+		//this.initActiveListView();
+		//this.initMsgListView();
+		Log.d("bakey" , "init msg list view success");
 		this.initFrameListViewData();
     }
     /**
-     * 閸掓繂顬婇崠鏍ㄥ閺堝istView閺佺増宓�
+     * 初始化所有ListView数据
      */
     private void initFrameListViewData()
     {
-        //閸掓繂顬婇崠鏈抋ndler
         lvNewsHandler = this.getLvHandler(lvNews, lvNewsAdapter, lvNews_foot_more, lvNews_foot_progress, AppContext.PAGE_SIZE);
         lvBlogHandler = this.getLvHandler(lvBlog, lvBlogAdapter, lvBlog_foot_more, lvBlog_foot_progress, AppContext.PAGE_SIZE);
         lvQuestionHandler = this.getLvHandler(lvQuestion, lvQuestionAdapter, lvQuestion_foot_more, lvQuestion_foot_progress, AppContext.PAGE_SIZE);  
-        lvTweetHandler = this.getLvHandler(lvTweet, lvTweetAdapter, lvTweet_foot_more, lvTweet_foot_progress, AppContext.PAGE_SIZE);  
-        lvActiveHandler = this.getLvHandler(lvActive, lvActiveAdapter, lvActive_foot_more, lvActive_foot_progress, AppContext.PAGE_SIZE); 
-        lvMsgHandler = this.getLvHandler(lvMsg, lvMsgAdapter, lvMsg_foot_more, lvMsg_foot_progress, AppContext.PAGE_SIZE);      	
+        lvTweetHandler = this.getLvHandler(lvTweet, lvTweetAdapter, lvTweet_foot_more, lvTweet_foot_progress, AppContext.PAGE_SIZE);    
+      //  lvMsgHandler = this.getLvHandler(lvMsg, lvMsgAdapter, lvMsg_foot_more, lvMsg_foot_progress, AppContext.PAGE_SIZE);      	
     	
-        //閸旂姾娴囬弫鐗堝祦				
+      //加载数据			
 		if(lvNewsData.size() == 0) {
 			loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}
@@ -423,12 +426,13 @@ public class Main extends Activity {
 		if(lvTweetData.size() == 0) {
 			loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}  
-		if(lvActiveData.size() == 0) {
+		/*if(lvActiveData.size() == 0) {
 			loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
-		}
+		}*/
     }
     /**
-     * 閸掓繂顬婇崠鏍ㄦ煀闂傝鍨悰锟�     */
+     * 初始化新闻列表
+     */
     private void initNewsListView()
     {
         lvNewsAdapter = new ListViewNewsAdapter(this, lvNewsData, R.layout.news_listitem);        
@@ -440,11 +444,11 @@ public class Main extends Activity {
         lvNews.setAdapter(lvNewsAdapter); 
         lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
+        		//点击头部、底部栏无效
         		if(position == 0 || view == lvNews_footer) return;
         		
         		News news = null;        		
-        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
+        		//判断是否是TextView
         		if(view instanceof TextView){
         			news = (News)view.getTag();
         		}else{
@@ -453,16 +457,16 @@ public class Main extends Activity {
         		}
         		if(news == null) return;
         		
-        		//鐠哄疇娴嗛崚鐗堟煀闂傛槒顕涢幆锟�        		UIHelper.showNewsRedirect(view.getContext(), news);
+        		//跳转到新闻详情
+        		UIHelper.showNewsRedirect(view.getContext(), news);
         	}        	
 		});
         lvNews.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvNews.onScrollStateChanged(view, scrollState);
+				if(lvNewsData.size() == 0) return;
 				
-				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvNewsData.size() == 0) return;
-				
-				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
+				//判断是否滚动到底部
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvNews_footer) == view.getLastVisiblePosition())
@@ -476,7 +480,7 @@ public class Main extends Activity {
 				{
 					lvNews_foot_more.setText(R.string.load_ing);
 					lvNews_foot_progress.setVisibility(View.VISIBLE);
-					//瑜版挸澧爌ageIndex
+				
 					int pageIndex = lvNewsSumData/AppContext.PAGE_SIZE;
 					loadLvNewsData(curNewsCatalog, pageIndex, lvNewsHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -492,7 +496,8 @@ public class Main extends Activity {
         });					
     }
     /**
-     * 閸掓繂顬婇崠鏍у触鐎广垹鍨悰锟�     */
+     * 初始化博客列表
+     */
 	private void initBlogListView()
     {
         lvBlogAdapter = new ListViewBlogAdapter(this, BlogList.CATALOG_LATEST, lvBlogData, R.layout.blog_listitem);        
@@ -500,15 +505,15 @@ public class Main extends Activity {
         lvBlog_foot_more = (TextView)lvBlog_footer.findViewById(R.id.listview_foot_more);
         lvBlog_foot_progress = (ProgressBar)lvBlog_footer.findViewById(R.id.listview_foot_progress);
         lvBlog = (PullToRefreshListView)findViewById(R.id.frame_listview_blog);
-        lvBlog.addFooterView(lvBlog_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
+        lvBlog.addFooterView(lvBlog_footer);//添加底部视图  必须在setAdapter前
         lvBlog.setAdapter(lvBlogAdapter); 
         lvBlog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
+        		//点击头部、底部栏无效
         		if(position == 0 || view == lvBlog_footer) return;
         		
         		Blog blog = null;        		
-        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
+        		
         		if(view instanceof TextView){
         			blog = (Blog)view.getTag();
         		}else{
@@ -517,16 +522,18 @@ public class Main extends Activity {
         		}
         		if(blog == null) return;
         		
-        		//鐠哄疇娴嗛崚鏉垮触鐎广垼顕涢幆锟�        		UIHelper.showUrlRedirect(view.getContext(), blog.getUrl());
+        		//跳转到博客详情      	
+        		UIHelper.showUrlRedirect(view.getContext(), blog.getUrl());
         	}        	
 		});
         lvBlog.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvBlog.onScrollStateChanged(view, scrollState);
 				
-				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvBlogData.size() == 0) return;
+				//数据为空--不用继续下面代码了			
+				if(lvBlogData.size() == 0) return;
 				
-				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
+				//判断是否滚动到底部
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvBlog_footer) == view.getLastVisiblePosition())
@@ -540,7 +547,6 @@ public class Main extends Activity {
 				{
 					lvBlog_foot_more.setText(R.string.load_ing);
 					lvBlog_foot_progress.setVisibility(View.VISIBLE);
-					//瑜版挸澧爌ageIndex
 					int pageIndex = lvBlogSumData/AppContext.PAGE_SIZE;
 					loadLvBlogData(curNewsCatalog, pageIndex, lvBlogHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -555,8 +561,9 @@ public class Main extends Activity {
             }
         });					
     }
-    /**
-     * 閸掓繂顬婇崠鏍х瑯鐎涙劕鍨悰锟�     */
+	 /**
+     * 初始化帖子列表
+     */
     private void initQuestionListView()
     {    	
         lvQuestionAdapter = new ListViewQuestionAdapter(this, lvQuestionData, R.layout.question_listitem);        
@@ -564,15 +571,15 @@ public class Main extends Activity {
         lvQuestion_foot_more = (TextView)lvQuestion_footer.findViewById(R.id.listview_foot_more);
         lvQuestion_foot_progress = (ProgressBar)lvQuestion_footer.findViewById(R.id.listview_foot_progress);
         lvQuestion = (PullToRefreshListView)findViewById(R.id.frame_listview_question);
-        lvQuestion.addFooterView(lvQuestion_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
+        lvQuestion.addFooterView(lvQuestion_footer);//添加底部视图  必须在setAdapter前
         lvQuestion.setAdapter(lvQuestionAdapter); 
         lvQuestion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
+        		//点击头部、底部栏无效
         		if(position == 0 || view == lvQuestion_footer) return;
         		
         		Post post = null;		
-        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
+        		//判断是否是TextView
         		if(view instanceof TextView){
         			post = (Post)view.getTag();
         		}else{
@@ -581,16 +588,18 @@ public class Main extends Activity {
         		}
         		if(post == null) return;
         		
-        		//鐠哄疇娴嗛崚鐗堟煀闂傛槒顕涢幆锟�        		UIHelper.showQuestionDetail(view.getContext(), post.getId());
+        		//跳转到新闻详情
+        		UIHelper.showQuestionDetail(view.getContext(), post.getId());
         	}        	
 		});
         lvQuestion.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvQuestion.onScrollStateChanged(view, scrollState);
 				
-				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvQuestionData.size() == 0) return;
+				//数据为空--不用继续下面代码了
+				if(lvQuestionData.size() == 0) return;
 				
-				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
+				//判断是否滚动到底部
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvQuestion_footer) == view.getLastVisiblePosition())
@@ -604,7 +613,7 @@ public class Main extends Activity {
 				{
 					lvQuestion_foot_more.setText(R.string.load_ing);
 					lvQuestion_foot_progress.setVisibility(View.VISIBLE);
-					//瑜版挸澧爌ageIndex
+					//当前pageIndex
 					int pageIndex = lvQuestionSumData/AppContext.PAGE_SIZE;
 					loadLvQuestionData(curQuestionCatalog, pageIndex, lvQuestionHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -620,7 +629,8 @@ public class Main extends Activity {
         });			
     }
     /**
-     * 閸掓繂顬婇崠鏍уЗ瀵懓鍨悰锟�     */
+     * 初始化动弹列表
+     */
     private void initTweetListView()
     {   
         lvTweetAdapter = new ListViewTweetAdapter(this, lvTweetData, R.layout.tweet_listitem);        
@@ -628,15 +638,15 @@ public class Main extends Activity {
         lvTweet_foot_more = (TextView)lvTweet_footer.findViewById(R.id.listview_foot_more);
         lvTweet_foot_progress = (ProgressBar)lvTweet_footer.findViewById(R.id.listview_foot_progress);
         lvTweet = (PullToRefreshListView)findViewById(R.id.frame_listview_tweet);
-        lvTweet.addFooterView(lvTweet_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
+        lvTweet.addFooterView(lvTweet_footer);//添加底部视图  必须在setAdapter前
         lvTweet.setAdapter(lvTweetAdapter); 
         lvTweet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
+        		//点击头部、底部栏无效
         		if(position == 0 || view == lvTweet_footer) return;
         		
         		Tweet tweet = null;	
-        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
+        		//判断是否是TextView
         		if(view instanceof TextView){
         			tweet = (Tweet)view.getTag();
         		}else{
@@ -645,7 +655,7 @@ public class Main extends Activity {
         		}
         		if(tweet == null) return;        		
         		
-        		//鐠哄疇娴嗛崚鏉垮З瀵顕涢幆锟界拠鍕啈妞ょ敻娼�
+        		//跳转到动弹详情&评论页面
         		UIHelper.showTweetDetail(view.getContext(), tweet.getId());
         	}        	
 		});
@@ -653,9 +663,10 @@ public class Main extends Activity {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvTweet.onScrollStateChanged(view, scrollState);
 				
-				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvTweetData.size() == 0) return;
+				//数据为空--不用继续下面代码了
+				if(lvTweetData.size() == 0) return;
 				
-				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
+				//判断是否滚动到底部
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvTweet_footer) == view.getLastVisiblePosition())
@@ -669,7 +680,7 @@ public class Main extends Activity {
 				{
 					lvTweet_foot_more.setText(R.string.load_ing);
 					lvTweet_foot_progress.setVisibility(View.VISIBLE);
-					//瑜版挸澧爌ageIndex
+					//当前pageIndex
 					int pageIndex = lvTweetSumData/AppContext.PAGE_SIZE;
 					loadLvTweetData(curTweetCatalog, pageIndex, lvTweetHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -680,11 +691,11 @@ public class Main extends Activity {
 		});
         lvTweet.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
+				//点击头部、底部栏无效
         		if(position == 0 || view == lvTweet_footer) return false;
 				
 				Tweet _tweet = null;
-        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
+        		//判断是否是TextView
         		if(view instanceof TextView){
         			_tweet = (Tweet)view.getTag();
         		}else{
@@ -695,7 +706,7 @@ public class Main extends Activity {
         		
         		final Tweet tweet = _tweet;				
 				
-				//閸掔娀娅庨幙宥勭稊
+				//删除操作
         		if(appContext.getLoginUid() == tweet.getAuthorId()) {
 					final Handler handler = new Handler(){
 						public void handleMessage(Message msg) {
@@ -740,7 +751,8 @@ public class Main extends Activity {
         });			
     }
     /**
-     * 閸掓繂顬婇崠鏍уЗ閹礁鍨悰锟�     */
+     * 初始化动态列表
+     */
     private void initActiveListView()
     {   
         lvActiveAdapter = new ListViewActiveAdapter(this, lvActiveData, R.layout.active_listitem);        
@@ -748,15 +760,15 @@ public class Main extends Activity {
         lvActive_foot_more = (TextView)lvActive_footer.findViewById(R.id.listview_foot_more);
         lvActive_foot_progress = (ProgressBar)lvActive_footer.findViewById(R.id.listview_foot_progress);
         lvActive = (PullToRefreshListView)findViewById(R.id.frame_listview_active);
-        lvActive.addFooterView(lvActive_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
+        lvActive.addFooterView(lvActive_footer);//添加底部视图  必须在setAdapter前
         lvActive.setAdapter(lvActiveAdapter); 
         lvActive.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
+        		//点击头部、底部栏无效
         		if(position == 0 || view == lvActive_footer) return;        		
         		
         		Active active = null;
-        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
+        		//判断是否是TextView
         		if(view instanceof TextView){
         			active = (Active)view.getTag();
         		}else{
@@ -773,7 +785,8 @@ public class Main extends Activity {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvActive.onScrollStateChanged(view, scrollState);
 				
-				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvActiveData.size() == 0) return;
+				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�			
+				if(lvActiveData.size() == 0) return;
 				
 				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
 				boolean scrollEnd = false;
@@ -814,7 +827,8 @@ public class Main extends Activity {
         });					
     }
     /**
-     * 閸掓繂顬婇崠鏍殌鐟凤拷鍨悰锟�     */
+     * 初始化留言列表
+     */
     private void initMsgListView()
     {   
         lvMsgAdapter = new ListViewMessageAdapter(this, lvMsgData, R.layout.message_listitem);        
@@ -822,15 +836,15 @@ public class Main extends Activity {
         lvMsg_foot_more = (TextView)lvMsg_footer.findViewById(R.id.listview_foot_more);
         lvMsg_foot_progress = (ProgressBar)lvMsg_footer.findViewById(R.id.listview_foot_progress);
         lvMsg = (PullToRefreshListView)findViewById(R.id.frame_listview_message);
-        lvMsg.addFooterView(lvMsg_footer);//濞ｈ濮炴惔鏇㈠劥鐟欏棗娴� 韫囧懘銆忛崷鈺痚tAdapter閸擄拷
+        lvMsg.addFooterView(lvMsg_footer);//添加底部视图  必须在setAdapter前
         lvMsg.setAdapter(lvMsgAdapter); 
         lvMsg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
+        		//点击头部、底部栏无效
         		if(position == 0 || view == lvMsg_footer) return;        		
         		
         		Messages msg = null;
-        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
+        		//判断是否是TextView
         		if(view instanceof TextView){
         			msg = (Messages)view.getTag();
         		}else{
@@ -839,16 +853,18 @@ public class Main extends Activity {
         		}
         		if(msg == null) return;  
         		
-        		//鐠哄疇娴嗛崚鐗堟煀闂傛槒顕涢幆锟�        		UIHelper.showMessageDetail(view.getContext(), msg.getFriendId(), msg.getFriendName());
+        		//跳转到新闻详情
+        		UIHelper.showMessageDetail(view.getContext(), msg.getFriendId(), msg.getFriendName());
         	}        	
 		});
         lvMsg.setOnScrollListener(new AbsListView.OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				lvMsg.onScrollStateChanged(view, scrollState);
 				
-				//閺佺増宓佹稉铏光敄--娑撳秶鏁ょ紒褏鐢绘稉瀣桨娴狅絿鐖滄禍锟�				if(lvMsgData.size() == 0) return;
+				//数据为空--不用继续下面代码了
+				if(lvMsgData.size() == 0) return;
 				
-				//閸掋倖鏌囬弰顖氭儊濠婃艾濮╅崚鏉跨俺闁拷
+				//判断是否滚动到底部
 				boolean scrollEnd = false;
 				try {
 					if(view.getPositionForView(lvMsg_footer) == view.getLastVisiblePosition())
@@ -862,7 +878,7 @@ public class Main extends Activity {
 				{
 					lvMsg_foot_more.setText(R.string.load_ing);
 					lvMsg_foot_progress.setVisibility(View.VISIBLE);
-					//瑜版挸澧爌ageIndex
+					//当前pageIndex
 					int pageIndex = lvMsgSumData/AppContext.PAGE_SIZE;
 					loadLvMsgData(pageIndex, lvMsgHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
 				}
@@ -873,11 +889,11 @@ public class Main extends Activity {
 		});
         lvMsg.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {				
-				//閻愮懓鍤径鎾劥閵嗕礁绨抽柈銊︾埉閺冪姵鏅�
+				//点击头部、底部栏无效
         		if(position == 0 || view == lvMsg_footer) return false;
 				
         		Messages _msg = null;
-        		//閸掋倖鏌囬弰顖氭儊閺勭柖extView
+        		//判断是否是TextView
         		if(view instanceof TextView){
         			_msg = (Messages)view.getTag();
         		}else{
@@ -888,7 +904,7 @@ public class Main extends Activity {
         		
         		final Messages message = _msg;
         		
-				//闁瀚ㄩ幙宥勭稊
+				//选择操作
 				final Handler handler = new Handler(){
 					public void handleMessage(Message msg) {
 						if(msg.what == 1){
@@ -924,18 +940,19 @@ public class Main extends Activity {
 		});
         lvMsg.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
             public void onRefresh() {
-            	//濞撳懘娅庨柅姘辩叀娣団剝浼�
+            	//清除通知信息
             	if(bv_message.isShown()){
             		isClearNotice = true;
             		curClearNoticeType = Notice.TYPE_MESSAGE;
             	}
-				//閸掗攱鏌婇弫鐗堝祦
+				//刷新数据
             	loadLvMsgData(0, lvMsgHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
             }
         });			
     }
     /**
-     * 閸掓繂顬婇崠鏍с仈闁劏顬呴崶锟�     */
+     * 初始化头部视图
+     */
     private void initHeadView()
     {
     	mHeadLogo = (ImageView)findViewById(R.id.main_head_logo);
@@ -962,34 +979,35 @@ public class Main extends Activity {
 		});
     }
     /**
-     * 閸掓繂顬婇崠鏍х俺闁劍鐖�
+     * 初始化底部栏
      */
     private void initFootBar()
     {
     	fbNews = (RadioButton)findViewById(R.id.main_footbar_news);
     	fbQuestion = (RadioButton)findViewById(R.id.main_footbar_question);
     	fbTweet = (RadioButton)findViewById(R.id.main_footbar_tweet);
-    	fbactive = (RadioButton)findViewById(R.id.main_footbar_active);
+    	//fbactive = (RadioButton)findViewById(R.id.main_footbar_active);
     	
     	fbSetting = (ImageView)findViewById(R.id.main_footbar_setting);
     	fbSetting.setOnClickListener(new View.OnClickListener() {
     		public void onClick(View v) {    			
-    			//鐏炴洜銇氳箛顐ｅ祹閺嶏拷閸掋倖鏌囬弰顖氭儊閻ц缍�閺勵垰鎯侀崝鐘烘祰閺傚洨鐝烽崶鍓у
+    			//展示快捷栏&判断是否登录&是否加载文章图片
     			UIHelper.showSettingLoginOrLogout(Main.this, mGrid.getQuickAction(0));
     			mGrid.show(v);
     		}
     	});    	
     }
     /**
-     * 閸掓繂顬婇崠鏍拷閻儰淇婇幁顖涚垼缁涚偓甯舵禒锟�     */
+     * 初始化通知信息标签控件
+     */
     private void initBadgeView()
     {
-    	bv_active = new BadgeView(this, fbactive);
+    	/*bv_active = new BadgeView(this, fbactive);
 		bv_active.setBackgroundResource(R.drawable.widget_count_bg);
     	bv_active.setIncludeFontPadding(false);
     	bv_active.setGravity(Gravity.CENTER);
     	bv_active.setTextSize(8f);
-    	bv_active.setTextColor(Color.WHITE);
+    	bv_active.setTextColor(Color.WHITE);*/
     	
     	bv_atme = new BadgeView(this, framebtn_Active_atme);
     	bv_atme.setBackgroundResource(R.drawable.widget_count_bg);
@@ -1011,9 +1029,9 @@ public class Main extends Activity {
     	bv_message.setGravity(Gravity.CENTER);
     	bv_message.setTextSize(8f);
     	bv_message.setTextColor(Color.WHITE);
-    }    
+    }   
 	/**
-     * 閸掓繂顬婇崠鏍ㄦ寜楠炶櫕绮撮崝銊х倳妞わ拷
+     * 初始化水平滚动翻页
      */
     private void initPageScroll()
     {
@@ -1022,6 +1040,9 @@ public class Main extends Activity {
     	LinearLayout linearLayout = (LinearLayout) findViewById(R.id.main_linearlayout_footer);
     	mHeadTitles = getResources().getStringArray(R.array.head_titles);
     	mViewCount = mScrollLayout.getChildCount();
+    	Log.d("bakey" , "scroll layout child count = " + mViewCount );
+    	Log.d("bakey" , "linear layout child count = " + 
+    			linearLayout.getChildCount() );
     	mButtons = new RadioButton[mViewCount];
     	
     	for(int i = 0; i < mViewCount; i++)
@@ -1032,19 +1053,19 @@ public class Main extends Activity {
     		mButtons[i].setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					int pos = (Integer)(v.getTag());
-					//瑜版挸澧犳い鍦仯閸戣鍩涢弬锟�	    		
+					//当前项点击刷新	    		
 					if(mCurSel == pos) {
 		    			switch (pos) {
-						case 0://鐠у嫯顔�
+						case 0:
 							lvNews.clickRefresh();
 							break;	
-						case 1://闂傤喚鐡�
+						case 1:
 							lvQuestion.clickRefresh();
 							break;
-						case 2://閸斻劌鑴�
+						case 2:
 							lvTweet.clickRefresh();
 							break;
-						case 3://閸斻劍锟�
+						case 3:
 							if(lvActive.getVisibility() == View.VISIBLE)
 								lvActive.clickRefresh();
 							else
@@ -1058,7 +1079,7 @@ public class Main extends Activity {
 			});
     	}
     	
-    	//鐠佸墽鐤嗙粭顑跨閺勫墽銇氱仦锟�    	
+    	//设置第一显示屏    	
     	mCurSel = 0;
     	mButtons[mCurSel].setChecked(true);
     	
@@ -1069,7 +1090,7 @@ public class Main extends Activity {
 		});
     }
     /**
-     * 鐠佸墽鐤嗘惔鏇㈠劥閺嶅繐缍嬮崜宥囧妽閻愶拷
+     * 设置底部栏当前焦点
      * @param index
      */
     private void setCurPoint(int index)
@@ -1085,7 +1106,7 @@ public class Main extends Activity {
     	mHead_search.setVisibility(View.GONE);
     	mHeadPub_post.setVisibility(View.GONE);
     	mHeadPub_tweet.setVisibility(View.GONE);
-		//婢舵挳鍎磍ogo閵嗕礁褰傜敮鏍ワ拷閸欐垵濮╁瑙勫瘻闁筋喗妯夌粈锟�    
+		//头部logo、发帖、发动弹按钮显示
     	if(index == 0){
     		mHeadLogo.setImageResource(R.drawable.frame_logo_news);
     		mHead_search.setVisibility(View.VISIBLE);
@@ -1098,12 +1119,12 @@ public class Main extends Activity {
     		mHeadLogo.setImageResource(R.drawable.frame_logo_tweet);
     		mHeadPub_tweet.setVisibility(View.VISIBLE);
     	}
-    	//婢跺嫮鎮婇柅姘辩叀娣団剝浼�
+    	//处理通知信息
     	else if(index == 3){
     		mHeadLogo.setImageResource(R.drawable.frame_logo_active);
     		mHeadPub_tweet.setVisibility(View.VISIBLE);
     		
-    		//閸掋倖鏌囬惂璇茬秿
+    		//判断登录
 			int uid = appContext.getLoginUid();
 			if(uid == 0){
 				UIHelper.showLoginDialog(Main.this);
@@ -1119,11 +1140,11 @@ public class Main extends Activity {
 		}
     }
     /**
-     * 閸掓繂顬婇崠鏍ф倗娑擃亙瀵屾い鐢垫畱閹稿鎸�鐠у嫯顔嗛妴渚�６缁涙柣锟介崝銊ヨ剨閵嗕礁濮╅幀浣碉拷閻ｆ瑨鈻�
+     * 初始化各个主页的按钮(资讯、问答、动弹、动态、留言)
      */
     private void initFrameButton()
     {
-    	//閸掓繂顬婇崠鏍ㄥ瘻闁筋喗甯舵禒锟�    	
+    	//初始化按钮控件
     	framebtn_News_lastest = (Button)findViewById(R.id.frame_btn_news_lastest);
     	framebtn_News_blog = (Button)findViewById(R.id.frame_btn_news_blog);
     	framebtn_News_recommend = (Button)findViewById(R.id.frame_btn_news_recommend);
@@ -1135,32 +1156,31 @@ public class Main extends Activity {
     	framebtn_Tweet_lastest = (Button)findViewById(R.id.frame_btn_tweet_lastest);
     	framebtn_Tweet_hot = (Button)findViewById(R.id.frame_btn_tweet_hot);
     	framebtn_Tweet_my = (Button)findViewById(R.id.frame_btn_tweet_my);
-    	framebtn_Active_lastest = (Button)findViewById(R.id.frame_btn_active_lastest);
+    	/*framebtn_Active_lastest = (Button)findViewById(R.id.frame_btn_active_lastest);
     	framebtn_Active_atme = (Button)findViewById(R.id.frame_btn_active_atme);
     	framebtn_Active_comment = (Button)findViewById(R.id.frame_btn_active_comment);
     	framebtn_Active_myself = (Button)findViewById(R.id.frame_btn_active_myself);
-    	framebtn_Active_message = (Button)findViewById(R.id.frame_btn_active_message);
-    	//鐠佸墽鐤嗘＃鏍拷閹封晠銆�
+    	framebtn_Active_message = (Button)findViewById(R.id.frame_btn_active_message);*/
+    	//设置首选择项
     	framebtn_News_lastest.setEnabled(false);
     	framebtn_Question_ask.setEnabled(false);
     	framebtn_Tweet_lastest.setEnabled(false);
-    	framebtn_Active_lastest.setEnabled(false);
-    	//鐠у嫯顔�
+    	//资讯
     	framebtn_News_lastest.setOnClickListener(frameNewsBtnClick(framebtn_News_lastest,NewsList.CATALOG_ALL));
     	framebtn_News_blog.setOnClickListener(frameNewsBtnClick(framebtn_News_blog,BlogList.CATALOG_LATEST));
     	framebtn_News_recommend.setOnClickListener(frameNewsBtnClick(framebtn_News_recommend,BlogList.CATALOG_RECOMMEND));
-    	//闂傤喚鐡�
+    	//问答
     	framebtn_Question_ask.setOnClickListener(frameQuestionBtnClick(framebtn_Question_ask,PostList.CATALOG_ASK));
     	framebtn_Question_share.setOnClickListener(frameQuestionBtnClick(framebtn_Question_share,PostList.CATALOG_SHARE));
     	framebtn_Question_other.setOnClickListener(frameQuestionBtnClick(framebtn_Question_other,PostList.CATALOG_OTHER));
     	framebtn_Question_job.setOnClickListener(frameQuestionBtnClick(framebtn_Question_job,PostList.CATALOG_JOB));
     	framebtn_Question_site.setOnClickListener(frameQuestionBtnClick(framebtn_Question_site,PostList.CATALOG_SITE));
-    	//閸斻劌鑴�
+    	//动弹
     	framebtn_Tweet_lastest.setOnClickListener(frameTweetBtnClick(framebtn_Tweet_lastest,TweetList.CATALOG_LASTEST));
     	framebtn_Tweet_hot.setOnClickListener(frameTweetBtnClick(framebtn_Tweet_hot,TweetList.CATALOG_HOT));
     	framebtn_Tweet_my.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				//閸掋倖鏌囬惂璇茬秿
+				//判断登录
 				int uid = appContext.getLoginUid();
 				if(uid == 0){
 					UIHelper.showLoginDialog(Main.this);
@@ -1178,14 +1198,14 @@ public class Main extends Activity {
 				loadLvTweetData(uid, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 			}
 		});
-    	//閸斻劍锟�
-    	framebtn_Active_lastest.setOnClickListener(frameActiveBtnClick(framebtn_Active_lastest,ActiveList.CATALOG_LASTEST));
+    	//动态
+    	/*framebtn_Active_lastest.setOnClickListener(frameActiveBtnClick(framebtn_Active_lastest,ActiveList.CATALOG_LASTEST));
     	framebtn_Active_atme.setOnClickListener(frameActiveBtnClick(framebtn_Active_atme,ActiveList.CATALOG_ATME));
     	framebtn_Active_comment.setOnClickListener(frameActiveBtnClick(framebtn_Active_comment,ActiveList.CATALOG_COMMENT));
     	framebtn_Active_myself.setOnClickListener(frameActiveBtnClick(framebtn_Active_myself,ActiveList.CATALOG_MYSELF));
     	framebtn_Active_message.setOnClickListener(frameActiveBtnClick(framebtn_Active_message,0));
-    	//閻楄鐣╂径鍕倞
-    	framebtn_Active_atme.setText("@"+getString(R.string.frame_title_active_atme));
+    	//特殊处理
+    	framebtn_Active_atme.setText("@"+getString(R.string.frame_title_active_atme));*/
     }
     private View.OnClickListener frameNewsBtnClick(final Button btn,final int catalog){
     	return new View.OnClickListener() {
@@ -1435,12 +1455,12 @@ public class Main extends Activity {
 		};
     }
     /**
-     * listview閺佺増宓佹径鍕倞
-     * @param what 閺佷即鍣�
-     * @param obj 閺佺増宓�
-     * @param objtype 閺佺増宓佺猾璇茬�
-     * @param actiontype 閹垮秳缍旂猾璇茬�
-     * @return notice 闁氨鐓℃穱鈩冧紖
+     * listview数据处理
+     * @param what 数量
+     * @param obj 数据
+     * @param objtype 数据类型
+     * @param actiontype 操作类型
+     * @return notice 通知信息
      */
     private Notice handleLvData(int what,Object obj,int objtype,int actiontype){
     	Notice notice = null;
@@ -1453,37 +1473,43 @@ public class Main extends Activity {
 						NewsList nlist = (NewsList)obj;
 						notice = nlist.getNotice();
 						lvNewsSumData = what;
-						lvNewsData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvNewsData.addAll(nlist.getNewslist());
+						lvNewsData.clear();		
+						lvNewsData.addAll(nlist.getNewslist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_BLOG:
 						BlogList blist = (BlogList)obj;
 						notice = blist.getNotice();
 						lvBlogSumData = what;
-						lvBlogData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvBlogData.addAll(blist.getBloglist());
+						lvBlogData.clear();	
+						lvBlogData.addAll(blist.getBloglist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_POST:
 						PostList plist = (PostList)obj;
 						notice = plist.getNotice();
 						lvQuestionSumData = what;
-						lvQuestionData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvQuestionData.addAll(plist.getPostlist());
+						lvQuestionData.clear();			
+						lvQuestionData.addAll(plist.getPostlist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_TWEET:
 						TweetList tlist = (TweetList)obj;
 						notice = tlist.getNotice();
 						lvTweetSumData = what;
-						lvTweetData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvTweetData.addAll(tlist.getTweetlist());
+						lvTweetData.clear();	
+						lvTweetData.addAll(tlist.getTweetlist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_ACTIVE:
 						ActiveList alist = (ActiveList)obj;
 						notice = alist.getNotice();
 						lvActiveSumData = what;
-						lvActiveData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvActiveData.addAll(alist.getActivelist());
+						lvActiveData.clear();	
+						lvActiveData.addAll(alist.getActivelist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_MESSAGE:
 						MessageList mlist = (MessageList)obj;
 						notice = mlist.getNotice();
 						lvMsgSumData = what;
-						lvMsgData.clear();//閸忓牊绔婚梽銈呭斧閺堝鏆熼幑锟�						lvMsgData.addAll(mlist.getMessagelist());
+						lvMsgData.clear();			
+						lvMsgData.addAll(mlist.getMessagelist());
 						break;
 				}
 				break;
@@ -1609,10 +1635,11 @@ public class Main extends Activity {
 		return notice;
     }
     /**
-     * 缁捐法鈻奸崝鐘烘祰閺備即妞堥弫鐗堝祦
-     * @param catalog 閸掑棛琚�
-     * @param pageIndex 瑜版挸澧犳い鍨殶
-     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
+     * 线程加载新闻数据
+     * @param catalog 分类
+     * @param pageIndex 当前页数
+     * @param handler 处理器
+     * @param action 动作标识
      */
 	private void loadLvNewsData(final int catalog,final int pageIndex,final Handler handler,final int action){ 
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);		

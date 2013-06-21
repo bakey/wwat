@@ -288,7 +288,7 @@ public class MainActivity extends Activity  {
     	fbNews = (RadioButton)findViewById(R.id.main_footbar_news);
     	fbQuestion = (RadioButton)findViewById(R.id.main_footbar_question);
     	fbTweet = (RadioButton)findViewById(R.id.main_footbar_tweet);
-    	fbactive = (RadioButton)findViewById(R.id.main_footbar_active);
+    	//fbactive = (RadioButton)findViewById(R.id.main_footbar_active);
     	
     	fbSetting = (ImageView)findViewById(R.id.main_footbar_setting);
     	fbSetting.setOnClickListener(new View.OnClickListener() {

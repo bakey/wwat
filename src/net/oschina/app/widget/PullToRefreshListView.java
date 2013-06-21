@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
- * 涓嬫媺鍒锋柊鎺т欢
+ * 下拉刷新控件
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -27,13 +27,13 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 	   
     private final static String TAG = "PullToRefreshListView";  
     
-    // 涓嬫媺鍒锋柊鏍囧織   
+    // 下拉刷新标志   
     private final static int PULL_To_REFRESH = 0; 
-    // 鏉惧紑鍒锋柊鏍囧織   
+    // 松开刷新标志   
     private final static int RELEASE_To_REFRESH = 1; 
-    // 姝ｅ湪鍒锋柊鏍囧織   
+    // 正在刷新标志   
     private final static int REFRESHING = 2;  
-    // 鍒锋柊瀹屾垚鏍囧織   
+    // 刷新完成标志   
     private final static int DONE = 3;  
   
     private LayoutInflater inflater;  
@@ -43,11 +43,11 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     private TextView lastUpdatedTextView;  
     private ImageView arrowImageView;  
     private ProgressBar progressBar;  
-    // 鐢ㄦ潵璁剧疆绠ご鍥炬爣鍔ㄧ敾鏁堟灉   
+    // 用来设置箭头图标动画效果   
     private RotateAnimation animation;  
     private RotateAnimation reverseAnimation;  
   
-    // 鐢ㄤ簬淇濊瘉startY鐨勫�鍦ㄤ竴涓畬鏁寸殑touch浜嬩欢涓彧琚褰曚竴娆�  
+    // 用于保证startY的值在一个完整的touch事件中只被记录一次   
     private boolean isRecored;  
   
     private int headContentWidth;  
@@ -75,7 +75,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     }  
   
     private void init(Context context) {   
-    	//璁剧疆婊戝姩鏁堟灉
+    	//设置滑动效果
         animation = new RotateAnimation(0, -180,  
                 RotateAnimation.RELATIVE_TO_SELF, 0.5f,  
                 RotateAnimation.RELATIVE_TO_SELF, 0.5f);  
@@ -109,8 +109,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         headView.setPadding(headView.getPaddingLeft(), -1 * headContentHeight, headView.getPaddingRight(), headView.getPaddingBottom());  
         headView.invalidate();  
 
-        //System.out.println("鍒濆楂樺害锛�+headContentHeight); 
-        //System.out.println("鍒濆TopPad锛�+headContentOriginalTopPadding);
+        //System.out.println("初始高度："+headContentHeight); 
+        //System.out.println("初始TopPad："+headContentOriginalTopPadding);
         
         addHeaderView(headView);        
         setOnScrollListener(this); 
@@ -130,27 +130,27 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             if (firstItemIndex == 0 && !isRecored) {  
                 startY = (int) event.getY();  
                 isRecored = true;  
-                //System.out.println("褰撳墠-鎸変笅楂樺害-ACTION_DOWN-Y锛�+startY);
+                //System.out.println("当前-按下高度-ACTION_DOWN-Y："+startY);
             }  
             break;  
         
-        case MotionEvent.ACTION_CANCEL://澶卞幓鐒︾偣&鍙栨秷鍔ㄤ綔
+        case MotionEvent.ACTION_CANCEL://失去焦点&取消动作
         case MotionEvent.ACTION_UP:  
   
             if (state != REFRESHING) {  
                 if (state == DONE) {  
-                    //System.out.println("褰撳墠-鎶捣-ACTION_UP锛欴ONE浠�箞閮戒笉鍋�);
+                    //System.out.println("当前-抬起-ACTION_UP：DONE什么都不做");
                 }  
                 else if (state == PULL_To_REFRESH) {  
                     state = DONE;  
                     changeHeaderViewByState();                      
-                    //System.out.println("褰撳墠-鎶捣-ACTION_UP锛歅ULL_To_REFRESH-->DONE-鐢变笅鎷夊埛鏂扮姸鎬佸埌鍒锋柊瀹屾垚鐘舵�");
+                    //System.out.println("当前-抬起-ACTION_UP：PULL_To_REFRESH-->DONE-由下拉刷新状态到刷新完成状态");
                 }  
                 else if (state == RELEASE_To_REFRESH) {  
                     state = REFRESHING;  
                     changeHeaderViewByState();  
                     onRefresh();                      
-                    //System.out.println("褰撳墠-鎶捣-ACTION_UP锛歊ELEASE_To_REFRESH-->REFRESHING-鐢辨澗寮�埛鏂扮姸鎬侊紝鍒板埛鏂板畬鎴愮姸鎬�);
+                    //System.out.println("当前-抬起-ACTION_UP：RELEASE_To_REFRESH-->REFRESHING-由松开刷新状态，到刷新完成状态");
                 }  
             }  
   
@@ -161,72 +161,72 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
   
         case MotionEvent.ACTION_MOVE:  
             int tempY = (int) event.getY(); 
-            //System.out.println("褰撳墠-婊戝姩-ACTION_MOVE Y锛�+tempY);
+            //System.out.println("当前-滑动-ACTION_MOVE Y："+tempY);
             if (!isRecored && firstItemIndex == 0) {  
-                //System.out.println("褰撳墠-婊戝姩-璁板綍鎷栨嫿鏃剁殑浣嶇疆 Y锛�+tempY);
+                //System.out.println("当前-滑动-记录拖拽时的位置 Y："+tempY);
                 isRecored = true;  
                 startY = tempY;  
             }  
             if (state != REFRESHING && isRecored) {  
-                // 鍙互鏉惧紑鍒锋柊浜�  
+                // 可以松开刷新了   
                 if (state == RELEASE_To_REFRESH) {  
-                    // 寰�笂鎺紝鎺ㄥ埌灞忓箷瓒冲鎺╃洊head鐨勭▼搴︼紝浣嗚繕娌℃湁鍏ㄩ儴鎺╃洊   
+                    // 往上推，推到屏幕足够掩盖head的程度，但还没有全部掩盖   
                     if ((tempY - startY < headContentHeight+20)  
                             && (tempY - startY) > 0) {  
                         state = PULL_To_REFRESH;  
                         changeHeaderViewByState();                          
-                        //System.out.println("褰撳墠-婊戝姩-ACTION_MOVE锛歊ELEASE_To_REFRESH--銆婸ULL_To_REFRESH-鐢辨澗寮�埛鏂扮姸鎬佽浆鍙樺埌涓嬫媺鍒锋柊鐘舵�");
+                        //System.out.println("当前-滑动-ACTION_MOVE：RELEASE_To_REFRESH--》PULL_To_REFRESH-由松开刷新状态转变到下拉刷新状态");
                     }  
-                    // 涓�笅瀛愭帹鍒伴《   
+                    // 一下子推到顶   
                     else if (tempY - startY <= 0) {  
                         state = DONE;  
                         changeHeaderViewByState();                         
-                        //System.out.println("褰撳墠-婊戝姩-ACTION_MOVE锛歊ELEASE_To_REFRESH--銆婦ONE-鐢辨澗寮�埛鏂扮姸鎬佽浆鍙樺埌done鐘舵�");
+                        //System.out.println("当前-滑动-ACTION_MOVE：RELEASE_To_REFRESH--》DONE-由松开刷新状态转变到done状态");
                     }  
-                    // 寰�笅鎷夛紝鎴栬�杩樻病鏈変笂鎺ㄥ埌灞忓箷椤堕儴鎺╃洊head   
+                    // 往下拉，或者还没有上推到屏幕顶部掩盖head   
                     else {  
-                        // 涓嶇敤杩涜鐗瑰埆鐨勬搷浣滐紝鍙敤鏇存柊paddingTop鐨勫�灏辫浜�  
+                        // 不用进行特别的操作，只用更新paddingTop的值就行了   
                     }  
                 }  
-                // 杩樻病鏈夊埌杈炬樉绀烘澗寮�埛鏂扮殑鏃跺�,DONE鎴栬�鏄疨ULL_To_REFRESH鐘舵�   
+                // 还没有到达显示松开刷新的时候,DONE或者是PULL_To_REFRESH状态   
                 else if (state == PULL_To_REFRESH) {  
-                    // 涓嬫媺鍒板彲浠ヨ繘鍏ELEASE_TO_REFRESH鐨勭姸鎬�  
+                    // 下拉到可以进入RELEASE_TO_REFRESH的状态   
                     if (tempY - startY >= headContentHeight+20 && currentScrollState == SCROLL_STATE_TOUCH_SCROLL) {  
                         state = RELEASE_To_REFRESH;  
                         isBack = true;  
                         changeHeaderViewByState();  
-                        //System.out.println("褰撳墠-婊戝姩-PULL_To_REFRESH--銆婻ELEASE_To_REFRESH-鐢眃one鎴栬�涓嬫媺鍒锋柊鐘舵�杞彉鍒版澗寮�埛鏂�);
+                        //System.out.println("当前-滑动-PULL_To_REFRESH--》RELEASE_To_REFRESH-由done或者下拉刷新状态转变到松开刷新");
                     }  
-                    // 涓婃帹鍒伴《浜�  
+                    // 上推到顶了   
                     else if (tempY - startY <= 0) {  
                         state = DONE;  
                         changeHeaderViewByState();   
-                        //System.out.println("褰撳墠-婊戝姩-PULL_To_REFRESH--銆婦ONE-鐢盌one鎴栬�涓嬫媺鍒锋柊鐘舵�杞彉鍒癲one鐘舵�");
+                        //System.out.println("当前-滑动-PULL_To_REFRESH--》DONE-由Done或者下拉刷新状态转变到done状态");
                     }  
                 }  
-                // done鐘舵�涓�  
+                // done状态下   
                 else if (state == DONE) {  
                     if (tempY - startY > 0) {  
                         state = PULL_To_REFRESH;  
                         changeHeaderViewByState(); 
-                        //System.out.println("褰撳墠-婊戝姩-DONE--銆婸ULL_To_REFRESH-鐢眃one鐘舵�杞彉鍒颁笅鎷夊埛鏂扮姸鎬�);
+                        //System.out.println("当前-滑动-DONE--》PULL_To_REFRESH-由done状态转变到下拉刷新状态");
                     }  
                 }  
                 
-                // 鏇存柊headView鐨剆ize   
+                // 更新headView的size   
                 if (state == PULL_To_REFRESH) { 
                 	int topPadding = (int)((-1 * headContentHeight + (tempY - startY)));
                 	headView.setPadding(headView.getPaddingLeft(), topPadding, headView.getPaddingRight(), headView.getPaddingBottom());   
                     headView.invalidate();  
-                    //System.out.println("褰撳墠-涓嬫媺鍒锋柊PULL_To_REFRESH-TopPad锛�+topPadding);
+                    //System.out.println("当前-下拉刷新PULL_To_REFRESH-TopPad："+topPadding);
                 }  
   
-                // 鏇存柊headView鐨刾addingTop   
+                // 更新headView的paddingTop   
                 if (state == RELEASE_To_REFRESH) {  
                 	int topPadding = (int)((tempY - startY - headContentHeight));
                 	headView.setPadding(headView.getPaddingLeft(), topPadding, headView.getPaddingRight(), headView.getPaddingBottom());    
                     headView.invalidate();  
-                    //System.out.println("褰撳墠-閲婃斁鍒锋柊RELEASE_To_REFRESH-TopPad锛�+topPadding);
+                    //System.out.println("当前-释放刷新RELEASE_To_REFRESH-TopPad："+topPadding);
                 }  
             }  
             break;  
@@ -234,7 +234,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         return super.onTouchEvent(event);  
     }  
   
-    // 褰撶姸鎬佹敼鍙樻椂鍊欙紝璋冪敤璇ユ柟娉曪紝浠ユ洿鏂扮晫闈�  
+    // 当状态改变时候，调用该方法，以更新界面   
     private void changeHeaderViewByState() {  
         switch (state) {  
         case RELEASE_To_REFRESH:  
@@ -249,7 +249,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
   
             tipsTextview.setText(R.string.pull_to_refresh_release_label);  
   
-            //Log.v(TAG, "褰撳墠鐘舵�锛屾澗寮�埛鏂�);  
+            //Log.v(TAG, "当前状态，松开刷新");  
             break;  
         case PULL_To_REFRESH:
         	
@@ -265,11 +265,11 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             } 
             tipsTextview.setText(R.string.pull_to_refresh_pull_label);  
 
-            //Log.v(TAG, "褰撳墠鐘舵�锛屼笅鎷夊埛鏂�);  
+            //Log.v(TAG, "当前状态，下拉刷新");  
             break;  
   
         case REFRESHING:   
-        	//System.out.println("鍒锋柊REFRESHING-TopPad锛�+headContentOriginalTopPadding);
+        	//System.out.println("刷新REFRESHING-TopPad："+headContentOriginalTopPadding);
         	headView.setPadding(headView.getPaddingLeft(), headContentOriginalTopPadding, headView.getPaddingRight(), headView.getPaddingBottom());   
             headView.invalidate();  
   
@@ -279,27 +279,27 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             tipsTextview.setText(R.string.pull_to_refresh_refreshing_label);  
             lastUpdatedTextView.setVisibility(View.GONE);  
   
-            //Log.v(TAG, "褰撳墠鐘舵�,姝ｅ湪鍒锋柊...");  
+            //Log.v(TAG, "当前状态,正在刷新...");  
             break;  
         case DONE:  
-        	//System.out.println("瀹屾垚DONE-TopPad锛�+(-1 * headContentHeight));
+        	//System.out.println("完成DONE-TopPad："+(-1 * headContentHeight));
         	headView.setPadding(headView.getPaddingLeft(), -1 * headContentHeight, headView.getPaddingRight(), headView.getPaddingBottom());  
             headView.invalidate();  
   
             progressBar.setVisibility(View.GONE);  
             arrowImageView.clearAnimation();  
-            // 姝ゅ鏇存崲鍥炬爣   
+            // 此处更换图标   
             arrowImageView.setImageResource(R.drawable.ic_pulltorefresh_arrow);  
   
             tipsTextview.setText(R.string.pull_to_refresh_pull_label);  
             lastUpdatedTextView.setVisibility(View.VISIBLE);  
   
-            //Log.v(TAG, "褰撳墠鐘舵�锛宒one");  
+            //Log.v(TAG, "当前状态，done");  
             break;  
         }  
     }  
   
-    //鐐瑰嚮鍒锋柊
+    //点击刷新
     public void clickRefresh() {
     	setSelection(0);
     	state = REFRESHING;  
@@ -331,7 +331,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         }  
     }  
   
-    // 璁＄畻headView鐨剋idth鍙奾eight鍊� 
+    // 计算headView的width及height值  
     private void measureView(View child) {  
         ViewGroup.LayoutParams p = child.getLayoutParams();  
         if (p == null) {  

@@ -55,6 +55,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Message;
 //import android.webkit.CacheManager;
+import android.util.Log;
 
 /**
  * 鍏ㄥ眬搴旂敤绋嬪簭绫伙細鐢ㄤ簬淇濆瓨鍜岃皟鐢ㄥ叏灞�簲鐢ㄩ厤缃強璁块棶缃戠粶鏁版嵁
@@ -396,7 +397,7 @@ public class AppContext extends Application {
 		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
 			try{
 				list = ApiClient.getNewsList(this, catalog, pageIndex, PAGE_SIZE);
-				if(list != null && pageIndex == 0){
+				if(list != null && pageIndex == 0){					
 					Notice notice = list.getNotice();
 					list.setNotice(null);
 					saveObject(list, key);
