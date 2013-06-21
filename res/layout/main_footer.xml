@@ -30,5 +30,6 @@
 	<ImageView
 		android:id="@+id/main_footbar_setting"
 		style="@style/main_footbar_image"
-		android:src="@drawable/widget_bar_more"/>
+		android:src="@drawable/navigation_playing_num_sel" />
+		<!-- android:src="@drawable/widget_bar_more" -->
 </LinearLayout>

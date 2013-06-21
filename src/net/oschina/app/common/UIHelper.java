@@ -133,7 +133,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶弬浼存鐠囷附鍎�
+	 * 显示新闻详情
 	 * @param context
 	 * @param newsId
 	 */
@@ -145,7 +145,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氱敮鏍х摍鐠囷附鍎�
+	 * 显示帖子详情
 	 * @param context
 	 * @param postId
 	 */
@@ -157,7 +157,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶幋鎴ｎ渽閹绘劙妫舵い鐢告桨
+	 * 显示我要提问页面
 	 * @param context
 	 */
 	public static void showQuestionPub(Context context)
@@ -167,7 +167,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶崝銊ヨ剨鐠囷附鍎忛崣濠呯槑鐠侊拷
+	 * 显示动弹详情及评论
 	 * @param context
 	 * @param tweetId
 	 */
@@ -179,7 +179,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶崝銊ヨ剨娑擄拷绗呮い鐢告桨
+	 * 显示动弹一下页面
 	 * @param context
 	 */
 	public static void showTweetPub(Activity context)
@@ -196,7 +196,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶崡姘吂鐠囷附鍎�
+	 * 显示博客详情
 	 * @param context
 	 * @param blogId
 	 */
@@ -208,7 +208,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氭潪顖欐鐠囷附鍎�
+	 * 显示软件详情
 	 * @param context
 	 * @param ident
 	 */
@@ -220,7 +220,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺備即妞堢搾鍛存懠閹恒儳鍋ｉ崙鏄忕儲鏉烇拷
+	 * 新闻超链接点击跳转
 	 * @param context
 	 * @param newsId
 	 * @param newsType
@@ -229,7 +229,7 @@ public class UIHelper {
 	public static void showNewsRedirect(Context context, News news)
 	{
 		String url = news.getUrl();
-		//url娑撹櫣鈹�閺冄勬煙濞夛拷
+		//url为空-旧方法
 		if(StringUtils.isEmpty(url)) {
 			int newsId = news.getId();
 			int newsType = news.getNewType().type;
