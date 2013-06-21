@@ -14,7 +14,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.util.Xml;
 
 /**
- * 新闻列表实体类
+ * 鏂伴椈鍒楄〃瀹炰綋绫�
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -46,13 +46,13 @@ public class NewsList extends Entity{
 	public static NewsList parse(InputStream inputStream) throws IOException, AppException {
 		NewsList newslist = new NewsList();
 		News news = null;
-        //获得XmlPullParser解析器
+		//获得XmlPullParser解析器
         XmlPullParser xmlParser = Xml.newPullParser();
         try {        	
             xmlParser.setInput(inputStream, UTF8);
             //获得解析到的事件类别，这里有开始文档，结束文档，开始标签，结束标签，文本等等事件。
             int evtType=xmlParser.getEventType();
-			//一直循环，直到文档结束    
+          //一直循环，直到文档结束   
 			while(evtType!=XmlPullParser.END_DOCUMENT){ 
 	    		String tag = xmlParser.getName(); 
 			    switch(evtType){ 
@@ -115,8 +115,8 @@ public class NewsList extends Entity{
 				            {			            	
 				            	news.getNewType().authoruid2 = StringUtils.toInt(xmlParser.nextText(),0); 
 				            }
-			    		}
-			            //通知信息
+			    		}				
+			    		//通知信息
 			            else if(tag.equalsIgnoreCase("notice"))
 			    		{
 			            	newslist.setNotice(new Notice());
@@ -142,7 +142,7 @@ public class NewsList extends Entity{
 			    		}
 			    		break;
 			    	case XmlPullParser.END_TAG:	
-					   	//如果遇到标签结束，则把对象添加进集合中
+			    		//如果遇到标签结束，则把对象添加进集合中
 				       	if (tag.equalsIgnoreCase("news") && news != null) { 
 				    	   newslist.getNewslist().add(news); 
 				           news = null; 

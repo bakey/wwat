@@ -35,7 +35,12 @@
 		<activity android:name=".ui.About" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
 		<activity android:name=".ui.FeedBack" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 		<activity android:name=".ui.Main" android:theme="@style/Theme.NoTitleBar" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-		<activity android:name=".ui.LoginDialog" android:theme="@style/Theme.HalfTranslucent" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask" android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+		<activity android:name="net.oschina.app.ui.LoginDialog" 
+		    android:theme="@style/Theme.HalfTranslucent" 
+		    android:screenOrientation="portrait" 
+		    android:configChanges="keyboardHidden|orientation" 
+		    android:launchMode="singleTask" 
+		    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 		<activity android:name=".ui.NewsDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>
 		<activity android:name=".ui.SoftwareLib" android:theme="@style/Theme.ZoomLight" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
 		<activity android:name=".ui.SoftwareDetail" android:theme="@style/Theme.SlideTop" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation"/>

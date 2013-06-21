@@ -595,7 +595,8 @@ public class ApiClient {
 		}});
 		
 		try{
-			return NewsList.parse(http_get(appContext, newUrl));		
+			InputStream is = http_get( appContext , newUrl ) ;
+			return NewsList.parse( is );		
 		}catch(Exception e){
 			if(e instanceof AppException)
 				throw (AppException)e;

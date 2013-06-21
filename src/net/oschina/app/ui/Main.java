@@ -190,17 +190,16 @@ public class Main extends Activity {
         
         AppManager.getAppManager().addActivity(this);
         
-        //濞夈劌鍞介獮鎸庢尡閹恒儲鏁归崳锟�    	
+     	
         tweetReceiver = new TweetReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction("net.oschina.app.action.APP_TWEETPUB");
         registerReceiver(tweetReceiver, filter);
         
         appContext = (AppContext)getApplication();
-        //缂冩垹绮舵潻鐐村复閸掋倖鏌�
+      
         if(!appContext.isNetworkConnected())
         	UIHelper.ToastMessage(this, R.string.network_not_connected);
-        //閸掓繂顬婇崠鏍瑜帮拷
        // appContext.initLoginInfo();
         
         Log.d("bakey" , "start init");
@@ -210,19 +209,16 @@ public class Main extends Activity {
         this.initFootBar();
         Log.d("bakey" , "init foot bar success");
         this.initPageScroll();
-        Log.d("bakey" , "init page scroll success");
         this.initFrameButton();
-        Log.d("bakey" , "init frame button success");
         this.initBadgeView();
-        Log.d("bakey" , "init badgeview success");
         this.initQuickActionGrid();
         this.initFrameListView();
         Log.d("bakey" , "init all success");
         
-        //濡拷鐓￠弬鎵閺堬拷
+    
         //UpdateManager.getUpdateManager().checkAppUpdate(this, false);
         
-        //閸氼垰濮╂潪顔款嚄闁氨鐓℃穱鈩冧紖
+   
         //this.foreachUserNotice();
         
     }
@@ -385,27 +381,23 @@ public class Main extends Activity {
         }
     };
     
-    /**
-     * 閸掓繂顬婇崠鏍ㄥ閺堝istView
-     */
     private void initFrameListView()
     {
-    	//閸掓繂顬婇崠鏉攊stview閹貉傛
+   
 		this.initNewsListView();
 		this.initBlogListView();
 		this.initQuestionListView();
 		this.initTweetListView();
 		this.initActiveListView();
 		this.initMsgListView();
-		//閸旂姾娴噇istview閺佺増宓�
 		this.initFrameListViewData();
     }
     /**
-     * 閸掓繂顬婇崠鏍ㄥ閺堝istView閺佺増宓�
+     * 初始化所有ListView数据
      */
     private void initFrameListViewData()
     {
-        //閸掓繂顬婇崠鏈抋ndler
+    	 //初始化Handler
         lvNewsHandler = this.getLvHandler(lvNews, lvNewsAdapter, lvNews_foot_more, lvNews_foot_progress, AppContext.PAGE_SIZE);
         lvBlogHandler = this.getLvHandler(lvBlog, lvBlogAdapter, lvBlog_foot_more, lvBlog_foot_progress, AppContext.PAGE_SIZE);
         lvQuestionHandler = this.getLvHandler(lvQuestion, lvQuestionAdapter, lvQuestion_foot_more, lvQuestion_foot_progress, AppContext.PAGE_SIZE);  
@@ -413,7 +405,8 @@ public class Main extends Activity {
         lvActiveHandler = this.getLvHandler(lvActive, lvActiveAdapter, lvActive_foot_more, lvActive_foot_progress, AppContext.PAGE_SIZE); 
         lvMsgHandler = this.getLvHandler(lvMsg, lvMsgAdapter, lvMsg_foot_more, lvMsg_foot_progress, AppContext.PAGE_SIZE);      	
     	
-        //閸旂姾娴囬弫鐗堝祦				
+        Log.d("bakey","now news data count = " + lvNewsData.size() );
+        //加载数据			
 		if(lvNewsData.size() == 0) {
 			loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}
@@ -934,8 +927,7 @@ public class Main extends Activity {
             }
         });			
     }
-    /**
-     * 閸掓繂顬婇崠鏍с仈闁劏顬呴崶锟�     */
+   
     private void initHeadView()
     {
     	mHeadLogo = (ImageView)findViewById(R.id.main_head_logo);
@@ -1370,17 +1362,12 @@ public class Main extends Activity {
     		}
     	}
     }
-    /**
-     * 閼惧嘲褰噇istview閻ㄥ嫬鍨垫慨瀣Handler
-     * @param lv
-     * @param adapter
-     * @return
-     */
+  
     private Handler getLvHandler(final PullToRefreshListView lv,final BaseAdapter adapter,final TextView more,final ProgressBar progress,final int pageSize){
     	return new Handler(){
 			public void handleMessage(Message msg) {
 				if(msg.what >= 0){
-					//listview閺佺増宓佹径鍕倞
+					//listview数据处理
 					Notice notice = handleLvData(msg.what, msg.obj, msg.arg2, msg.arg1);
 					
 					if(msg.what < pageSize){
@@ -1392,7 +1379,7 @@ public class Main extends Activity {
 						adapter.notifyDataSetChanged();
 						more.setText(R.string.load_more);
 						
-						//閻楄鐣╂径鍕倞-閻戭參妫崝銊ヨ剨娑撳秷鍏樼紙濠氥�
+						//特殊处理-热门动弹不能翻页
 						if(lv == lvTweet) {
 							TweetList tlist = (TweetList)msg.obj;
 							if(lvTweetData.size() == tlist.getTweetCount()){
@@ -1609,10 +1596,11 @@ public class Main extends Activity {
 		return notice;
     }
     /**
-     * 缁捐法鈻奸崝鐘烘祰閺備即妞堥弫鐗堝祦
-     * @param catalog 閸掑棛琚�
-     * @param pageIndex 瑜版挸澧犳い鍨殶
-     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
+     * 线程加载新闻数据
+     * @param catalog 分类
+     * @param pageIndex 当前页数
+     * @param handler 处理器
+     * @param action 动作标识
      */
 	private void loadLvNewsData(final int catalog,final int pageIndex,final Handler handler,final int action){ 
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);		
@@ -1623,6 +1611,7 @@ public class Main extends Activity {
 				if(action == UIHelper.LISTVIEW_ACTION_REFRESH || action == UIHelper.LISTVIEW_ACTION_SCROLL)
 					isRefresh = true;
 				try {					
+					Log.d("bakey","ready load news list ");
 					NewsList list = appContext.getNewsList(catalog, pageIndex, isRefresh);				
 					msg.what = list.getPageSize();
 					msg.obj = list;

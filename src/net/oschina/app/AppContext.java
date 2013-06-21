@@ -55,6 +55,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Message;
 //import android.webkit.CacheManager;
+import android.util.Log;
 
 /**
  * 鍏ㄥ眬搴旂敤绋嬪簭绫伙細鐢ㄤ簬淇濆瓨鍜岃皟鐢ㄥ叏灞�簲鐢ㄩ厤缃強璁块棶缃戠粶鏁版嵁
@@ -393,10 +394,13 @@ public class AppContext extends Application {
 	public NewsList getNewsList(int catalog, int pageIndex, boolean isRefresh) throws AppException {
 		NewsList list = null;
 		String key = "newslist_"+catalog+"_"+pageIndex+"_"+PAGE_SIZE;
+		Log.d("bakey" , "news list key = " + key + ", " + isCacheDataFailure(key) );
 		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
 			try{
+				Log.d("bakey" , "try get news list ");
 				list = ApiClient.getNewsList(this, catalog, pageIndex, PAGE_SIZE);
 				if(list != null && pageIndex == 0){
+					Log.d("bakey","get list count = " + list.getNewsCount() );
 					Notice notice = list.getNotice();
 					list.setNotice(null);
 					saveObject(list, key);
@@ -1280,20 +1284,17 @@ public class AppContext extends Application {
 		removeProperty(AppConfig.CONF_COOKIE);
 	}
 	
-	/**
-	 * 鍒ゆ柇缂撳瓨鏄惁澶辨晥
-	 * @param cachefile
-	 * @return
-	 */
+
 	public boolean isCacheDataFailure(String cachefile)
 	{
-		boolean failure = false;
+		/*boolean failure = false;
 		File data = getFileStreamPath(cachefile);
 		if(data.exists() && (System.currentTimeMillis() - data.lastModified()) > CACHE_TIME)
 			failure = true;
 		else if(!data.exists())
 			failure = true;
-		return failure;
+		return failure;*/
+		return true;
 	}
 	
 	/**

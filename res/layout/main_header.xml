@@ -20,7 +20,7 @@
 		android:layout_toRightOf="@id/main_head_logo"
 		android:layout_centerVertical="true"
 		android:layout_marginLeft="5.0dip"
-		android:text="资讯"/>
+		android:text="推荐故事"/>
 	
    	<ProgressBar 
 		android:id="@+id/main_head_progress" 
