@@ -18,16 +18,16 @@ import android.os.Environment;
 import android.widget.Toast;
 
 /**
- * 鎼存梻鏁ょ粙瀣碍瀵倸鐖剁猾浼欑窗閻劋绨幑鏇″箯瀵倸鐖堕崪灞惧絹缁�椽鏁婄拠顖欎繆閹拷
+ * 应用程序异常类：用于捕获异常和提示错误信息
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
  */
 public class AppException extends Exception {
 
-	private final static boolean Debug = false;//閺勵垰鎯佹穱婵嗙摠闁挎瑨顕ら弮銉ョ箶
+	private final static boolean Debug = false;//是否保存错误日志
 	
-	/** 鐎规矮绠熷鍌氱埗缁鐎�*/
+	/** 定义异常类型 */
 	public final static byte TYPE_NETWORK 	= 0x01;
 	public final static byte TYPE_SOCKET	= 0x02;
 	public final static byte TYPE_HTTP_CODE	= 0x03;
@@ -55,7 +55,7 @@ public class AppException extends Exception {
 	}
 	
 	/**
-	 * 閹绘劗銇氶崣瀣偨閻ㄥ嫰鏁婄拠顖欎繆閹拷
+	 * 提示友好的错误信息
 	 * @param ctx
 	 */
 	public void makeToast(Context ctx){
@@ -86,7 +86,7 @@ public class AppException extends Exception {
 	}
 	
 	/**
-	 * 娣囨繂鐡ㄥ鍌氱埗閺冦儱绻�
+	 * 保存异常日志
 	 * @param excp
 	 */
 	public void saveErrorLog(Exception excp) {
@@ -96,7 +96,7 @@ public class AppException extends Exception {
 		FileWriter fw = null;
 		PrintWriter pw = null;
 		try {
-			//閸掋倖鏌囬弰顖氭儊閹稿倽娴囨禍鍝燚閸楋拷
+			//判断是否挂载了SD卡
 			String storageState = Environment.getExternalStorageState();		
 			if(storageState.equals(Environment.MEDIA_MOUNTED)){
 				savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/OSChina/Log/";
@@ -106,7 +106,7 @@ public class AppException extends Exception {
 				}
 				logFilePath = savePath + errorlog;
 			}
-			//濞屸剝婀侀幐鍌濇祰SD閸椻槄绱濋弮鐘崇《閸愭瑦鏋冩禒锟�		
+			//没有挂载SD卡，无法写文件
 			if(logFilePath == ""){
 				return;
 			}

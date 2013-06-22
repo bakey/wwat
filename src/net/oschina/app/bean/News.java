@@ -44,7 +44,7 @@ public class News extends Entity{
 	public final static int NEWSTYPE_NEWS = 0x00;//0 新闻
 	public final static int NEWSTYPE_SOFTWARE = 0x01;//1 软件
 	public final static int NEWSTYPE_POST = 0x02;//2 帖子
-	public final static int NEWSTYPE_BLOG = 0x03;//3 博客
+	public final static int NEWSTYPE_BLOG = 0x03;//3 博客
 
 	private String title;
 	private String url;
@@ -151,13 +151,13 @@ public class News extends Entity{
 	public static News parse(InputStream inputStream) throws IOException, AppException {
 		News news = null;
 		Relative relative = null;
-        //获得XmlPullParser解析器
+        //鑾峰緱XmlPullParser瑙ｆ瀽鍣�
         XmlPullParser xmlParser = Xml.newPullParser();
         try {        	
             xmlParser.setInput(inputStream, UTF8);
-            //获得解析到的事件类别，这里有开始文档，结束文档，开始标签，结束标签，文本等等事件。
+            //鑾峰緱瑙ｆ瀽鍒扮殑浜嬩欢绫诲埆锛岃繖閲屾湁寮�鏂囨。锛岀粨鏉熸枃妗ｏ紝寮�鏍囩锛岀粨鏉熸爣绛撅紝鏂囨湰绛夌瓑浜嬩欢銆�
             int evtType=xmlParser.getEventType();
-			//一直循环，直到文档结束    
+			//涓�洿寰幆锛岀洿鍒版枃妗ｇ粨鏉�   
 			while(evtType!=XmlPullParser.END_DOCUMENT){ 
 	    		String tag = xmlParser.getName(); 
 			    switch(evtType){ 
@@ -239,7 +239,7 @@ public class News extends Entity{
 				            		relative.url = xmlParser.nextText(); 	
 				            	}
 				            }
-				            //通知信息
+				            //閫氱煡淇℃伅
 				            else if(tag.equalsIgnoreCase("notice"))
 				    		{
 				            	news.setNotice(new Notice());
@@ -266,14 +266,14 @@ public class News extends Entity{
 			    		}
 			    		break;
 			    	case XmlPullParser.END_TAG:		
-			    		//如果遇到标签结束，则把对象添加进集合中
+			    		//濡傛灉閬囧埌鏍囩缁撴潫锛屽垯鎶婂璞℃坊鍔犺繘闆嗗悎涓�
 				       	if (tag.equalsIgnoreCase("relative") && news!=null && relative!=null) { 
 				       		news.getRelatives().add(relative);
 				       		relative = null; 
 				       	}
 				       	break; 
 			    }
-			    //如果xml没有结束，则导航到下一个节点
+			    //濡傛灉xml娌℃湁缁撴潫锛屽垯瀵艰埅鍒颁笅涓�釜鑺傜偣
 			    evtType=xmlParser.next();
 			}		
         } catch (XmlPullParserException e) {

@@ -19,6 +19,7 @@ import net.oschina.app.bean.ActiveList;
 import net.oschina.app.bean.Blog;
 import net.oschina.app.bean.BlogCommentList;
 import net.oschina.app.bean.BlogList;
+import net.oschina.app.bean.CategoryList;
 import net.oschina.app.bean.CommentList;
 import net.oschina.app.bean.FavoriteList;
 import net.oschina.app.bean.FriendList;
@@ -384,7 +385,7 @@ public class AppContext extends Application {
 	}
 	
 	/**
-	 * 鏂伴椈鍒楄〃
+	 * 新闻列表
 	 * @param catalog
 	 * @param pageIndex
 	 * @param pageSize
@@ -394,10 +395,8 @@ public class AppContext extends Application {
 	public NewsList getNewsList(int catalog, int pageIndex, boolean isRefresh) throws AppException {
 		NewsList list = null;
 		String key = "newslist_"+catalog+"_"+pageIndex+"_"+PAGE_SIZE;
-		Log.d("bakey" , "news list key = " + key + ", " + isCacheDataFailure(key) );
 		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
 			try{
-				Log.d("bakey" , "try get news list ");
 				list = ApiClient.getNewsList(this, catalog, pageIndex, PAGE_SIZE);
 
 				if(list != null && pageIndex == 0){					
@@ -481,10 +480,34 @@ public class AppContext extends Application {
 		}
 		return list;
 	}
+	public CategoryList getCategoryList(String type, int pageIndex, boolean isRefresh) throws AppException {
+		CategoryList list = null;
+		String key = "catelist_"+type+"_"+pageIndex+"_"+PAGE_SIZE;
+		if(isNetworkConnected() && (isCacheDataFailure(key) || isRefresh)) {
+			try{
+				list = ApiClient.getCategoryList(this, type, pageIndex, PAGE_SIZE);
+				if(list != null && pageIndex == 0){
+					//Notice notice = list.getNotice();
+					//list.setNotice(null);
+					saveObject(list, key);
+					//list.setNotice(notice);
+				}
+			}catch(AppException e){
+				list = (CategoryList)readObject(key);
+				if(list == null)
+					throw e;
+			}
+		} else {
+			list = (CategoryList)readObject(key);
+			if(list == null)
+				list = new CategoryList();
+		}
+		return list;
+	}
 	
 	/**
-	 * 鍗氬鍒楄〃
-	 * @param type 鎺ㄨ崘锛歳ecommend 鏈�柊锛歭atest
+	 * 博客列表
+	 * @param type 推荐：recommend 最新：latest
 	 * @param pageIndex
 	 * @return
 	 * @throws AppException
@@ -1412,7 +1435,7 @@ public class AppContext extends Application {
 	}
 	
 	/**
-	 * 淇濆瓨瀵硅薄
+	 * 保存对象
 	 * @param ser
 	 * @param file
 	 * @throws IOException

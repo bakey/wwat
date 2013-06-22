@@ -6,8 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+
 /** 
- * 鐎涙顑佹稉鍙夋惙娴ｆ粌浼愰崗宄板瘶
+ * 字符串操作工具包
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
@@ -19,7 +20,7 @@ public class StringUtils
 	private final static SimpleDateFormat dateFormater2 = new SimpleDateFormat("yyyy-MM-dd");
 	
 	/**
-	 * 鐏忓棗鐡х粭锔胯鏉烆兛缍呴弮銉︽埂缁鐎�
+	 * 将字符串转位日期类型
 	 * @param sdate
 	 * @return
 	 */
@@ -32,7 +33,7 @@ public class StringUtils
 	}
 	
 	/**
-	 * 娴犮儱寮告總鐣屾畱閺傜懓绱￠弰鍓с仛閺冨爼妫�
+	 * 以友好的方式显示时间
 	 * @param sdate
 	 * @return
 	 */
@@ -44,15 +45,15 @@ public class StringUtils
 		String ftime = "";
 		Calendar cal = Calendar.getInstance();
 		
-		//閸掋倖鏌囬弰顖氭儊閺勵垰鎮撴稉锟姐亯
+		//判断是否是同一天
 		String curDate = dateFormater2.format(cal.getTime());
 		String paramDate = dateFormater2.format(time);
 		if(curDate.equals(paramDate)){
 			int hour = (int)((cal.getTimeInMillis() - time.getTime())/3600000);
 			if(hour == 0)
-				ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000,1)+"閸掑棝鎸撻崜锟�";
+				ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000,1)+"分钟前";
 			else 
-				ftime = hour+"鐏忓繑妞傞崜锟�";
+				ftime = hour+"小时前";
 			return ftime;
 		}
 		
@@ -62,18 +63,18 @@ public class StringUtils
 		if(days == 0){
 			int hour = (int)((cal.getTimeInMillis() - time.getTime())/3600000);
 			if(hour == 0)
-				ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000,1)+"閸掑棝鎸撻崜锟�";
+				ftime = Math.max((cal.getTimeInMillis() - time.getTime()) / 60000,1)+"分钟前";
 			else 
-				ftime = hour+"鐏忓繑妞傞崜锟�";
+				ftime = hour+"小时前";
 		}
 		else if(days == 1){
-			ftime = "閺勩劌銇�";
+			ftime = "昨天";
 		}
 		else if(days == 2){
-			ftime = "閸撳秴銇�";
+			ftime = "前天";
 		}
 		else if(days > 2 && days <= 10){ 
-			ftime = days+"婢垛晛澧�";			
+			ftime = days+"天前";			
 		}
 		else if(days > 10){			
 			ftime = dateFormater2.format(time);
@@ -82,7 +83,7 @@ public class StringUtils
 	}
 	
 	/**
-	 * 閸掋倖鏌囩紒娆忕暰鐎涙顑佹稉鍙夋闂傚瓨妲搁崥锔胯礋娴犲﹥妫�
+	 * 判断给定字符串时间是否为今日
 	 * @param sdate
 	 * @return boolean
 	 */
@@ -101,9 +102,9 @@ public class StringUtils
 	}
 	
 	/**
-	 * 閸掋倖鏌囩紒娆忕暰鐎涙顑佹稉鍙夋Ц閸氾妇鈹栭惂鎴掕閵嗭拷
-	 * 缁岃櫣娅ф稉鍙夋Ц閹稿洨鏁辩粚鐑樼壐閵嗕礁鍩楃悰銊ь儊閵嗕礁娲栨潪锔绢儊閵嗕焦宕茬悰宀�儊缂佸嫭鍨氶惃鍕摟缁楋缚瑕�
-	 * 閼汇儴绶崗銉ョ摟缁楋缚瑕嗘稉绨剈ll閹存牜鈹栫�妤冾儊娑撹绱濇潻鏂挎礀true
+	 * 判断给定字符串是否空白串。
+	 * 空白串是指由空格、制表符、回车符、换行符组成的字符串
+	 * 若输入字符串为null或空字符串，返回true
 	 * @param input
 	 * @return boolean
 	 */
@@ -124,7 +125,7 @@ public class StringUtils
 	}
 
 	/**
-	 * 閸掋倖鏌囬弰顖欑瑝閺勵垯绔存稉顏勬値濞夋洜娈戦悽闈涚摍闁喕娆㈤崷鏉挎絻
+	 * 判断是不是一个合法的电子邮件地址
 	 * @param email
 	 * @return
 	 */
@@ -134,7 +135,7 @@ public class StringUtils
 	    return emailer.matcher(email).matches();
 	}
 	/**
-	 * 鐎涙顑佹稉鑼舵祮閺佸瓨鏆�
+	 * 字符串转整数
 	 * @param str
 	 * @param defValue
 	 * @return
@@ -146,18 +147,18 @@ public class StringUtils
 		return defValue;
 	}
 	/**
-	 * 鐎电钖勬潪顒佹殻閺侊拷
+	 * 对象转整数
 	 * @param obj
-	 * @return 鏉烆剚宕插鍌氱埗鏉╂柨娲�0
+	 * @return 转换异常返回 0
 	 */
 	public static int toInt(Object obj) {
 		if(obj==null) return 0;
 		return toInt(obj.toString(),0);
 	}
 	/**
-	 * 鐎电钖勬潪顒佹殻閺侊拷
+	 * 对象转整数
 	 * @param obj
-	 * @return 鏉烆剚宕插鍌氱埗鏉╂柨娲�0
+	 * @return 转换异常返回 0
 	 */
 	public static long toLong(String obj) {
 		try{
@@ -166,8 +167,9 @@ public class StringUtils
 		return 0;
 	}
 	/**
-	 * 鐎涙顑佹稉鑼舵祮鐢啫鐨甸崐锟�	 * @param b
-	 * @return 鏉烆剚宕插鍌氱埗鏉╂柨娲�false
+	 * 字符串转布尔值
+	 * @param b
+	 * @return 转换异常返回 false
 	 */
 	public static boolean toBool(String b) {
 		try{

@@ -14,16 +14,20 @@ import net.oschina.app.common.StringUtils;
 public class URLs implements Serializable {
 	
 	public final static String HOST = "www.oschina.net";//192.168.1.213  www.oschina.net
+	public final static String AUDIO_HOST = "www.hkzhe.com";//192.168.1.213  www.oschina.net
+	
 	public final static String HTTP = "http://";
 	public final static String HTTPS = "https://";
 	
 	private final static String URL_SPLITTER = "/";
 	private final static String URL_UNDERLINE = "_";
 	
+	public final static String API_PATH = "wawatingting" + URL_SPLITTER ;	
 	private final static String URL_API_HOST = HTTP + HOST + URL_SPLITTER;
 	public final static String LOGIN_VALIDATE_HTTP = HTTP + HOST + URL_SPLITTER + "action/api/login_validate";
 	public final static String LOGIN_VALIDATE_HTTPS = HTTPS + HOST + URL_SPLITTER + "action/api/login_validate";
-	public final static String NEWS_LIST = URL_API_HOST+"action/api/news_list";
+	//public final static String NEWS_LIST = URL_API_HOST+"action/api/news_list";
+	public final static String NEWS_LIST = HTTP + AUDIO_HOST + URL_SPLITTER + API_PATH + "get_list.php";  //"action/api/news_list";
 	public final static String NEWS_DETAIL = URL_API_HOST+"action/api/news_detail";
 	public final static String POST_LIST = URL_API_HOST+"action/api/post_list";
 	public final static String POST_DETAIL = URL_API_HOST+"action/api/post_detail";
@@ -47,6 +51,8 @@ public class URLs implements Serializable {
 	public final static String USERBLOG_LIST = URL_API_HOST+"action/api/userblog_list";
 	public final static String USERBLOG_DELETE = URL_API_HOST+"action/api/userblog_delete";
 	public final static String BLOG_LIST = URL_API_HOST+"action/api/blog_list";
+	//public final static String BLOG_LIST = HTTP + AUDIO_HOST + URL_SPLITTER + API_PATH + "get_category.php";
+	public final static String CATEGORY_LIST = HTTP + AUDIO_HOST + URL_SPLITTER + API_PATH + "get_category.php";
 	public final static String BLOG_DETAIL = URL_API_HOST+"action/api/blog_detail";
 	public final static String BLOGCOMMENT_LIST = URL_API_HOST+"action/api/blogcomment_list";
 	public final static String BLOGCOMMENT_PUB = URL_API_HOST+"action/api/blogcomment_pub";
@@ -106,9 +112,9 @@ public class URLs implements Serializable {
 	}
 	
 	/**
-	 * 转化URL为URLs实体
+	 * 杞寲URL涓篣RLs瀹炰綋
 	 * @param path
-	 * @return 不能转化的链接返回null
+	 * @return 涓嶈兘杞寲鐨勯摼鎺ヨ繑鍥瀗ull
 	 */
 	public final static URLs parseURL(String path) {
 		if(StringUtils.isEmpty(path))return null;
@@ -117,24 +123,24 @@ public class URLs implements Serializable {
 		String objId = "";
 		try {
 			URL url = new URL(path);
-			//站内链接
+			//绔欏唴閾炬帴
 			if(url.getHost().contains(URL_HOST)){
 				urls = new URLs();
 				//www
 				if(path.contains(URL_WWW_HOST )){
-					//新闻  www.oschina.net/news/27259/mobile-internet-market-is-small
+					//鏂伴椈  www.oschina.net/news/27259/mobile-internet-market-is-small
 					if(path.contains(URL_TYPE_NEWS)){
 						objId = parseObjId(path,URL_TYPE_NEWS);
 						urls.setObjId(StringUtils.toInt(objId));
 						urls.setObjType(URL_OBJ_TYPE_NEWS);
 					}
-					//软件  www.oschina.net/p/jx
+					//杞欢  www.oschina.net/p/jx
 					else if(path.contains(URL_TYPE_SOFTWARE)){
 						objId = parseObjId(path,URL_TYPE_SOFTWARE);
 						urls.setObjKey(objId);
 						urls.setObjType(URL_OBJ_TYPE_SOFTWARE);
 					}
-					//问答  www.oschina.net/question/12_45738
+					//闂瓟  www.oschina.net/question/12_45738
 					else if(path.contains(URL_TYPE_QUESTION)){
 						objId = parseObjId(path,URL_TYPE_QUESTION);
 						String[] _tmp = objId.split(URL_UNDERLINE);
@@ -149,26 +155,26 @@ public class URLs implements Serializable {
 				}
 				//my
 				else if(path.contains(URL_MY_HOST)){					
-					//博客  my.oschina.net/szpengvictor/blog/50879
+					//鍗氬  my.oschina.net/szpengvictor/blog/50879
 					if(path.contains(URL_TYPE_BLOG)){
 						objId = parseObjId(path,URL_TYPE_BLOG);
 						urls.setObjId(StringUtils.toInt(objId));
 						urls.setObjType(URL_OBJ_TYPE_BLOG);
 					}
-					//动弹  my.oschina.net/dong706/tweet/612947
+					//鍔ㄥ脊  my.oschina.net/dong706/tweet/612947
 					else if(path.contains(URL_TYPE_TWEET)){
 						objId = parseObjId(path,URL_TYPE_TWEET);
 						urls.setObjId(StringUtils.toInt(objId));
 						urls.setObjType(URL_OBJ_TYPE_TWEET);
 					}
-					//个人专页  my.oschina.net/u/12
+					//涓汉涓撻〉  my.oschina.net/u/12
 					else if(path.contains(URL_TYPE_ZONE)){
 						objId = parseObjId(path,URL_TYPE_ZONE);
 						urls.setObjId(StringUtils.toInt(objId));
 						urls.setObjType(URL_OBJ_TYPE_ZONE);
 					}
 					else{
-						//另一种个人专页  my.oschina.net/dong706
+						//鍙︿竴绉嶄釜浜轰笓椤� my.oschina.net/dong706
 						int p = path.indexOf(URL_MY_HOST+URL_SPLITTER) + (URL_MY_HOST+URL_SPLITTER).length();
 						String str = path.substring(p);
 						if(!str.contains(URL_SPLITTER)){
@@ -212,7 +218,7 @@ public class URLs implements Serializable {
 	}
 	
 	/**
-	 * 对URL进行格式处理
+	 * 瀵筓RL杩涜鏍煎紡澶勭悊
 	 * @param path
 	 * @return
 	 */

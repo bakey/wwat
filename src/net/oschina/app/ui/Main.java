@@ -24,6 +24,7 @@ import net.oschina.app.bean.Active;
 import net.oschina.app.bean.ActiveList;
 import net.oschina.app.bean.Blog;
 import net.oschina.app.bean.BlogList;
+import net.oschina.app.bean.CategoryList;
 import net.oschina.app.bean.MessageList;
 import net.oschina.app.bean.Messages;
 import net.oschina.app.bean.News;
@@ -391,7 +392,6 @@ public class Main extends Activity {
 		Log.d("bakey" , "init news tweet view success");
 		//this.initActiveListView();
 		//this.initMsgListView();
-		Log.d("bakey" , "init msg list view success");
 		this.initFrameListViewData();
     }
     /**
@@ -416,9 +416,6 @@ public class Main extends Activity {
 		if(lvTweetData.size() == 0) {
 			loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}  
-		/*if(lvActiveData.size() == 0) {
-			loadLvActiveData(curActiveCatalog, 0, lvActiveHandler, UIHelper.LISTVIEW_ACTION_INIT);
-		}*/
     }
     /**
      * 初始化新闻列表
@@ -438,6 +435,7 @@ public class Main extends Activity {
         		if(position == 0 || view == lvNews_footer) return;
         		m_player.reset();
         		ImageView playingView = (ImageView)findViewById( R.id.main_footbar_setting );
+        		playingView.setImageResource( R.drawable.playing );
         		AnimationDrawable animation = (AnimationDrawable) playingView.getDrawable();
         		if ( animation != null ) {
 					animation.start();
@@ -1314,12 +1312,19 @@ public class Main extends Activity {
     		}
     	}*/
     }
-  
+    /**
+     * 获取listview的初始化Handler
+     * @param lv
+     * @param adapter
+     * @return
+     */
     private Handler getLvHandler(final PullToRefreshListView lv,final BaseAdapter adapter,final TextView more,final ProgressBar progress,final int pageSize){
     	return new Handler(){
 			public void handleMessage(Message msg) {
 				if(msg.what >= 0){
 					//listview数据处理
+					Log.d("bakey" , "handle message , arg2 = " + msg.arg2 + ",arg1 = "
+							+ msg.arg1 + ",what = " + msg.what );
 					Notice notice = handleLvData(msg.what, msg.obj, msg.arg2, msg.arg1);
 					
 					if(msg.what < pageSize){
@@ -1340,19 +1345,19 @@ public class Main extends Activity {
 							}
 						}
 					}
-					//閸欐垿锟介柅姘辩叀楠炴寧鎸�
+					//发送通知广播
 					if(notice != null){
 						UIHelper.sendBroadCast(lv.getContext(), notice);
 					}
-					//閺勵垰鎯佸〒鍛存珟闁氨鐓℃穱鈩冧紖
+					//是否清除通知信息
 					if(isClearNotice){
 						ClearNotice(curClearNoticeType);
-						isClearNotice = false;//闁插秶鐤�
+						isClearNotice = false;//重置
 						curClearNoticeType = 0;
 					}
 				}
 				else if(msg.what == -1){
-					//閺堝绱撶敮锟�閺勫墽銇氶崝鐘烘祰閸戞椽鏁�& 瀵懓鍤柨娆掝嚖濞戝牊浼�
+					//有异常--显示加载出错 & 弹出错误消息
 					lv.setTag(UIHelper.LISTVIEW_DATA_MORE);
 					more.setText(R.string.load_error);
 					((AppException)msg.obj).makeToast(Main.this);
@@ -1387,12 +1392,14 @@ public class Main extends Activity {
 			case UIHelper.LISTVIEW_ACTION_INIT:
 			case UIHelper.LISTVIEW_ACTION_REFRESH:
 			case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
+				Log.d("bakey" , "objtype = " + objtype );
 				switch (objtype) {
 					case UIHelper.LISTVIEW_DATATYPE_NEWS:
 						NewsList nlist = (NewsList)obj;
 						notice = nlist.getNotice();
 						lvNewsSumData = what;
 						lvNewsData.clear();		
+						Log.d("bakey" , "news list = " + nlist.getNewslist().size() );
 						lvNewsData.addAll(nlist.getNewslist());
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_BLOG:
@@ -1436,6 +1443,7 @@ public class Main extends Activity {
 				switch (objtype) {
 					case UIHelper.LISTVIEW_DATATYPE_NEWS:
 						NewsList list = (NewsList)obj;
+						Log.d("bakey" , "news list count = " + list.getNewslist().size() );
 						notice = list.getNotice();
 						lvNewsSumData += what;
 						if(lvNewsData.size() > 0){
@@ -1569,7 +1577,6 @@ public class Main extends Activity {
 				if(action == UIHelper.LISTVIEW_ACTION_REFRESH || action == UIHelper.LISTVIEW_ACTION_SCROLL)
 					isRefresh = true;
 				try {					
-					Log.d("bakey","ready load news list ");
 					NewsList list = appContext.getNewsList(catalog, pageIndex, isRefresh);				
 					msg.what = list.getPageSize();
 					msg.obj = list;
@@ -1580,16 +1587,52 @@ public class Main extends Activity {
 	            }
 				msg.arg1 = action;
 				msg.arg2 = UIHelper.LISTVIEW_DATATYPE_NEWS;
+				Log.d("bakey" , "msg what = " + msg.what );
+                if(curNewsCatalog == catalog) {      
+                	handler.sendMessage(msg);
+                }
+			}
+		}.start();
+	} 
+	private void loadLvCateData(final int catalog,final int pageIndex,final Handler handler,final int action){ 
+		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
+		new Thread(){
+			public void run() {
+				Message msg = new Message();
+				boolean isRefresh = false;
+				if(action == UIHelper.LISTVIEW_ACTION_REFRESH || action == UIHelper.LISTVIEW_ACTION_SCROLL)
+					isRefresh = true;
+				String type = "";
+				switch (catalog) {
+				case BlogList.CATALOG_LATEST:
+					type = BlogList.TYPE_LATEST;
+					break;
+				case BlogList.CATALOG_RECOMMEND:
+					type = BlogList.TYPE_RECOMMEND;
+					break;
+				}
+				try {
+					CategoryList clist = appContext.getCategoryList(type, pageIndex, isRefresh);				
+					msg.what = clist.getPageSize();
+					msg.obj = clist;
+	            } catch (AppException e) {
+	            	e.printStackTrace();
+	            	msg.what = -1;
+	            	msg.obj = e;
+	            }
+				msg.arg1 = action;
+				msg.arg2 = UIHelper.LISTVIEW_DATATYPE_BLOG;
                 if(curNewsCatalog == catalog)
                 	handler.sendMessage(msg);
 			}
 		}.start();
 	} 
-    /**
-     * 缁捐法鈻奸崝鐘烘祰閸楁艾顓归弫鐗堝祦
-     * @param catalog 閸掑棛琚�
-     * @param pageIndex 瑜版挸澧犳い鍨殶
-     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
+	 /**
+     * 线程加载博客数据
+     * @param catalog 分类
+     * @param pageIndex 当前页数
+     * @param handler 处理器
+     * @param action 动作标识
      */
 	private void loadLvBlogData(final int catalog,final int pageIndex,final Handler handler,final int action){ 
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
@@ -1624,11 +1667,12 @@ public class Main extends Activity {
 			}
 		}.start();
 	} 
-    /**
-     * 缁捐法鈻奸崝鐘烘祰鐢牕鐡欓弫鐗堝祦
-     * @param catalog 閸掑棛琚�
-     * @param pageIndex 瑜版挸澧犳い鍨殶
-     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
+	  /**
+     * 线程加载帖子数据
+     * @param catalog 分类
+     * @param pageIndex 当前页数
+     * @param handler 处理器
+     * @param action 动作标识
      */
 	private void loadLvQuestionData(final int catalog,final int pageIndex,final Handler handler,final int action){  
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
@@ -1654,11 +1698,12 @@ public class Main extends Activity {
 			}
 		}.start();
 	}
-    /**
-     * 缁捐法鈻奸崝鐘烘祰閸斻劌鑴婇弫鐗堝祦
-     * @param catalog -1 閻戭參妫敍锟�閺堬拷鏌婇敍灞姐亣娴滐拷 閺屾劗鏁ら幋椋庢畱閸斻劌鑴�uid)
-     * @param pageIndex 瑜版挸澧犳い鍨殶
-     * @param handler 婢跺嫮鎮婇崳锟�     * @param action 閸斻劋缍旈弽鍥槕
+	 /**
+     * 线程加载动弹数据
+     * @param catalog -1 热门，0 最新，大于0 某用户的动弹(uid)
+     * @param pageIndex 当前页数
+     * @param handler 处理器
+     * @param action 动作标识
      */
 	private void loadLvTweetData(final int catalog,final int pageIndex,final Handler handler,final int action){  
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
@@ -1684,40 +1729,10 @@ public class Main extends Activity {
 			}
 		}.start();
 	}
+	
 	/**
-	 * 缁捐法鈻奸崝鐘烘祰閸斻劍锟介弫鐗堝祦
-	 * @param catalog
-	 * @param pageIndex 瑜版挸澧犳い鍨殶
-	 * @param handler
-	 * @param action
-	 */
-	private void loadLvActiveData(final int catalog,final int pageIndex,final Handler handler,final int action){  
-		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
-		new Thread(){
-			public void run() {
-				Message msg = new Message();
-				boolean isRefresh = false;
-				if(action == UIHelper.LISTVIEW_ACTION_REFRESH || action == UIHelper.LISTVIEW_ACTION_SCROLL)
-					isRefresh = true;
-				try {
-					ActiveList list = appContext.getActiveList(catalog, pageIndex, isRefresh);				
-					msg.what = list.getPageSize();
-					msg.obj = list;
-	            } catch (AppException e) {
-	            	e.printStackTrace();
-	            	msg.what = -1;
-	            	msg.obj = e;
-	            }
-				msg.arg1 = action;
-				msg.arg2 = UIHelper.LISTVIEW_DATATYPE_ACTIVE;
-				if(curActiveCatalog == catalog)
-					handler.sendMessage(msg);
-			}
-		}.start();
-	}
-	/**
-	 * 缁捐法鈻奸崝鐘烘祰閻ｆ瑨鈻堥弫鐗堝祦
-	 * @param pageIndex 瑜版挸澧犳い鍨殶
+	 * 线程加载留言数据
+	 * @param pageIndex 当前页数
 	 * @param handler
 	 * @param action
 	 */
@@ -1745,8 +1760,9 @@ public class Main extends Activity {
 		}.start();
 	}
 	
+	
 	/**
-	 * 鏉烆喛顕楅柅姘辩叀娣団剝浼�
+	 * 轮询通知信息
 	 */
 	private void foreachUserNotice(){
 		final int uid = appContext.getLoginUid();
@@ -1755,7 +1771,7 @@ public class Main extends Activity {
 				if(msg.what==1){
 					UIHelper.sendBroadCast(Main.this, (Notice)msg.obj);
 				}
-				foreachUserNotice();//閸ョ偠鐨�
+				foreachUserNotice();//回调
 			}
 		};
 		new Thread(){
@@ -1783,8 +1799,8 @@ public class Main extends Activity {
 	}
 	
 	/**
-	 * 闁氨鐓℃穱鈩冧紖婢跺嫮鎮�
-	 * @param type 1:@閹存垹娈戞穱鈩冧紖 2:閺堫亣顕板☉鍫熶紖 3:鐠囧嫯顔戞稉顏呮殶 4:閺傛壆鐭囨稉婵呴嚋閺侊拷
+	 * 通知信息处理
+	 * @param type 1:@我的信息 2:未读消息 3:评论个数 4:新粉丝个数
 	 */
 	private void ClearNotice(final int type)
 	{
@@ -1819,7 +1835,7 @@ public class Main extends Activity {
 	}
 	
 	/**
-	 * 閸掓稑缂搈enu TODO 閸嬫粎鏁ら崢鐔烘晸閼挎粌宕�
+	 * 创建menu TODO 停用原生菜单
 	 */
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return false;
@@ -1829,7 +1845,7 @@ public class Main extends Activity {
 	}
 	
 	/**
-	 * 閼挎粌宕熺悮顐ｆ▔缁�桨绠ｉ崜宥囨畱娴滃娆�
+	 * 菜单被显示之前的事件
 	 */
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		UIHelper.showMenuLoginOrLogout(this, menu);
@@ -1837,7 +1853,8 @@ public class Main extends Activity {
 	}
 
 	/**
-	 * 婢跺嫮鎮妋enu閻ㄥ嫪绨ㄦ禒锟�	 */
+	 * 处理menu的事件
+	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int item_id = item.getItemId();
 		switch (item_id) {
@@ -1858,18 +1875,18 @@ public class Main extends Activity {
 	}
 	
 	/**
-	 * 閻╂垵鎯夋潻鏂挎礀--閺勵垰鎯侀柅锟藉毉缁嬪绨�
+	 * 监听返回--是否退出程序
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK) {
-			//閺勵垰鎯侀柅锟藉毉鎼存梻鏁�
+			//是否退出应用
 			UIHelper.Exit(this);
 		}else if(keyCode == KeyEvent.KEYCODE_MENU){
-			//鐏炴洜銇氳箛顐ｅ祹閺嶏拷閸掋倖鏌囬弰顖氭儊閻ц缍�
+			//展示快捷栏&判断是否登录
 			UIHelper.showSettingLoginOrLogout(Main.this, mGrid.getQuickAction(0));
 			mGrid.show(fbSetting, true);
 		}else if(keyCode == KeyEvent.KEYCODE_SEARCH){
-			//鐏炴洜銇氶幖婊呭偍妞わ拷
+			//展示搜索页
 			UIHelper.showSearch(Main.this);
 		}
 		return true;
