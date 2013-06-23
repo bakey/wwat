@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hkzhe.wwtt.R;
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
 import net.oschina.app.AppManager;
-import com.hkzhe.wwtt.R;
-import net.oschina.app.adapter.ListViewActiveAdapter;
 import net.oschina.app.adapter.ListViewBlogAdapter;
+import net.oschina.app.adapter.ListViewCategoryAdapter;
 import net.oschina.app.adapter.ListViewMessageAdapter;
 import net.oschina.app.adapter.ListViewNewsAdapter;
 import net.oschina.app.adapter.ListViewQuestionAdapter;
@@ -24,6 +24,7 @@ import net.oschina.app.bean.Active;
 import net.oschina.app.bean.ActiveList;
 import net.oschina.app.bean.Blog;
 import net.oschina.app.bean.BlogList;
+import net.oschina.app.bean.Category;
 import net.oschina.app.bean.CategoryList;
 import net.oschina.app.bean.MessageList;
 import net.oschina.app.bean.Messages;
@@ -70,12 +71,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * 应用程序首页
- * @author liux (http://my.oschina.net/liux)
- * @version 1.0
- * @created 2012-3-21
- */
+
 public class Main extends Activity {
 	final String TAG = "Main";
 	private ScrollLayout mScrollLayout;	
@@ -94,37 +90,40 @@ public class Main extends Activity {
 	private int curNewsCatalog = NewsList.CATALOG_ALL;
 	private int curQuestionCatalog = PostList.CATALOG_ASK;
 	private int curTweetCatalog = TweetList.CATALOG_LASTEST;
-	private int curActiveCatalog = ActiveList.CATALOG_LASTEST;
+	private int curCateCatalog = CategoryList.CATALOG_LATEST;
 	
 	private PullToRefreshListView lvNews;
 	private PullToRefreshListView lvBlog;
 	private PullToRefreshListView lvQuestion;
 	private PullToRefreshListView lvTweet;
 	private PullToRefreshListView lvMsg;
+	private PullToRefreshListView lvCate;
 	
 	private ListViewNewsAdapter lvNewsAdapter;
+	private ListViewCategoryAdapter lvCateAdapter;
 	private ListViewBlogAdapter lvBlogAdapter;
 	private ListViewQuestionAdapter lvQuestionAdapter;
 	private ListViewTweetAdapter lvTweetAdapter;
 	private ListViewMessageAdapter lvMsgAdapter;
 	
 	private List<News> lvNewsData = new ArrayList<News>();
+	private List<Category> lvCateData = new ArrayList<Category>();
 	private List<Blog> lvBlogData = new ArrayList<Blog>();
 	private List<Post> lvQuestionData = new ArrayList<Post>();
 	private List<Tweet> lvTweetData = new ArrayList<Tweet>();
 	private List<Messages> lvMsgData = new ArrayList<Messages>();
 	
 	private Handler lvNewsHandler;
-	private Handler lvBlogHandler;
+	private Handler lvCateHandler;
 	private Handler lvQuestionHandler;
 	private Handler lvTweetHandler;
 	private Handler lvMsgHandler;
 	
 	private int lvNewsSumData;
-	private int lvBlogSumData;
 	private int lvQuestionSumData;
 	private int lvTweetSumData;
 	private int lvMsgSumData;
+	private int lvCategorySumData;
 	
 	private RadioButton fbNews;
 	private RadioButton fbQuestion;
@@ -132,7 +131,7 @@ public class Main extends Activity {
 	private ImageView fbSetting;
 	
 	private Button framebtn_News_lastest;
-	private Button framebtn_News_blog;
+	private Button framebtn_news_category;
 	private Button framebtn_News_recommend;
 	private Button framebtn_Question_ask;
 	private Button framebtn_Question_share;
@@ -149,7 +148,7 @@ public class Main extends Activity {
 	private Button framebtn_Active_message;
 	
 	private View lvNews_footer;
-	private View lvBlog_footer;
+	private View lvCate_footer;
 	private View lvQuestion_footer;
 	private View lvTweet_footer;
 	private View lvMsg_footer;
@@ -159,12 +158,14 @@ public class Main extends Activity {
 	private TextView lvQuestion_foot_more;
 	private TextView lvTweet_foot_more;
 	private TextView lvMsg_foot_more;
+	private TextView lvCate_foot_more;
 	
 	private ProgressBar lvNews_foot_progress;
 	private ProgressBar lvBlog_foot_progress;
 	private ProgressBar lvQuestion_foot_progress;
 	private ProgressBar lvTweet_foot_progress;
 	private ProgressBar lvMsg_foot_progress;
+	private ProgressBar lvCate_foot_progress;
 	
 	public static BadgeView bv_active;
 	public static BadgeView bv_message;
@@ -383,13 +384,12 @@ public class Main extends Activity {
     	//初始化listview控件
 		this.initNewsListView();
 		Log.d("bakey" , "init news list view success");
-		this.initBlogListView();
-		Log.d("bakey" , "init blog list view success");
 		this.initQuestionListView();
 		Log.d("bakey" , "init news question view success");
 		this.initTweetListView();
-
 		Log.d("bakey" , "init news tweet view success");
+		this.initCategoryListView();
+		Log.d("bakey" , "init category view success");
 		//this.initActiveListView();
 		//this.initMsgListView();
 		this.initFrameListViewData();
@@ -400,16 +400,21 @@ public class Main extends Activity {
     private void initFrameListViewData()
     {
 
-        lvNewsHandler = this.getLvHandler(lvNews, lvNewsAdapter, lvNews_foot_more, lvNews_foot_progress, AppContext.PAGE_SIZE);
-        lvBlogHandler = this.getLvHandler(lvBlog, lvBlogAdapter, lvBlog_foot_more, lvBlog_foot_progress, AppContext.PAGE_SIZE);
+        lvNewsHandler = this.getLvHandler(lvNews, lvNewsAdapter, lvNews_foot_more, lvNews_foot_progress, 
+        			AppContext.PAGE_SIZE);
         lvQuestionHandler = this.getLvHandler(lvQuestion, lvQuestionAdapter, lvQuestion_foot_more, lvQuestion_foot_progress, AppContext.PAGE_SIZE);  
-        lvTweetHandler = this.getLvHandler(lvTweet, lvTweetAdapter, lvTweet_foot_more, lvTweet_foot_progress, AppContext.PAGE_SIZE);    
+        lvTweetHandler = this.getLvHandler(lvTweet, lvTweetAdapter, lvTweet_foot_more, lvTweet_foot_progress, AppContext.PAGE_SIZE);
+        lvCateHandler = this.getLvHandler(lvCate, lvCateAdapter , lvCate_foot_more , lvCate_foot_progress,
+        		AppContext.PAGE_SIZE );
       //  lvMsgHandler = this.getLvHandler(lvMsg, lvMsgAdapter, lvMsg_foot_more, lvMsg_foot_progress, AppContext.PAGE_SIZE);      	
     	
       //加载数据			
 		if(lvNewsData.size() == 0) {
 			loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}
+		/*if ( lvCateData.size() == 0 ) {
+			loadLvCateData( curCateCatalog , 0 , lvCateHandler , UIHelper.LISTVIEW_ACTION_INIT );
+		}*/
 		if(lvQuestionData.size() == 0) {
 			loadLvQuestionData(curQuestionCatalog, 0, lvQuestionHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}     
@@ -432,7 +437,9 @@ public class Main extends Activity {
         lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         		//点击头部、底部栏无效
-        		if(position == 0 || view == lvNews_footer) return;
+        		if(position == 0 || view == lvNews_footer) {
+        			return;
+        		}
         		m_player.reset();
         		ImageView playingView = (ImageView)findViewById( R.id.main_footbar_setting );
         		playingView.setImageResource( R.drawable.playing );
@@ -440,7 +447,18 @@ public class Main extends Activity {
         		if ( animation != null ) {
 					animation.start();
 				}
-        		String songPath = "http://www.hkzhe.com/song/congmingnenggandexiaoheimi.mp3";
+        		News news = null;        		
+        		//判断是否是TextView
+        		if(view instanceof TextView){
+        			news = (News)view.getTag();
+        		}else{
+        			TextView tv = (TextView)view.findViewById(R.id.news_listitem_title);
+        			news = (News)tv.getTag();
+        		}
+        		if(news == null) return;
+        		//======================
+        		
+        		String songPath = news.getUrl();
         		try {
 					m_player.setDataSource( songPath );
 					m_player.prepare();
@@ -496,72 +514,47 @@ public class Main extends Activity {
             }
         });					
     }
-    /**
-     * 初始化博客列表
-     */
-	private void initBlogListView()
+    private void initCategoryListView()
     {
-        lvBlogAdapter = new ListViewBlogAdapter(this, BlogList.CATALOG_LATEST, lvBlogData, R.layout.blog_listitem);        
-        lvBlog_footer = getLayoutInflater().inflate(R.layout.listview_footer, null);
-        lvBlog_foot_more = (TextView)lvBlog_footer.findViewById(R.id.listview_foot_more);
-        lvBlog_foot_progress = (ProgressBar)lvBlog_footer.findViewById(R.id.listview_foot_progress);
-        lvBlog = (PullToRefreshListView)findViewById(R.id.frame_listview_blog);
-        lvBlog.addFooterView(lvBlog_footer);//添加底部视图  必须在setAdapter前
-        lvBlog.setAdapter(lvBlogAdapter); 
-        lvBlog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        		//点击头部、底部栏无效
-        		if(position == 0 || view == lvBlog_footer) return;
-        		
-        		Blog blog = null;        		
-        		
-        		if(view instanceof TextView){
-        			blog = (Blog)view.getTag();
-        		}else{
-        			TextView tv = (TextView)view.findViewById(R.id.blog_listitem_title);
-        			blog = (Blog)tv.getTag();
-        		}
-        		if(blog == null) return;
-        		
-        		//跳转到博客详情      	
-        		UIHelper.showUrlRedirect(view.getContext(), blog.getUrl());
-        	}        	
-		});
-        lvBlog.setOnScrollListener(new AbsListView.OnScrollListener() {
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				lvBlog.onScrollStateChanged(view, scrollState);
-				
-				//数据为空--不用继续下面代码了			
-				if(lvBlogData.size() == 0) return;
-				
-				//判断是否滚动到底部
-				boolean scrollEnd = false;
-				try {
-					if(view.getPositionForView(lvBlog_footer) == view.getLastVisiblePosition())
-						scrollEnd = true;
-				} catch (Exception e) {
-					scrollEnd = false;
-				}
-				
-				int lvDataState = StringUtils.toInt(lvBlog.getTag());
-				if(scrollEnd && lvDataState==UIHelper.LISTVIEW_DATA_MORE)
-				{
-					lvBlog_foot_more.setText(R.string.load_ing);
-					lvBlog_foot_progress.setVisibility(View.VISIBLE);
-					int pageIndex = lvBlogSumData/AppContext.PAGE_SIZE;
-					loadLvBlogData(curNewsCatalog, pageIndex, lvBlogHandler, UIHelper.LISTVIEW_ACTION_SCROLL);
-				}
-			}
-			public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
-				lvBlog.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-			}
-		});
-        lvBlog.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
-            public void onRefresh() {
-            	loadLvBlogData(curNewsCatalog, 0, lvBlogHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
-            }
-        });					
+    	lvCateAdapter = new ListViewCategoryAdapter(this,CategoryList.CATALOG_LATEST,
+    			lvCateData , R.layout.cate_listitem );
+    	lvCate_footer = getLayoutInflater().inflate( R.layout.listview_footer ,  null );
+    	lvCate_foot_more = (TextView)lvCate_footer.findViewById(R.id.listview_foot_more);
+        lvCate_foot_progress = (ProgressBar)lvCate_footer.findViewById(R.id.listview_foot_progress);
+        lvCate = (PullToRefreshListView)findViewById(R.id.frame_listview_cate);
+        lvCate.addFooterView(lvCate_footer);//添加底部视图  必须在setAdapter前
+        lvCate.setAdapter(lvCateAdapter); 
+        lvCate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+         	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+         		//点击头部、底部栏无效
+         		if(position == 0 || view == lvCate_footer) return;
+         		
+         		Category cate = null;        		
+         		
+         		if(view instanceof TextView){
+         			cate = (Category)view.getTag();
+         		}else{
+         			TextView tv = (TextView)view.findViewById(R.id.cate_listitem_title);
+         			cate = (Category)tv.getTag();
+         		}
+         		if(cate == null) return;        		
+         	}        	
+ 		});
+        lvCate.setOnScrollListener(new AbsListView.OnScrollListener() {
+ 			public void onScrollStateChanged(AbsListView view, int scrollState) {
+ 				
+ 			}
+ 			public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
+ 				lvCate.onScroll(  view , firstVisibleItem, visibleItemCount, totalItemCount);
+ 			}
+ 		});
+        lvCate.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+             public void onRefresh() {
+            	 loadLvCateData( curNewsCatalog , 0 , lvCateHandler , UIHelper.LISTVIEW_ACTION_REFRESH );    
+             }
+         });	
     }
+   
 	 /**
      * 初始化帖子列表
      */
@@ -1068,7 +1061,8 @@ public class Main extends Activity {
     {
     	//初始化按钮控件
     	framebtn_News_lastest = (Button)findViewById(R.id.frame_btn_news_lastest);
-    	framebtn_News_blog = (Button)findViewById(R.id.frame_btn_news_blog);
+    	//framebtn_News_blog = (Button)findViewById(R.id.frame_btn_news_blog);
+    	framebtn_news_category = (Button)findViewById(R.id.frame_btn_news_category);
     	framebtn_News_recommend = (Button)findViewById(R.id.frame_btn_news_recommend);
     	framebtn_Question_ask = (Button)findViewById(R.id.frame_btn_question_ask);
     	framebtn_Question_share = (Button)findViewById(R.id.frame_btn_question_share);
@@ -1089,7 +1083,8 @@ public class Main extends Activity {
     	framebtn_Tweet_lastest.setEnabled(false);
     	//资讯
     	framebtn_News_lastest.setOnClickListener(frameNewsBtnClick(framebtn_News_lastest,NewsList.CATALOG_ALL));
-    	framebtn_News_blog.setOnClickListener(frameNewsBtnClick(framebtn_News_blog,BlogList.CATALOG_LATEST));
+    	framebtn_news_category.setOnClickListener(frameNewsBtnClick(framebtn_news_category,CategoryList.CATALOG_LATEST));
+    	//frame_btn_news_category
     	framebtn_News_recommend.setOnClickListener(frameNewsBtnClick(framebtn_News_recommend,BlogList.CATALOG_RECOMMEND));
     	//问答
     	framebtn_Question_ask.setOnClickListener(frameQuestionBtnClick(framebtn_Question_ask,PostList.CATALOG_ASK));
@@ -1137,10 +1132,15 @@ public class Main extends Activity {
 		    	}else{
 		    		framebtn_News_lastest.setEnabled(true);
 		    	}
-		    	if(btn == framebtn_News_blog){
+		    	/*if(btn == framebtn_News_blog){
 		    		framebtn_News_blog.setEnabled(false);
 		    	}else{
 		    		framebtn_News_blog.setEnabled(true);
+		    	}*/
+		    	if ( btn == framebtn_news_category ) {
+		    		framebtn_news_category.setEnabled(false);
+		    	}else {
+		    		framebtn_news_category.setEnabled(true);
 		    	}
 		    	if(btn == framebtn_News_recommend){
 		    		framebtn_News_recommend.setEnabled(false);
@@ -1150,11 +1150,12 @@ public class Main extends Activity {
 
 		    	curNewsCatalog = catalog;
 		    	
-				//闂堢偞鏌婇梻璇插灙鐞涳拷
+		    	//非新闻列表
 		    	if(btn == framebtn_News_lastest)
 		    	{
 		    		lvNews.setVisibility(View.VISIBLE);
-		    		lvBlog.setVisibility(View.GONE);
+		    		//lvBlog.setVisibility(View.GONE);
+		    		lvCate.setVisibility( View.GONE );
 		    		
 		    		lvNews_foot_more.setText(R.string.load_more);
 					lvNews_foot_progress.setVisibility(View.GONE);
@@ -1164,16 +1165,17 @@ public class Main extends Activity {
 		    	else
 		    	{
 		    		lvNews.setVisibility(View.GONE);
-		    		lvBlog.setVisibility(View.VISIBLE);
+		    		lvCate.setVisibility(View.VISIBLE);
 		    		
-		    		if(lvBlogData.size() == 0){
-		    			loadLvBlogData(curNewsCatalog, 0, lvBlogHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
-		    		}else{
-		    			lvBlog_foot_more.setText(R.string.load_more);
-		    			lvBlog_foot_progress.setVisibility(View.GONE);
-		    			
-		    			loadLvBlogData(curNewsCatalog, 0, lvBlogHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
+		    		if ( lvCateData.size() == 0 ) {
+		    			Log.d("bakey" , "load cate data ");
+		    		}else {
+		    			Log.d("bakey" , "show cate data ");
+		    			lvCate_foot_more.setText(R.string.load_more);
+		    			lvCate_foot_progress.setVisibility(View.GONE);		    			
 		    		}
+		    		loadLvCateData(curCateCatalog , 0 , lvCateHandler , UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);		    		
+		    				    		
 		    	}
 			}
 		};
@@ -1372,6 +1374,7 @@ public class Main extends Activity {
 					lv.onRefreshComplete(getString(R.string.pull_to_refresh_update) + new Date().toLocaleString());
 					lv.setSelection(0);
 				}else if(msg.arg1 == UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG){
+					Log.d("bakey","lv.onRefreshCOmplete");
 					lv.onRefreshComplete();
 					lv.setSelection(0);
 				}
@@ -1392,22 +1395,20 @@ public class Main extends Activity {
 			case UIHelper.LISTVIEW_ACTION_INIT:
 			case UIHelper.LISTVIEW_ACTION_REFRESH:
 			case UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG:
-				Log.d("bakey" , "objtype = " + objtype );
 				switch (objtype) {
 					case UIHelper.LISTVIEW_DATATYPE_NEWS:
 						NewsList nlist = (NewsList)obj;
 						notice = nlist.getNotice();
 						lvNewsSumData = what;
-						lvNewsData.clear();		
-						Log.d("bakey" , "news list = " + nlist.getNewslist().size() );
+						lvNewsData.clear();					
 						lvNewsData.addAll(nlist.getNewslist());
 						break;
-					case UIHelper.LISTVIEW_DATATYPE_BLOG:
-						BlogList blist = (BlogList)obj;
-						notice = blist.getNotice();
-						lvBlogSumData = what;
-						lvBlogData.clear();	
-						lvBlogData.addAll(blist.getBloglist());
+					case UIHelper.LISTVIEW_DATATYPE_CATEGORY:
+						CategoryList clist = (CategoryList)obj;
+						notice = clist.getNotice();
+						lvCategorySumData = what;
+						lvCateData.clear();
+						lvCateData.addAll( clist.getCatelist() );
 						break;
 					case UIHelper.LISTVIEW_DATATYPE_POST:
 						PostList plist = (PostList)obj;
@@ -1422,14 +1423,7 @@ public class Main extends Activity {
 						lvTweetSumData = what;
 						lvTweetData.clear();	
 						lvTweetData.addAll(tlist.getTweetlist());
-						break;
-					/*case UIHelper.LISTVIEW_DATATYPE_ACTIVE:
-						ActiveList alist = (ActiveList)obj;
-						notice = alist.getNotice();
-						lvActiveSumData = what;
-						lvActiveData.clear();	
-						lvActiveData.addAll(alist.getActivelist());
-						break;*/
+						break;				
 					case UIHelper.LISTVIEW_DATATYPE_MESSAGE:
 						MessageList mlist = (MessageList)obj;
 						notice = mlist.getNotice();
@@ -1460,26 +1454,7 @@ public class Main extends Activity {
 						}else{
 							lvNewsData.addAll(list.getNewslist());
 						}
-						break;
-					case UIHelper.LISTVIEW_DATATYPE_BLOG:
-						BlogList blist = (BlogList)obj;
-						notice = blist.getNotice();
-						lvBlogSumData += what;
-						if(lvBlogData.size() > 0){
-							for(Blog blog1 : blist.getBloglist()){
-								boolean b = false;
-								for(Blog blog2 : lvBlogData){
-									if(blog1.getId() == blog2.getId()){
-										b = true;
-										break;
-									}
-								}
-								if(!b) lvBlogData.add(blog1);
-							}
-						}else{
-							lvBlogData.addAll(blist.getBloglist());
-						}
-						break;
+						break;					
 					case UIHelper.LISTVIEW_DATATYPE_POST:
 						PostList plist = (PostList)obj;
 						notice = plist.getNotice();
@@ -1587,7 +1562,6 @@ public class Main extends Activity {
 	            }
 				msg.arg1 = action;
 				msg.arg2 = UIHelper.LISTVIEW_DATATYPE_NEWS;
-				Log.d("bakey" , "msg what = " + msg.what );
                 if(curNewsCatalog == catalog) {      
                 	handler.sendMessage(msg);
                 }
@@ -1600,15 +1574,16 @@ public class Main extends Activity {
 			public void run() {
 				Message msg = new Message();
 				boolean isRefresh = false;
-				if(action == UIHelper.LISTVIEW_ACTION_REFRESH || action == UIHelper.LISTVIEW_ACTION_SCROLL)
+				if(action == UIHelper.LISTVIEW_ACTION_REFRESH || action == UIHelper.LISTVIEW_ACTION_SCROLL) {
 					isRefresh = true;
+				}
 				String type = "";
 				switch (catalog) {
-				case BlogList.CATALOG_LATEST:
-					type = BlogList.TYPE_LATEST;
+				case CategoryList.CATALOG_LATEST:
+					type = CategoryList.TYPE_LATEST;
 					break;
-				case BlogList.CATALOG_RECOMMEND:
-					type = BlogList.TYPE_RECOMMEND;
+				case CategoryList.CATALOG_RECOMMEND:
+					type = CategoryList.TYPE_RECOMMEND;
 					break;
 				}
 				try {
@@ -1621,9 +1596,12 @@ public class Main extends Activity {
 	            	msg.obj = e;
 	            }
 				msg.arg1 = action;
-				msg.arg2 = UIHelper.LISTVIEW_DATATYPE_BLOG;
-                if(curNewsCatalog == catalog)
+				msg.arg2 = UIHelper.LISTVIEW_DATATYPE_CATEGORY;
+				Log.d("bakey","in load lv cate data . arg1 = " + msg.arg1 + ",arg2="+
+				msg.arg2 + ",what = " + msg.what );
+                if(curNewsCatalog == catalog) {
                 	handler.sendMessage(msg);
+                }
 			}
 		}.start();
 	} 

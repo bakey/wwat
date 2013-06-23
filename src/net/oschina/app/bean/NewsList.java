@@ -73,7 +73,6 @@ public class NewsList extends Entity{
 				news.setAuthor( obj.getString("author") );
 				news.setCommentCount( obj.getInt("comment_count") );
 				news.setPubDate( obj.getString("pubDate") );
-				Log.d("bakey" , "get pub date = " + news.getPubDate() );
 				news.getNewType().type = 0 ;
 				newslist.getNewslist().add(news);				    	
 				news = null;

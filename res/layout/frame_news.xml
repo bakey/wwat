@@ -16,9 +16,9 @@
      	    android:layout_height="fill_parent" 
      	    android:background="@drawable/frame_button_cutline"/>
      	<Button 
-     		android:id="@+id/frame_btn_news_blog"
+     		android:id="@+id/frame_btn_news_category"
      		style="@style/frame_button"
-         	android:text="@string/frame_title_news_blog"/>
+         	android:text="@string/frame_title_news_category"/>
      	<ImageView android:layout_width="wrap_content" 
      	    android:layout_height="fill_parent" 
      	    android:background="@drawable/frame_button_cutline"/>
@@ -32,8 +32,13 @@
 	  	android:id="@+id/frame_listview_news"
 	    style="@style/widget_listview"/>
 	
-	<net.oschina.app.widget.PullToRefreshListView
+	<!-- net.oschina.app.widget.PullToRefreshListView
 	  	android:id="@+id/frame_listview_blog"
+	    style="@style/widget_listview"
+	    android:visibility="gone"/ -->
+	
+	<net.oschina.app.widget.PullToRefreshListView
+	  	android:id="@+id/frame_listview_cate"
 	    style="@style/widget_listview"
 	    android:visibility="gone"/>
 	

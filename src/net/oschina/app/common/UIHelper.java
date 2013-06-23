@@ -74,7 +74,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * 鎼存梻鏁ょ粙瀣碍UI瀹搞儱鍙块崠鍜冪窗鐏忎浇顥朥I閻╃鍙ч惃鍕娴滄稒鎼锋担锟� * @author liux (http://my.oschina.net/liux)
+ * 应用程序UI工具包：封装UI相关的一些操作
+ * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21
  */
@@ -97,16 +98,17 @@ public class UIHelper {
 	public final static int LISTVIEW_DATATYPE_ACTIVE = 0x05;
 	public final static int LISTVIEW_DATATYPE_MESSAGE = 0x06;
 	public final static int LISTVIEW_DATATYPE_COMMENT = 0x07;
+	public final static int LISTVIEW_DATATYPE_CATEGORY = 0X08;
 	
 	public final static int REQUEST_CODE_FOR_RESULT = 0x01;
 	public final static int REQUEST_CODE_FOR_REPLY = 0x02;
 	
-	/** 閸忋劌鐪瑆eb閺嶅嘲绱�*/
+	/** 全局web样式 */
 	public final static String WEB_STYLE = "<style>* {font-size:16px;line-height:20px;} p {color:#333;} a {color:#3E62A6;} img {max-width:310px;} " +
 			"img.alignleft {float:left;max-width:120px;margin:0 10px 5px 0;border:1px solid #ccc;background:#fff;padding:2px;} " +
 			"pre {font-size:9pt;line-height:12pt;font-family:Courier New,Arial;border:1px solid #ddd;border-left:5px solid #6CE26C;background:#f6f6f6;padding:5px;}</style>";
 	/**
-	 * 閺勫墽銇氭＃鏍�
+	 * 显示首页
 	 * @param activity
 	 */
 	public static void showHome(Activity activity)
@@ -117,7 +119,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶惂璇茬秿妞ょ敻娼�
+	 * 显示登录页面
 	 * @param activity
 	 */
 	public static void showLoginDialog(Context context)
@@ -254,20 +256,22 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閸斻劍锟介悙鐟板毊鐠哄疇娴嗛崚鎵祲閸忚櫕鏌婇梻姹囷拷鐢牕鐡欑粵锟�	 * @param context
+	 * 动态点击跳转到相关新闻、帖子等
+	 * @param context
 	 * @param id
-	 * @param catalog 0閸忔湹绮� 1閺備即妞� 2鐢牕鐡� 3閸斻劌鑴� 4閸楁艾顓� 
+	 * @param catalog 0其他  1新闻  2帖子  3动弹  4博客  
 	 */
 	public static void showActiveRedirect(Context context, Active active)
 	{
 		String url = active.getUrl();
-		//url娑撹櫣鈹�閺冄勬煙濞夛拷
+		//url为空-旧方法
 		if(StringUtils.isEmpty(url)) {
 			int id = active.getObjectId();
 			int catalog = active.getActiveType();
 			switch (catalog) {
 				case Active.CATALOG_OTHER:
-					//閸忔湹绮�閺冪姾鐑︽潪锟�					break;
+					//其他-无跳转
+					break;
 				case Active.CATALOG_NEWS:
 					showNewsDetail(context, id);
 					break;
@@ -287,10 +291,10 @@ public class UIHelper {
 	}
 
 	/**
-	 * 閺勫墽銇氱拠鍕啈閸欐垼銆冩い鐢告桨
+	 * 显示评论发表页面
 	 * @param context
-	 * @param id 閺備即妞坾鐢牕鐡檤閸斻劌鑴婇惃鍒琩
-	 * @param catalog 1閺備即妞�2鐢牕鐡�3閸斻劌鑴�4閸斻劍锟�
+	 * @param id 新闻|帖子|动弹的id
+	 * @param catalog 1新闻 2帖子 3动弹 4动态
 	 */
 	public static void showCommentPub(Activity context, int id, int catalog)
 	{
@@ -301,7 +305,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氱拠鍕啈閸ョ偛顦炬い鐢告桨
+	 * 显示评论回复页面
 	 * @param context
 	 * @param id
 	 * @param catalog
@@ -324,7 +328,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶悾娆掆枅鐎电鐦芥い鐢告桨
+	 * 显示留言对话页面
 	 * @param context
 	 * @param catalog
 	 * @param friendid
@@ -338,10 +342,10 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶悾娆掆枅閸ョ偛顦鹃悾宀勬桨
+	 * 显示留言回复界面
 	 * @param context
-	 * @param friendId 鐎佃鏌焛d
-	 * @param friendName 鐎佃鏌熼崥宥囆�
+	 * @param friendId 对方id
+	 * @param friendName 对方名称
 	 */
 	public static void showMessagePub(Activity context, int friendId, String friendName)
 	{
@@ -354,10 +358,10 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氭潪顒�絺閻ｆ瑨鈻堥悾宀勬桨
+	 * 显示转发留言界面
 	 * @param context
-	 * @param friendName 鐎佃鏌熼崥宥囆�
-	 * @param messageContent 閻ｆ瑨鈻堥崘鍛啇
+	 * @param friendName 对方名称
+	 * @param messageContent 留言内容
 	 */
 	public static void showMessageForward(Activity context, String friendName, String messageContent)
 	{
@@ -370,10 +374,10 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閸掑棔闊╅崚锟介弬鐗堟爱瀵邦喖宕�閹达拷閼垫崘顔嗗顔煎触'閻ㄥ嫬顕拠婵囶攱
-	 * @param context 瑜版挸澧燗ctivity
-	 * @param title	閸掑棔闊╅惃鍕垼妫帮拷
-	 * @param url 閸掑棔闊╅惃鍕懠閹猴拷
+	 * 分享到'新浪微博'或'腾讯微博'的对话框
+	 * @param context 当前Activity
+	 * @param title	分享的标题
+	 * @param url 分享的链接
 	 */
 	public static void showShareDialog(final Activity context,final String title,final String url)
 	{
@@ -386,14 +390,14 @@ public class UIHelper {
 			public void onClick(DialogInterface arg0, int arg1) {
 				switch (arg1) {
 					case 0:
-						//閸掑棔闊╅惃鍕敶鐎癸拷
+						//分享的内容
 						final String shareMessage = title + " " +url;
-						//閸掓繂顬婇崠鏍т簳閸楋拷
+						//初始化微博
 						if(SinaWeiboHelper.isWeiboNull())
 			    		{
 			    			SinaWeiboHelper.initWeibo();
 			    		}
-						//閸掋倖鏌囨稊瀣閺勵垰鎯侀惂濠氭鏉╋拷
+						//判断之前是否登陆过
 				        if(access != null)
 				        {   
 				        	SinaWeiboHelper.progressDialog = new ProgressDialog(context); 
@@ -425,7 +429,8 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺�儼妫岄幙宥勭稊闁瀚ㄥ锟�	 * @param context
+	 * 收藏操作选择框
+	 * @param context
 	 * @param thread
 	 */
 	public static void showFavoriteOptionDialog(final Activity context,final Thread thread)
@@ -436,7 +441,7 @@ public class UIHelper {
 		builder.setItems(R.array.favorite_options,new DialogInterface.OnClickListener(){
 			public void onClick(DialogInterface arg0, int arg1) {
 				switch (arg1) {
-					case 0://閸掔娀娅�
+					case 0://删除
 						thread.start();
 						break;
 				}				
@@ -446,7 +451,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 濞戝牊浼呴崚妤勩�閹垮秳缍旈柅澶嬪濡楋拷
+	 * 消息列表操作选择框
 	 * @param context
 	 * @param msg
 	 * @param thread
@@ -459,13 +464,13 @@ public class UIHelper {
 		builder.setItems(R.array.message_list_options,new DialogInterface.OnClickListener(){
 			public void onClick(DialogInterface arg0, int arg1) {
 				switch (arg1) {
-					case 0://閸ョ偛顦�
+					case 0://回复
 						showMessagePub(context,msg.getFriendId(),msg.getFriendName());
 						break;
-					case 1://鏉烆剙褰�
+					case 1://转发
 						showMessageForward(context,msg.getFriendName(),msg.getContent());
 						break;
-					case 2://閸掔娀娅�
+					case 2://删除
 						thread.start();
 						break;
 				}				
@@ -475,7 +480,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 濞戝牊浼呯拠锔藉剰閹垮秳缍旈柅澶嬪濡楋拷
+	 * 消息详情操作选择框
 	 * @param context
 	 * @param msg
 	 * @param thread
@@ -488,10 +493,10 @@ public class UIHelper {
 		builder.setItems(R.array.message_detail_options,new DialogInterface.OnClickListener(){
 			public void onClick(DialogInterface arg0, int arg1) {
 				switch (arg1) {
-					case 0://鏉烆剙褰�
+					case 0://转发
 						showMessageForward(context,msg.getAuthor(),msg.getContent());
 						break;
-					case 1://閸掔娀娅�
+					case 1://删除
 						thread.start();
 						break;
 				}				
@@ -501,11 +506,12 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 鐠囧嫯顔戦幙宥勭稊闁瀚ㄥ锟�	 * @param context
-	 * @param id 閺屾劖娼弬浼存閿涘苯绗樼�鎰剁礉閸斻劌鑴婇惃鍒琩 閹存牞锟介弻鎰蒋濞戝牊浼呴惃锟絝riendid
-	 * @param catalog 鐠囥儴鐦庣拋鐑樺鐏炵偟琚崹瀣剁窗1閺備即妞� 2鐢牕鐡� 3閸斻劌鑴� 4閸斻劍锟�
-	 * @param comment 閺堫剚娼拠鍕啈鐎电钖勯敍宀�暏娴滃氦骞忛崣鏍槑鐠佺d&鐠囧嫯顔戦懓鍗唘thorid
-	 * @param thread 婢跺嫮鎮婇崚鐘绘珟鐠囧嫯顔戦惃鍕殠缁嬪绱濋懟銉︽￥閸掔娀娅庨幙宥勭稊娴肩垔ull
+	 * 评论操作选择框
+	 * @param context
+	 * @param id 某条新闻，帖子，动弹的id 或者某条消息的 friendid
+	 * @param catalog 该评论所属类型：1新闻  2帖子  3动弹  4动态
+	 * @param comment 本条评论对象，用于获取评论id&评论者authorid
+	 * @param thread 处理删除评论的线程，若无删除操作传null
 	 */
 	public static void showCommentOptionDialog(final Activity context,final int id,final int catalog,final Comment comment,final Thread thread)
 	{
@@ -517,10 +523,10 @@ public class UIHelper {
 			builder.setItems(R.array.comment_options_2,new DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface arg0, int arg1) {
 					switch (arg1) {
-						case 0://閸ョ偛顦�
+						case 0://回复
 							showCommentReply(context,id,catalog,comment.getId(),comment.getAuthorId(),comment.getAuthor(),comment.getContent());
 							break;
-						case 1://閸掔娀娅�
+						case 1://删除
 							thread.start();
 							break;
 					}				
@@ -532,7 +538,7 @@ public class UIHelper {
 			builder.setItems(R.array.comment_options_1,new DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface arg0, int arg1) {
 					switch (arg1) {
-						case 0://閸ョ偛顦�
+						case 0://回复
 							showCommentReply(context,id,catalog,comment.getId(),comment.getAuthorId(),comment.getAuthor(),comment.getContent());
 							break;
 					}				
@@ -543,7 +549,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閸楁艾顓归崚妤勩�閹垮秳缍�
+	 * 博客列表操作
 	 * @param context
 	 * @param thread
 	 */
@@ -570,7 +576,8 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閸斻劌鑴婇幙宥勭稊闁瀚ㄥ锟�	 * @param context
+	 * 动弹操作选择框
+	 * @param context
 	 * @param thread
 	 */
 	public static void showTweetOptionDialog(final Context context,final Thread thread)
@@ -596,7 +603,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勵垰鎯侀柌宥嗘煀閸欐垵绔烽崝銊ヨ剨閹垮秴顕拠婵囶攱
+	 * 是否重新发布动弹操对话框
 	 * @param context
 	 * @param thread
 	 */
@@ -622,7 +629,8 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶崶鍓у鐎电鐦藉锟�	 * @param context
+	 * 显示图片对话框
+	 * @param context
 	 * @param imgUrl
 	 */
 	public static void showImageDialog(Context context, String imgUrl)
@@ -639,7 +647,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氱化鑽ょ埠鐠佸墽鐤嗛悾宀勬桨
+	 * 显示系统设置界面
 	 * @param context
 	 */
 	public static void showSetting(Context context)
@@ -649,7 +657,7 @@ public class UIHelper {
 	}	
 	
 	/**
-	 * 閺勫墽銇氶幖婊呭偍閻ｅ矂娼�
+	 * 显示搜索界面
 	 * @param context
 	 */
 	public static void showSearch(Context context)
@@ -659,7 +667,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氭潪顖欐閻ｅ矂娼�
+	 * 显示软件界面
 	 * @param context
 	 */
 	public static void showSoftware(Context context)
@@ -669,7 +677,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶幋鎴犳畱鐠у嫭鏋�
+	 * 显示我的资料
 	 * @param context
 	 */
 	public static void showUserInfo(Activity context)
@@ -684,7 +692,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶悽銊﹀煕閸斻劍锟�
+	 * 显示用户动态
 	 * @param context
 	 * @param uid
 	 * @param hisuid
@@ -699,7 +707,8 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶悽銊﹀煕閺�儼妫屾径锟�	 * @param context
+	 * 显示用户收藏夹
+	 * @param context
 	 */
 	public static void showUserFavorite(Context context)
 	{
@@ -708,7 +717,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶悽銊﹀煕婵傝棄寮�
+	 * 显示用户好友
 	 * @param context
 	 */
 	public static void showUserFriend(Context context, int friendType, int followers, int fans)
@@ -721,7 +730,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閸旂姾娴囬弰鍓с仛閻劍鍩涙径鏉戝剼
+	 * 加载显示用户头像
 	 * @param imgFace
 	 * @param faceURL
 	 */
@@ -731,23 +740,23 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閸旂姾娴囬弰鍓с仛閸ュ墽澧�
+	 * 加载显示图片
 	 * @param imgFace
 	 * @param faceURL
 	 * @param errMsg
 	 */
 	public static void showLoadImage(final ImageView imgView,final String imgURL,final String errMsg)
 	{
-		//鐠囪褰囬張顒�勾閸ュ墽澧�
+		//读取本地图片
 		if(StringUtils.isEmpty(imgURL) || imgURL.endsWith("portrait.gif")){
 			Bitmap bmp = BitmapFactory.decodeResource(imgView.getResources(), R.drawable.widget_dface);
 			imgView.setImageBitmap(bmp);
 			return;
 		}
 		
-		//閺勵垰鎯侀張澶岀处鐎涙ê娴橀悧锟�    
-		final String filename = FileUtils.getFileName(imgURL);
-    	//Environment.getExternalStorageDirectory();鏉╂柨娲�sdcard
+		//是否有缓存图片
+    	final String filename = FileUtils.getFileName(imgURL);
+    	//Environment.getExternalStorageDirectory();返回/sdcard
     	String filepath = imgView.getContext().getFilesDir() + File.separator + filename;
 		File file = new File(filepath);
 		if(file.exists()){
@@ -756,7 +765,7 @@ public class UIHelper {
 			return;
     	}
 		
-		//娴犲海缍夌紒婊嗗箯閸欙拷閸愭瑥鍙嗛崶鍓у缂傛挸鐡�
+		//从网络获取&写入图片缓存
 		String _errMsg = imgView.getContext().getString(R.string.msg_load_image_fail);
 		if(!StringUtils.isEmpty(errMsg))
 			_errMsg = errMsg;
@@ -766,7 +775,7 @@ public class UIHelper {
 				if(msg.what==1 && msg.obj != null){
 					imgView.setImageBitmap((Bitmap)msg.obj);
 					try {
-                    	//閸愭瑥娴橀悧鍥╃处鐎涳拷
+                    	//写图片缓存
 						ImageUtils.saveImage(imgView.getContext(), filename, (Bitmap)msg.obj);
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -794,7 +803,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * url鐠哄疇娴�
+	 * url跳转
 	 * @param context
 	 * @param url
 	 */
@@ -834,7 +843,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閹垫挸绱戝ù蹇氼瀲閸ｏ拷
+	 * 打开浏览器
 	 * @param context
 	 * @param url
 	 */
@@ -845,12 +854,12 @@ public class UIHelper {
 			context.startActivity(it);
 		} catch (Exception e) {
 			e.printStackTrace();
-			ToastMessage(context, "閺冪姵纭跺ù蹇氼瀲濮濄倗缍夋い锟�", 500);
+			ToastMessage(context, "无法浏览此网页", 500);
 		} 
 	}
 		
 	/**
-	 * 閼惧嘲褰噖ebviewClient鐎电钖�
+	 * 获取webviewClient对象
 	 * @return
 	 */
 	public static WebViewClient getWebViewClient(){
@@ -864,7 +873,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閼惧嘲褰嘥extWatcher鐎电钖�
+	 * 获取TextWatcher对象
 	 * @param context
 	 * @param tmlKey
 	 * @return
@@ -872,7 +881,8 @@ public class UIHelper {
 	public static TextWatcher getTextWatcher(final Activity context, final String temlKey) {
 		return new TextWatcher() {		
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				//娣囨繂鐡ㄨぐ鎾冲EditText濮濓絽婀紓鏍帆閻ㄥ嫬鍞寸�锟�				((AppContext)context.getApplication()).setProperty(temlKey, s.toString());
+				//保存当前EditText正在编辑的内容
+				((AppContext)context.getApplication()).setProperty(temlKey, s.toString());
 			}		
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}		
 			public void afterTextChanged(Editable s) {}
@@ -880,7 +890,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 缂傛牞绶崳銊︽▔缁�桨绻氱�妯兼畱閼藉顭�
+	 * 编辑器显示保存的草稿
 	 * @param context
 	 * @param editer
 	 * @param temlKey
@@ -889,12 +899,12 @@ public class UIHelper {
 		String tempContent = ((AppContext)context.getApplication()).getProperty(temlKey);
 		if(!StringUtils.isEmpty(tempContent)) {
 			editer.setText(tempContent);
-			editer.setSelection(tempContent.length());//鐠佸墽鐤嗛崗澶嬬垼娴ｅ秶鐤�
+			editer.setSelection(tempContent.length());//设置光标位置
 		}
 	}
 	
 	/**
-	 * 濞撳懘娅庨弬鍥х摟
+	 * 清除文字
 	 * @param cont
 	 * @param editer
 	 */
@@ -905,7 +915,7 @@ public class UIHelper {
 		builder.setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-				//濞撳懘娅庨弬鍥х摟
+				//清除文字
 				editer.setText("");
 				numwords.setText("160");
 			}
@@ -919,7 +929,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閸欐垿锟介柅姘辩叀楠炴寧鎸�
+	 * 发送通知广播
 	 * @param context
 	 * @param notice
 	 */
@@ -934,7 +944,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閸欐垿锟介獮鎸庢尡-閸欐垵绔烽崝銊ヨ剨
+	 * 发送广播-发布动弹
 	 * @param context
 	 * @param notice
 	 */
@@ -950,7 +960,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 缂佸嫬鎮庨崝銊︼拷閻ㄥ嫬濮╂担婊勬瀮閺堬拷
+	 * 组合动态的动作文本
 	 * @param objecttype
 	 * @param objectcatalog
 	 * @param objecttitle
@@ -961,63 +971,63 @@ public class UIHelper {
 		int start = 0;
 		int end = 0;
 		if(objecttype==32 && objectcatalog==0){
-			title = "閸旂姴鍙嗘禍鍡楃磻濠ф劒鑵戦崶锟�";
+			title = "加入了开源中国";
 		}
 		else if(objecttype==1 && objectcatalog==0){
-			title = "濞ｈ濮炴禍鍡楃磻濠ф劙銆嶉惄锟�"+objecttitle;
+			title = "添加了开源项目 "+objecttitle;
 		}
 		else if(objecttype==2 && objectcatalog==1){
-			title = "閸︺劏顓跨拋鍝勫隘閹绘劙妫堕敍锟�"+objecttitle;
+			title = "在讨论区提问："+objecttitle;
 		}
 		else if(objecttype==2 && objectcatalog==2){
-			title = "閸欐垼銆冩禍鍡樻煀鐠囨繈顣介敍锟�"+objecttitle;
+			title = "发表了新话题："+objecttitle;
 		}
 		else if(objecttype==3 && objectcatalog==0){
-			title = "閸欐垼銆冩禍鍡楀触鐎癸拷"+objecttitle;
+			title = "发表了博客 "+objecttitle;
 		}
 		else if(objecttype==4 && objectcatalog==0){
-			title = "閸欐垼銆冩稉锟界槖閺備即妞�"+objecttitle;
+			title = "发表一篇新闻 "+objecttitle;
 		}
 		else if(objecttype==5 && objectcatalog==0){
-			title = "閸掑棔闊╂禍鍡曠濞堝吀鍞惍锟�"+objecttitle;
+			title = "分享了一段代码 "+objecttitle;
 		}
 		else if(objecttype==6 && objectcatalog==0){
-			title = "閸欐垵绔锋禍鍡曠娑擃亣浜存担宥忕窗"+objecttitle;
+			title = "发布了一个职位："+objecttitle;
 		}
 		else if(objecttype==16 && objectcatalog==0){
-			title = "閸︺劍鏌婇梻锟�"+objecttitle+" 閸欐垼銆冪拠鍕啈";
+			title = "在新闻 "+objecttitle+" 发表评论";
 		}
 		else if(objecttype==17 && objectcatalog==1){
-			title = "閸ョ偟鐡熸禍鍡涙６妫版﹫绱�"+objecttitle;
+			title = "回答了问题："+objecttitle;
 		}
 		else if(objecttype==17 && objectcatalog==2){
-			title = "閸ョ偛顦炬禍鍡氱樈妫版﹫绱�"+objecttitle;
+			title = "回复了话题："+objecttitle;
 		}
 		else if(objecttype==17 && objectcatalog==3){
-			title = "閸︼拷"+objecttitle+" 鐎电懓娲栫敮鏍у絺鐞涖劏鐦庣拋锟�";
+			title = "在 "+objecttitle+" 对回帖发表评论";
 		}
 		else if(objecttype==18 && objectcatalog==0){
-			title = "閸︺劌宕ョ�锟�"+objecttitle+" 閸欐垼銆冪拠鍕啈";
+			title = "在博客 "+objecttitle+" 发表评论";
 		}
 		else if(objecttype==19 && objectcatalog==0){
-			title = "閸︺劋鍞惍锟�"+objecttitle+" 閸欐垼銆冪拠鍕啈";
+			title = "在代码 "+objecttitle+" 发表评论";
 		}
 		else if(objecttype==20 && objectcatalog==0){
-			title = "閸︺劏浜存担锟�"+objecttitle+" 閸欐垼銆冪拠鍕啈";
+			title = "在职位 "+objecttitle+" 发表评论";
 		}
 		else if(objecttype==101 && objectcatalog==0){
-			title = "閸ョ偛顦炬禍鍡楀З閹緤绱�"+objecttitle;
+			title = "回复了动态："+objecttitle;
 		}
 		else if(objecttype==100){
-			title = "閺囧瓨鏌婃禍鍡楀З閹拷";
+			title = "更新了动态";
 		}
 		title = author + " " + title;
 		SpannableString sp = new SpannableString(title);
-		//鐠佸墽鐤嗛悽銊﹀煕閸氬秴鐡ф担鎾炽亣鐏忓繈锟介崝鐘电煐閵嗕線鐝禍锟�
+		//设置用户名字体大小、加粗、高亮 
 		sp.setSpan(new AbsoluteSizeSpan(14,true), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#0e5986")), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //鐠佸墽鐤嗛弽鍥暯鐎涙ぞ缍嬫径褍鐨妴渚�彯娴滐拷
+        //设置标题字体大小、高亮 
         if(!StringUtils.isEmpty(objecttitle)){
         	start = title.indexOf(objecttitle);
 			if(objecttitle.length()>0 && start>0){
@@ -1030,21 +1040,21 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 缂佸嫬鎮庨崝銊︼拷閻ㄥ嫬娲栨径宥嗘瀮閺堬拷
+	 * 组合动态的回复文本
 	 * @param name
 	 * @param body
 	 * @return
 	 */
 	public static SpannableString parseActiveReply(String name,String body){
-		SpannableString sp = new SpannableString(name+"閿涳拷"+body);
-		//鐠佸墽鐤嗛悽銊﹀煕閸氬秴鐡ф担鎾冲缁ぜ锟芥妯瑰瘨 
+		SpannableString sp = new SpannableString(name+"："+body);
+		//设置用户名字体加粗、高亮 
 		sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#0e5986")), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return sp;
 	}
 	
 	/**
-	 * 缂佸嫬鎮庡☉鍫熶紖閺傚洦婀�
+	 * 组合消息文本
 	 * @param name
 	 * @param body
 	 * @return
@@ -1054,35 +1064,35 @@ public class UIHelper {
 		int start = 0;
 		int end = 0;
 		if(StringUtils.isEmpty(action)){
-			sp = new SpannableString(name + "閿涳拷" + body);
+			sp = new SpannableString(name + "：" + body);
 			end = name.length();
 		}else{
-			sp = new SpannableString(action + name + "閿涳拷" + body);
+			sp = new SpannableString(action + name + "：" + body);
 			start = action.length();
 			end = start + name.length();
 		}
-		//鐠佸墽鐤嗛悽銊﹀煕閸氬秴鐡ф担鎾冲缁ぜ锟芥妯瑰瘨 
+		//设置用户名字体加粗、高亮 
 		sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		sp.setSpan(new ForegroundColorSpan(Color.parseColor("#0e5986")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return sp;
 	}
 	
 	/**
-	 * 缂佸嫬鎮庨崶鐐差樉瀵洜鏁ら弬鍥ㄦ拱
+	 * 组合回复引用文本
 	 * @param name
 	 * @param body
 	 * @return
 	 */
 	public static SpannableString parseQuoteSpan(String name,String body){
-		SpannableString sp = new SpannableString("閸ョ偛顦鹃敍锟�"+name+"\n"+body);
-		//鐠佸墽鐤嗛悽銊﹀煕閸氬秴鐡ф担鎾冲缁ぜ锟芥妯瑰瘨 
+		SpannableString sp = new SpannableString("回复："+name+"\n"+body);
+		//设置用户名字体加粗、高亮 
 		sp.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 3, 3+name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#0e5986")), 3, 3+name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return sp;
 	}
 	
 	/**
-	 * 瀵懓鍤璗oast濞戝牊浼�
+	 * 弹出Toast消息
 	 * @param msg
 	 */
 	public static void ToastMessage(Context cont,String msg)
@@ -1099,7 +1109,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閻愮懓鍤潻鏂挎礀閻╂垵鎯夋禍瀣╂
+	 * 点击返回监听事件
 	 * @param activity
 	 * @return
 	 */
@@ -1113,7 +1123,7 @@ public class UIHelper {
 	}	
 	
 	/**
-	 * 閺勫墽銇氶崗鍏呯艾閹存垳婊�
+	 * 显示关于我们
 	 * @param context
 	 */
 	public static void showAbout(Context context)
@@ -1123,7 +1133,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閺勫墽銇氶悽銊﹀煕閸欏秹顪�
+	 * 显示用户反馈
 	 * @param context
 	 */
 	public static void showFeedBack(Context context)
@@ -1133,7 +1143,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閼挎粌宕熼弰鍓с仛閻ц缍嶉幋鏍閸戯拷
+	 * 菜单显示登录或登出
 	 * @param activity
 	 * @param menu
 	 */
@@ -1149,7 +1159,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 韫囶偅宓庨弽蹇旀▔缁�櫣娅ヨぐ鏇氱瑢閻ц鍤�
+	 * 快捷栏显示登录与登出
 	 * @param activity
 	 * @param qa
 	 */
@@ -1165,7 +1175,8 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 韫囶偅宓庨弽蹇旀Ц閸氾附妯夌粈鐑樻瀮缁旂姴娴橀悧锟�	 * @param activity
+	 * 快捷栏是否显示文章图片
+	 * @param activity
 	 * @param qa
 	 */
 	public static void showSettingIsLoadImage(Activity activity,QuickAction qa)
@@ -1180,21 +1191,22 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 閻劍鍩涢惂璇茬秿閹存牗鏁為柨锟�	 * @param activity
+	 * 用户登录或注销
+	 * @param activity
 	 */
 	public static void loginOrLogout(Activity activity)
 	{
 		AppContext ac = (AppContext)activity.getApplication();
 		if(ac.isLogin()){
 			ac.Logout();
-			ToastMessage(activity, "瀹告煡锟介崙铏规瑜帮拷");
+			ToastMessage(activity, "已退出登录");
 		}else{
 			showLoginDialog(activity);
 		}
 	}
 	
 	/**
-	 * 閺傚洨鐝烽弰顖氭儊閸旂姾娴囬崶鍓у閺勫墽銇�
+	 * 文章是否加载图片显示
 	 * @param activity
 	 */
 	public static void changeSettingIsLoadImage(Activity activity)
@@ -1202,10 +1214,10 @@ public class UIHelper {
 		AppContext ac = (AppContext)activity.getApplication();
 		if(ac.isLoadImage()){
 			ac.setConfigLoadimage(false);
-			ToastMessage(activity, "瀹歌尪顔曠純顔芥瀮缁旂姳绗夐崝鐘烘祰閸ュ墽澧�");
+			ToastMessage(activity, "已设置文章不加载图片");
 		}else{
 			ac.setConfigLoadimage(true);
-			ToastMessage(activity, "瀹歌尪顔曠純顔芥瀮缁旂姴濮炴潪钘夋禈閻楋拷");
+			ToastMessage(activity, "已设置文章加载图片");
 		}
 	}
 	public static void changeSettingIsLoadImage(Activity activity,boolean b)
@@ -1215,7 +1227,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 濞撳懘娅巃pp缂傛挸鐡�
+	 * 清除app缓存
 	 * @param activity
 	 */
 	public static void clearAppCache(Activity activity)
@@ -1224,9 +1236,9 @@ public class UIHelper {
 		final Handler handler = new Handler(){
 			public void handleMessage(Message msg) {
 				if(msg.what==1){
-					ToastMessage(ac, "缂傛挸鐡ㄥ〒鍛存珟閹存劕濮�");
+					ToastMessage(ac, "缓存清除成功");
 				}else{
-					ToastMessage(ac, "缂傛挸鐡ㄥ〒鍛存珟婢惰精瑙�");
+					ToastMessage(ac, "缓存清除失败");
 				}
 			}
 		};
@@ -1246,7 +1258,7 @@ public class UIHelper {
 	}
 	
 	/**
-	 * 闁拷鍤粙瀣碍
+	 * 退出程序
 	 * @param cont
 	 */
 	public static void Exit(final Context cont)
@@ -1257,7 +1269,7 @@ public class UIHelper {
 		builder.setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-				//闁拷鍤�
+				//退出
 				AppManager.getAppManager().AppExit(cont);
 			}
 		});

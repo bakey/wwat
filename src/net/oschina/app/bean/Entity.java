@@ -3,7 +3,7 @@ package net.oschina.app.bean;
 import java.text.SimpleDateFormat;
 
 /**
- * ε®δ½“η±»
+ * ΚµΜεΐΰ
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21

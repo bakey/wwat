@@ -489,6 +489,7 @@ public class AppContext extends Application {
 				if(list != null && pageIndex == 0){
 					//Notice notice = list.getNotice();
 					//list.setNotice(null);
+					Log.d("bakey" , "get cate list size = " + list.getCatelist().size() );
 					saveObject(list, key);
 					//list.setNotice(notice);
 				}

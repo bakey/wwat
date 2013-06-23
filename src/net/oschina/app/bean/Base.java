@@ -3,7 +3,7 @@ package net.oschina.app.bean;
 import java.io.Serializable;
 
 /**
- * 瀹炰綋鍩虹被锛氬疄鐜板簭鍒楀寲
+ * 实体基类：实现序列化
  * @author liux (http://my.oschina.net/liux)
  * @version 1.0
  * @created 2012-3-21

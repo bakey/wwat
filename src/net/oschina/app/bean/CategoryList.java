@@ -25,8 +25,11 @@ public class CategoryList extends Entity{
 	public static final int CATALOG_USER = 1;
 	public static final int CATALOG_LATEST = 2;
 	public static final int CATALOG_RECOMMEND = 3;
-
 	
+	public static final String TYPE_LATEST = "latest";
+	public static final String TYPE_RECOMMEND = "recommend";
+
+	final static String TAG = "CategoryList";
 	private int CategoryCount;
 	private int pageSize;
 	private List<Category> categorylist = new ArrayList<Category>();
@@ -43,6 +46,7 @@ public class CategoryList extends Entity{
 	public static CategoryList parse(InputStream inputStream) throws IOException, AppException {
 		CategoryList clist = new CategoryList();
 		Category cate = null;
+		clist.pageSize = 1;
 		try{			
 			 String jstr = Utils.readStream( inputStream ); //new String( buffer );
 			 JSONObject json_obj = new JSONObject( jstr );
@@ -52,7 +56,9 @@ public class CategoryList extends Entity{
 					cate = new Category();
 					cate.id = obj.getInt("id");
 					cate.setTitle( obj.getString("title") );
-					cate.setPubDate( obj.getString("pubDate") );					
+					cate.setPubDate( obj.getString("pubDate") );	
+					cate.setAuthor("admin");
+					cate.setCommentCount(0);
 					clist.getCatelist().add(cate);				    	
 					cate = null;
 				}

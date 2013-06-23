@@ -8,6 +8,7 @@ encoding//src/net/oschina/app/AppStart.java=UTF-8
 encoding//src/net/oschina/app/adapter/GridViewFaceAdapter.java=UTF-8
 encoding//src/net/oschina/app/adapter/ListViewActiveAdapter.java=UTF-8
 encoding//src/net/oschina/app/adapter/ListViewBlogAdapter.java=UTF-8
+encoding//src/net/oschina/app/adapter/ListViewCategoryAdapter.java=UTF-8
 encoding//src/net/oschina/app/adapter/ListViewCommentAdapter.java=UTF-8
 encoding//src/net/oschina/app/adapter/ListViewFavoriteAdapter.java=UTF-8
 encoding//src/net/oschina/app/adapter/ListViewFriendAdapter.java=UTF-8
