@@ -109,7 +109,7 @@ public class BroadCast extends BroadcastReceiver {
 		if(noticeCount > _lastNoticeCount) 
 		{
 			String noticeTitle = "閹劍婀�" + (noticeCount-_lastNoticeCount) + " 閺夆剝娓堕弬棰佷繆閹拷";
-			notification = new Notification(R.drawable.icon, noticeTitle, System.currentTimeMillis());
+			notification = new Notification(R.drawable.icon2, noticeTitle, System.currentTimeMillis());
 		}
 		else
 		{

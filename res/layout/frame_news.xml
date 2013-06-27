@@ -23,7 +23,7 @@
      	    android:layout_height="fill_parent" 
      	    android:background="@drawable/frame_button_cutline"/>
      	<Button 
-     		android:id="@+id/frame_btn_news_recommend"
+     		android:id="@+id/frame_btn_news_rank"
      		style="@style/frame_button"
          	android:text="@string/frame_title_news_recommend"/>
     </LinearLayout>

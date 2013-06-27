@@ -71,40 +71,40 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
             <!-- Previous Button -->
-            <ImageButton
+            <!-- ImageButton
                 android:id="@+id/btnPrevious" 
                 android:src="@drawable/btn_previous"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"/>
+                android:background="@null"/ -->
             <!-- Backward Button -->
             <ImageButton 
-                android:id="@+id/btnBackward"
-                android:src="@drawable/btn_backward"
+                android:id="@+id/btnPrevious"
+                android:src="@drawable/play_previous_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"/>
             <!-- Play Button -->
             <ImageButton 
                 android:id="@+id/btnPlay"
-                android:src="@drawable/btn_play"
+                android:src="@drawable/play_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"/>
             <!-- Forward Button -->
             <ImageButton 
-                android:id="@+id/btnForward"
-                android:src="@drawable/btn_forward"
+                android:id="@+id/btnNext"
+                android:src="@drawable/play_next_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"/>
             <!-- Next Button -->
-            <ImageButton 
+            <!-- ImageButton 
                 android:id="@+id/btnNext"
-                android:src="@drawable/btn_next"
+                android:src="@drawable/play_next_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"/>
+                android:background="@null"/ -->
         </LinearLayout>
     </LinearLayout>
     <!-- Progress Bar/Seek bar -->
@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
-            android:textColor="#eeeeee"
+            android:textColor="@color/red"
             android:textStyle="bold"/>
         <!-- Total Duration Label -->
         <TextView 

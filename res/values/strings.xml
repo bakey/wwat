@@ -19,10 +19,11 @@
     <string name="main_menu_setting">系统设置</string>
     <string name="main_menu_exit">退出程序</string>
     
-    <string name="frame_title_news_lastest">最新资讯</string>
+    <string name="top_title">听听大全</string>
+    <string name="frame_title_news_lastest">最新上传</string>
     <string name="frame_title_news_blog">最新博客</string>
     <string name="frame_title_news_category">最新分类</string>
-    <string name="frame_title_news_recommend">推荐阅读</string>
+    <string name="frame_title_news_recommend">热门排行</string>
     <string name="frame_title_question_ask">问答</string>
     <string name="frame_title_question_share">分享</string>
     <string name="frame_title_question_other">综合</string>

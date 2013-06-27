@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hkzhe.wwtt.PlayManager;
 import com.hkzhe.wwtt.R;
 import net.oschina.app.AppContext;
 import net.oschina.app.AppException;
@@ -68,6 +69,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,7 +110,7 @@ public class Main extends Activity {
 	
 	private List<News> lvNewsData = new ArrayList<News>();
 	private List<Category> lvCateData = new ArrayList<Category>();
-	private List<Blog> lvBlogData = new ArrayList<Blog>();
+	private List<News> lvRankingData = new ArrayList<News>();
 	private List<Post> lvQuestionData = new ArrayList<Post>();
 	private List<Tweet> lvTweetData = new ArrayList<Tweet>();
 	private List<Messages> lvMsgData = new ArrayList<Messages>();
@@ -132,7 +134,7 @@ public class Main extends Activity {
 	
 	private Button framebtn_News_lastest;
 	private Button framebtn_news_category;
-	private Button framebtn_News_recommend;
+	private Button framebtn_News_rank;
 	private Button framebtn_Question_ask;
 	private Button framebtn_Question_share;
 	private Button framebtn_Question_other;
@@ -149,23 +151,24 @@ public class Main extends Activity {
 	
 	private View lvNews_footer;
 	private View lvCate_footer;
+	private View lvRank_footer;
 	private View lvQuestion_footer;
 	private View lvTweet_footer;
 	private View lvMsg_footer;
 	
 	private TextView lvNews_foot_more;
-	private TextView lvBlog_foot_more;
 	private TextView lvQuestion_foot_more;
 	private TextView lvTweet_foot_more;
 	private TextView lvMsg_foot_more;
 	private TextView lvCate_foot_more;
+	private TextView lvRank_foot_more;
 	
 	private ProgressBar lvNews_foot_progress;
-	private ProgressBar lvBlog_foot_progress;
 	private ProgressBar lvQuestion_foot_progress;
 	private ProgressBar lvTweet_foot_progress;
 	private ProgressBar lvMsg_foot_progress;
 	private ProgressBar lvCate_foot_progress;
+	private ProgressBar lvRank_foot_progress;
 	
 	public static BadgeView bv_active;
 	public static BadgeView bv_message;
@@ -179,7 +182,10 @@ public class Main extends Activity {
 	
 	private TweetReceiver tweetReceiver;
 	private AppContext appContext;
-	private MediaPlayer m_player;
+	
+	//playing tab elements ..............
+	private PlayManager m_play_mgr;
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -203,9 +209,7 @@ public class Main extends Activity {
         //初始化登录
        // appContext.initLoginInfo();
         
-        Log.d("bakey" , "start init");
-        m_player = new MediaPlayer();
-		
+        Log.d("bakey" , "start init");		
 		this.initHeadView();
 		Log.d("bakey" , "init head view success");
         this.initFootBar();
@@ -213,8 +217,7 @@ public class Main extends Activity {
         this.initPageScroll();
         this.initFrameButton();
         this.initBadgeView();
-        this.initQuickActionGrid();
-        Log.d("bakey" , "init QuickActionGrid success");
+        this.initQuickActionGrid();   
         this.initFrameListView();
         Log.d("bakey" , "init all success");
         
@@ -381,9 +384,12 @@ public class Main extends Activity {
      */
     private void initFrameListView()
     {
+    	m_play_mgr = new PlayManager();
+    	m_play_mgr.initPlayingElements( this );
     	//初始化listview控件
 		this.initNewsListView();
 		Log.d("bakey" , "init news list view success");
+		
 		this.initQuestionListView();
 		Log.d("bakey" , "init news question view success");
 		this.initTweetListView();
@@ -422,11 +428,18 @@ public class Main extends Activity {
 			loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_INIT);
 		}  
     }
+    private void playAudio( News news ) {
+    	m_play_mgr.startPlay(news);
+    }
     /**
      * 初始化新闻列表
      */
     private void initNewsListView()
     {
+        lvRank_footer = getLayoutInflater().inflate( R.layout.listview_footer , null );
+    	lvRank_foot_more = (TextView)lvRank_footer.findViewById( R.id.listview_foot_more );
+    	lvRank_foot_progress = ( ProgressBar )lvRank_footer.findViewById( R.id.listview_foot_progress );
+    	
         lvNewsAdapter = new ListViewNewsAdapter(this, lvNewsData, R.layout.news_listitem);        
         lvNews_footer = getLayoutInflater().inflate(R.layout.listview_footer, null);
         lvNews_foot_more = (TextView)lvNews_footer.findViewById(R.id.listview_foot_more);
@@ -440,13 +453,7 @@ public class Main extends Activity {
         		if(position == 0 || view == lvNews_footer) {
         			return;
         		}
-        		m_player.reset();
-        		ImageView playingView = (ImageView)findViewById( R.id.main_footbar_setting );
-        		playingView.setImageResource( R.drawable.playing );
-        		AnimationDrawable animation = (AnimationDrawable) playingView.getDrawable();
-        		if ( animation != null ) {
-					animation.start();
-				}
+        		
         		News news = null;        		
         		//判断是否是TextView
         		if(view instanceof TextView){
@@ -455,29 +462,13 @@ public class Main extends Activity {
         			TextView tv = (TextView)view.findViewById(R.id.news_listitem_title);
         			news = (News)tv.getTag();
         		}
-        		if(news == null) return;
-        		//======================
-        		
-        		String songPath = news.getUrl();
-        		try {
-					m_player.setDataSource( songPath );
-					m_player.prepare();
-	        		m_player.start();
-				}catch (IOException e) {
-					UIHelper.ToastMessage( Main.this ,  "get io exection of play" );				
-				}
-        		/*News news = null;        		
-        		//判断是否是TextView
-        		if(view instanceof TextView){
-        			news = (News)view.getTag();
-        		}else{
-        			TextView tv = (TextView)view.findViewById(R.id.news_listitem_title);
-        			news = (News)tv.getTag();
+        		if(news == null) {
+        			UIHelper.ToastMessage( Main.this , "加载音频失败");
+        			return;
         		}
-        		if(news == null) return;
-        		
-        		//跳转到新闻详情
-        		UIHelper.showNewsRedirect(view.getContext(), news);*/
+        		//======================
+        		playAudio( news );        		
+        	
         	}        	
 		});
         lvNews.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -618,7 +609,8 @@ public class Main extends Activity {
 		});
         lvQuestion.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
             public void onRefresh() {
-            	loadLvQuestionData(curQuestionCatalog, 0, lvQuestionHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
+            	UIHelper.ToastMessage( Main.this , "刷新获取分类数据");
+            	//loadLvQuestionData(curQuestionCatalog, 0, lvQuestionHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
             }
         });			
     }
@@ -740,7 +732,8 @@ public class Main extends Activity {
 		});
         lvTweet.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
             public void onRefresh() {
-            	loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
+            	UIHelper.ToastMessage( Main.this , "刷新获取口袋数据");
+            	//loadLvTweetData(curTweetCatalog, 0, lvTweetHandler, UIHelper.LISTVIEW_ACTION_REFRESH);
             }
         });			
     }
@@ -907,14 +900,15 @@ public class Main extends Activity {
     	fbNews = (RadioButton)findViewById(R.id.main_footbar_news);
     	fbQuestion = (RadioButton)findViewById(R.id.main_footbar_question);
     	fbTweet = (RadioButton)findViewById(R.id.main_footbar_tweet);
-    	//fbactive = (RadioButton)findViewById(R.id.main_footbar_active);
     	
     	fbSetting = (ImageView)findViewById(R.id.main_footbar_setting);
     	fbSetting.setOnClickListener(new View.OnClickListener() {
-    		public void onClick(View v) {    			
+    		public void onClick(View v) {
+    			//scroll to last view
+    			mScrollLayout.snapToScreen( mViewCount );
     			//展示快捷栏&判断是否登录&是否加载文章图片
-    			UIHelper.showSettingLoginOrLogout(Main.this, mGrid.getQuickAction(0));
-    			mGrid.show(v);
+    			//UIHelper.showSettingLoginOrLogout(Main.this, mGrid.getQuickAction(0));
+    			//mGrid.show(v);
     		}
     	});    	
     }
@@ -960,10 +954,8 @@ public class Main extends Activity {
     	
     	LinearLayout linearLayout = (LinearLayout) findViewById(R.id.main_linearlayout_footer);
     	mHeadTitles = getResources().getStringArray(R.array.head_titles);
-    	mViewCount = mScrollLayout.getChildCount();
-    	Log.d("bakey" , "scroll layout child count = " + mViewCount );
-    	Log.d("bakey" , "linear layout child count = " + 
-    			linearLayout.getChildCount() );
+    	//mViewCount = mScrollLayout.getChildCount();
+    	mViewCount = linearLayout.getChildCount() / 2 ;
     	mButtons = new RadioButton[mViewCount];
     	
     	for(int i = 0; i < mViewCount; i++)
@@ -1063,7 +1055,7 @@ public class Main extends Activity {
     	framebtn_News_lastest = (Button)findViewById(R.id.frame_btn_news_lastest);
     	//framebtn_News_blog = (Button)findViewById(R.id.frame_btn_news_blog);
     	framebtn_news_category = (Button)findViewById(R.id.frame_btn_news_category);
-    	framebtn_News_recommend = (Button)findViewById(R.id.frame_btn_news_recommend);
+    	framebtn_News_rank = (Button)findViewById(R.id.frame_btn_news_rank);
     	framebtn_Question_ask = (Button)findViewById(R.id.frame_btn_question_ask);
     	framebtn_Question_share = (Button)findViewById(R.id.frame_btn_question_share);
     	framebtn_Question_other = (Button)findViewById(R.id.frame_btn_question_other);
@@ -1084,8 +1076,7 @@ public class Main extends Activity {
     	//资讯
     	framebtn_News_lastest.setOnClickListener(frameNewsBtnClick(framebtn_News_lastest,NewsList.CATALOG_ALL));
     	framebtn_news_category.setOnClickListener(frameNewsBtnClick(framebtn_news_category,CategoryList.CATALOG_LATEST));
-    	//frame_btn_news_category
-    	framebtn_News_recommend.setOnClickListener(frameNewsBtnClick(framebtn_News_recommend,BlogList.CATALOG_RECOMMEND));
+    	framebtn_News_rank.setOnClickListener(frameNewsBtnClick(framebtn_News_rank,BlogList.CATALOG_RECOMMEND));
     	//问答
     	framebtn_Question_ask.setOnClickListener(frameQuestionBtnClick(framebtn_Question_ask,PostList.CATALOG_ASK));
     	framebtn_Question_share.setOnClickListener(frameQuestionBtnClick(framebtn_Question_share,PostList.CATALOG_SHARE));
@@ -1142,10 +1133,10 @@ public class Main extends Activity {
 		    	}else {
 		    		framebtn_news_category.setEnabled(true);
 		    	}
-		    	if(btn == framebtn_News_recommend){
-		    		framebtn_News_recommend.setEnabled(false);
+		    	if(btn == framebtn_News_rank){
+		    		framebtn_News_rank.setEnabled(false);
 		    	}else{
-		    		framebtn_News_recommend.setEnabled(true);
+		    		framebtn_News_rank.setEnabled(true);
 		    	}
 
 		    	curNewsCatalog = catalog;
@@ -1162,7 +1153,7 @@ public class Main extends Activity {
 					
 					loadLvNewsData(curNewsCatalog, 0, lvNewsHandler, UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 		    	}
-		    	else
+		    	else if ( btn == framebtn_news_category )
 		    	{
 		    		lvNews.setVisibility(View.GONE);
 		    		lvCate.setVisibility(View.VISIBLE);
@@ -1174,8 +1165,17 @@ public class Main extends Activity {
 		    			lvCate_foot_more.setText(R.string.load_more);
 		    			lvCate_foot_progress.setVisibility(View.GONE);		    			
 		    		}
-		    		loadLvCateData(curCateCatalog , 0 , lvCateHandler , UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);		    		
-		    				    		
+		    		loadLvCateData(curCateCatalog , 0 , lvCateHandler , UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);	    				    		
+		    	}
+		    	else
+		    	{
+		    		lvNews.setVisibility( View.GONE );
+		    		lvCate.setVisibility( View.GONE );
+		    		if ( lvRankingData.size() > 0 ) {
+		    			lvRank_foot_more.setText( R.string.load_more );
+		    			lvRank_foot_progress.setVisibility( View.GONE );
+		    		}
+		    		loadLvRankData(curCateCatalog , 0 , lvCateHandler , UIHelper.LISTVIEW_ACTION_CHANGE_CATALOG);
 		    	}
 			}
 		};
@@ -1436,8 +1436,7 @@ public class Main extends Activity {
 			case UIHelper.LISTVIEW_ACTION_SCROLL:
 				switch (objtype) {
 					case UIHelper.LISTVIEW_DATATYPE_NEWS:
-						NewsList list = (NewsList)obj;
-						Log.d("bakey" , "news list count = " + list.getNewslist().size() );
+						NewsList list = (NewsList)obj;						
 						notice = list.getNotice();
 						lvNewsSumData += what;
 						if(lvNewsData.size() > 0){
@@ -1454,7 +1453,17 @@ public class Main extends Activity {
 						}else{
 							lvNewsData.addAll(list.getNewslist());
 						}
-						break;					
+						break;	
+					case UIHelper.LISTVIEW_DATATYPE_CATEGORY:
+						CategoryList clist = (CategoryList)obj;
+						notice = clist.getNotice();
+						lvCategorySumData += what;
+						if ( lvCateData.size() > 0 ) {						
+						}else {
+							lvCateData.addAll( clist.getCatelist() );
+						}
+						Log.d( TAG , "on listview action scroll for category");
+						break;
 					case UIHelper.LISTVIEW_DATATYPE_POST:
 						PostList plist = (PostList)obj;
 						notice = plist.getNotice();
@@ -1568,6 +1577,43 @@ public class Main extends Activity {
 			}
 		}.start();
 	} 
+	private void loadLvRankData(final int catalog,final int pageIndex,final Handler handler,final int action) {
+		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
+		new Thread(){
+			public void run() {
+				Message msg = new Message();
+				boolean isRefresh = false;
+				if(action == UIHelper.LISTVIEW_ACTION_REFRESH || action == UIHelper.LISTVIEW_ACTION_SCROLL) {
+					isRefresh = true;
+				}
+				String type = "";
+				switch (catalog) {
+				case CategoryList.CATALOG_LATEST:
+					type = CategoryList.TYPE_LATEST;
+					break;
+				case CategoryList.CATALOG_RECOMMEND:
+					type = CategoryList.TYPE_RECOMMEND;
+					break;
+				}
+				/*try {
+					CategoryList clist = appContext.getCategoryList(type, pageIndex, isRefresh);				
+					msg.what = clist.getPageSize();
+					msg.obj = clist;
+	            } catch (AppException e) {
+	            	e.printStackTrace();
+	            	msg.what = -1;
+	            	msg.obj = e;
+	            }*/
+				/*
+				msg.arg1 = action;
+				msg.arg2 = UIHelper.LISTVIEW_DATATYPE_CATEGORY;				
+				msg.arg2 + ",what = " + msg.what );
+                if(curNewsCatalog == catalog) {
+                	handler.sendMessage(msg);
+                }*/
+			}
+		}.start();
+	}
 	private void loadLvCateData(final int catalog,final int pageIndex,final Handler handler,final int action){ 
 		mHeadProgress.setVisibility(ProgressBar.VISIBLE);
 		new Thread(){

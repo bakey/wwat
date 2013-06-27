@@ -42,7 +42,7 @@ public class ImageAdapter extends BaseAdapter {
  
 			String mobile = mAlbums[position];
 			
-			imageView.setImageResource( R.drawable.icon );
+			imageView.setImageResource( R.drawable.icon2 );
  
 			/*if (mobile.equals("Windows")) {
 				imageView.setImageResource(R.drawable.windows_logo);
